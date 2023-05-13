@@ -1,6 +1,6 @@
 #include <iostream>
-using namespace std;
 #include "Pawn.h"
+using namespace std;
 
 Pawn::Pawn(bool isWhite, int row, int col) {
     if (isWhite) {
@@ -26,6 +26,6 @@ void Pawn::Promote() {
     ;
 }
 
-int Pawn::GetValue() const {
+int Pawn::GetValue() {
     return value;
 }

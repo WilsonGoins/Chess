@@ -2,6 +2,7 @@
 #include "Piece.h"
 #include <vector>
 using namespace std;
+#pragma once
 
 class Pawn : public Piece {
 public:
@@ -14,6 +15,6 @@ public:
     Pawn(bool isWhite, int row, int col);
     void MovePiece() override;      // move the piece
     void GetMoves() override;       // get all available moves
-    int GetValue() const;
+    int GetValue() override;
     void Promote();
 };

@@ -21,6 +21,6 @@ void Castle::GetMoves() {
 
 }
 
-int Castle::GetValue() const {
+int Castle::GetValue() {
     return value;
 }

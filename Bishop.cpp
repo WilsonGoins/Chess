@@ -19,6 +19,6 @@ void Bishop::GetMoves() {
 
 }
 
-int Bishop::GetValue() const {
+int Bishop::GetValue() {
     return value;
 }

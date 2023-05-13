@@ -1,4 +1,6 @@
 #pragma once
+#include <vector>
+using namespace std;
 #include "Piece.h"
 
 class Castle : public Piece {
@@ -12,5 +14,5 @@ public:
     Castle(bool isWhite, int row, int col);
     void MovePiece() override;      // move the piece
     void GetMoves() override;       // get all available moves
-    int GetValue() const;
+    int GetValue() override;
 };

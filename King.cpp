@@ -19,6 +19,6 @@ void King::GetMoves() {
 
 }
 
-int King::GetValue() const {
-    return 0;
+int King::GetValue() {
+    return value;
 }

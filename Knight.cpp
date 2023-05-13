@@ -19,6 +19,6 @@ void Knight::GetMoves() {
 
 }
 
-int Knight::GetValue() const {
+int Knight::GetValue() {
     return value;
 }

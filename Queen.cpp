@@ -19,6 +19,6 @@ void Queen::GetMoves() {
 
 }
 
-int Queen::GetValue() const {
+int Queen::GetValue() {
     return value;
 }

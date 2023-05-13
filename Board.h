@@ -9,4 +9,5 @@ public:
 
     vector<vector<Piece*>> board;
     Board();
+    ~Board() = default;
 };
