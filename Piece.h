@@ -1,7 +1,5 @@
 #pragma once
 #include <vector>
-#include "Empty.h"
-
 using namespace std;
 
 class Piece {

@@ -1,5 +1,6 @@
 #pragma once
 #include "Piece.h"
+using namespace std;
 
 class Empty : public Piece {
 public:
@@ -16,5 +17,5 @@ public:
         return value;
     }
     void MovePiece() override {}
-    void GetMoves() override {}
+    void GetMoves(vector<vector<Piece*>>& board) override {}
 };
