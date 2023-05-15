@@ -23,29 +23,32 @@ vector<vector<int>> Pawn::GetMoves(vector<vector<Piece*>>& board) {
         row.resize(8, 0);
     }
 
-    if (value == -1) {      // get moves for black pawn
+    // black pawn
+    if (value == -1) {
+        // check for 1 up
         try {       // try block to handle out of range exceptions
             if (board.at(row + 1).at(col)->GetValue() == 0) {     // if the space in front of the pawn is empty
                 currMoves.at(row + 1).at(col) = 1;      // make that spot a 1 to indicate it is a valid move
-                try {
-                    if (not hasMoved) {     // if pawn hasn't moved yet
-                        if (board.at(row + 2).at(col)->GetValue() == 0) {     // if the space 2 in front of the pawn is empty
-                            currMoves.at(row + 2).at(col) = 1;      // make that spot a 1 to indicate it is a valid move
-                        }
+                // if we can move one up, maybe we can move 2 up
+                if (not hasMoved) {     // if pawn hasn't moved yet
+                    if (board.at(row + 2).at(col)->GetValue() == 0) {     // if the space 2 in front of the pawn is empty
+                        currMoves.at(row + 2).at(col) = 1;      // make that spot a 1 to indicate it is a valid move
                     }
-                } catch (const out_of_range &e) {}
+                }
             }
         } catch (const out_of_range &e) {}
+        // 1 down, 1 left
         try {
             if (board.at(row + 1).at(col - 1)->GetValue() == 6) {      // if the spot diagonal left is a white piece
-                currMoves.at(row + 1).at(col - 1) = 2;                      // it is valid
+                currMoves.at(row + 1).at(col - 1) = 2;                      // it is check
             } else if (board.at(row + 1).at(col - 1)->GetValue() > 0) {
                 currMoves.at(row + 1).at(col - 1) = 1;                      // it is valid
             }
         } catch (const out_of_range &e) {}
+        // 1 down, 1 right
         try {
             if (board.at(row + 1).at(col + 1)->GetValue() == 6) {      // if the spot diagonal left is a white piece
-                currMoves.at(row + 1).at(col + 1) = 2;                      // it is valid
+                currMoves.at(row + 1).at(col + 1) = 2;                      // it is check
             } else if (board.at(row + 1).at(col + 1)->GetValue() > 0) {
                 currMoves.at(row + 1).at(col + 1) = 1;                      // it is valid
             }
@@ -53,31 +56,32 @@ vector<vector<int>> Pawn::GetMoves(vector<vector<Piece*>>& board) {
     }
 
     // moves for white pawns
-    if (value == -1) {      // get moves for black pawn
+    if (value == 1) {
+        // 1 up
         try {       // try block to handle out of range exceptions
-            if (board.at(row + 1).at(col)->GetValue() == 0) {     // if the space in front of the pawn is empty
-                currMoves.at(row + 1).at(col) = 1;      // make that spot a 1 to indicate it is a valid move
-                try {
-                    if (not hasMoved) {     // if pawn hasn't moved yet
-                        if (board.at(row + 2).at(col)->GetValue() == 0) {     // if the space 2 in front of the pawn is empty
-                            currMoves.at(row + 2).at(col) = 1;      // make that spot a 1 to indicate it is a valid move
-                        }
+            if (board.at(row - 1).at(col)->GetValue() == 0) {     // if the space in front of the pawn is empty
+                currMoves.at(row - 1).at(col) = 1;      // make that spot a 1 to indicate it is a valid move
+                if (not hasMoved) {     // if pawn hasn't moved yet
+                    if (board.at(row - 2).at(col)->GetValue() == 0) {     // if the space 2 in front of the pawn is empty
+                        currMoves.at(row - 2).at(col) = 1;      // make that spot a 1 to indicate it is a valid move
                     }
-                } catch (const out_of_range &e) {}
+                }
             }
         } catch (const out_of_range &e) {}
+        // 1 down, 1 left
         try {
-            if (board.at(row + 1).at(col - 1)->GetValue() == -6) {      // if the spot diagonal left is a white piece
-                currMoves.at(row + 1).at(col - 1) = 2;                      // it is valid
-            } else if (board.at(row + 1).at(col - 1)->GetValue() < 0) {
-                currMoves.at(row + 1).at(col - 1) = 1;                      // it is valid
+            if (board.at(row - 1).at(col - 1)->GetValue() == -6) {      // if the spot diagonal left is a white piece
+                currMoves.at(row - 1).at(col - 1) = 2;                      // it is check
+            } else if (board.at(row - 1).at(col - 1)->GetValue() < 0) {
+                currMoves.at(row - 1).at(col - 1) = 1;                      // it is valid
             }
         } catch (const out_of_range &e) {}
+        // 1 down, 1 right
         try {
-            if (board.at(row + 1).at(col + 1)->GetValue() == -6) {      // if the spot diagonal left is a white piece
-                currMoves.at(row + 1).at(col + 1) = 2;                      // it is valid
-            } else if (board.at(row + 1).at(col + 1)->GetValue() < 0) {
-                currMoves.at(row + 1).at(col + 1) = 1;                      // it is valid
+            if (board.at(row - 1).at(col + 1)->GetValue() == -6) {      // if the spot diagonal left is a white piece
+                currMoves.at(row - 1).at(col + 1) = 2;                      // it is check
+            } else if (board.at(row - 1).at(col + 1)->GetValue() < 0) {
+                currMoves.at(row - 1).at(col + 1) = 1;                      // it is valid
             }
         } catch (const out_of_range& e) {}
     } return currMoves;

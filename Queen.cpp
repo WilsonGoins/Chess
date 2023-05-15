@@ -22,6 +22,7 @@ vector<vector<int>> Queen::GetMoves(vector<vector<Piece*>>& board) {
         row.resize(8, 0);
     }
 
+    // black queen
     if (value == -5) {
         // get moves diagonal up and right
         int tempRow1 = row;
