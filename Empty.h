@@ -17,5 +17,12 @@ public:
         return value;
     }
     void MovePiece() override {}
-    void GetMoves(vector<vector<Piece*>>& board) override {}
+    vector<vector<int>> GetMoves(vector<vector<Piece*>>& board) override {
+        vector<vector<int>> res;
+        res.resize(8);
+        for (vector<int> row : res) {
+            row.resize(8, 0);
+        }
+        return res;
+    }
 };

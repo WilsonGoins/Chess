@@ -10,7 +10,12 @@ int main() {
     for (auto col : myBoard.board) {
         cout << "[";
         for (auto row : col) {
-            cout << row->GetValue() << ", ";
+            int res = row->GetValue();
+            if (res >= 0) {
+                cout << " " << res << ", ";
+            } else {
+                cout << row->GetValue() << ", ";
+            }
         }
         cout << "]" << endl;
     }

@@ -5,7 +5,7 @@ using namespace std;
 class Piece {
 public:
     virtual void MovePiece() = 0;
-    virtual void GetMoves(vector<vector<Piece*>>& board) = 0;
+    virtual vector<vector<int>> GetMoves(vector<vector<Piece*>>& board) = 0;
     virtual int GetValue() = 0;
 //    bool CheckKingSafety(const vector<vector<Piece*>>& board, int fromRow, int fromCol, int toRow, int toCol) {
 //        vector<vector<Piece*>> newBoard = board;        // make a temporary copy of the board
