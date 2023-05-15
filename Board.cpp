@@ -12,12 +12,13 @@
 Board::Board() {
     gameOver = false;
 
-    board.resize(8);
+    board.resize(8);        // resize the outer vector of board to a size of 8
+
     // make pawns
-    for (int i = 0; i < 8; i++) {       // make black pawns
+    for (int i = 0; i < 8; i++) {       // make black pawns in the 2nd row
         board.at(1).push_back(new Pawn(false, 1, i));
     }
-    for (int i = 0; i < 8; i++) {       // make white pawns
+    for (int i = 0; i < 8; i++) {       // make white pawns in the 7th row
         board.at(6).push_back(new Pawn(true, 6, i));
     }
 

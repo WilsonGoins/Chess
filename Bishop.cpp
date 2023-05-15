@@ -25,24 +25,24 @@ vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board) {
     // black bishop
     if (value == -3) {
         // get moves diagonal up and right
-        int tempRow1 = row;
-        int tempCol1 = col;
+        int tempRow1 = row;     // temporary row to find moves
+        int tempCol1 = col;     // temporary column to find moves
         while (true) {
             try {
-                if (board.at(tempRow1 - 1).at(tempCol1 + 1)->GetValue() == 0) {
+                if (board.at(tempRow1 - 1).at(tempCol1 + 1)->GetValue() == 0) {     // if spot is a 0 (empty)
                     currMoves.at(tempRow1 - 1).at(tempCol1 + 1) = 1;      // make that spot a 1 to indicate it is a valid move
-                    tempRow1--;
-                    tempCol1++;
-                } else if (board.at(tempRow1 - 1).at(tempCol1 + 1)->GetValue() == 6) {
-                    currMoves.at(tempRow1 - 1).at(tempCol1 + 1) = 2;      // make that spot a 1 to indicate it is a valid move
-                    break;
-                } else if (board.at(tempRow1 - 1).at(tempCol1 + 1)->GetValue() > 0) {
+                    tempRow1--;     // go another row up
+                    tempCol1++;     // go another column right
+                } else if (board.at(tempRow1 - 1).at(tempCol1 + 1)->GetValue() == 6) {      // if the spot is a 6 (white king)
+                    currMoves.at(tempRow1 - 1).at(tempCol1 + 1) = 2;      // make that spot a 2 to indicate it is check
+                    break;      // exit while loop because we have hit a piece
+                } else if (board.at(tempRow1 - 1).at(tempCol1 + 1)->GetValue() > 0) {       // if the spot is any positive number (white piece)
                     currMoves.at(tempRow1 - 1).at(tempCol1 + 1) = 1;      // make that spot a 1 to indicate it is a valid move
-                    break;
-                } else {
+                    break;      // exit while loop
+                } else {            // else would be if it is a negative number, in which case we exit while loop as well
                     break;
                 }
-            } catch (const out_of_range &e) {
+            } catch (const out_of_range &e) {       // catch out of range exceptions if we try to access a square that is off the board
                 break;
             }
         }
@@ -51,17 +51,17 @@ vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board) {
         int tempCol2 = col;
         while (true) {
             try {
-                if (board.at(tempRow2 - 1).at(tempCol2 - 1)->GetValue() == 0) {
+                if (board.at(tempRow2 - 1).at(tempCol2 - 1)->GetValue() == 0) {     // if spot is empty
                     currMoves.at(tempRow2 - 1).at(tempCol2 - 1) = 1;      // make that spot a 1 to indicate it is a valid move
-                    tempRow2--;
-                    tempCol2--;
-                } else if (board.at(tempRow2 - 1).at(tempCol2 - 1)->GetValue() == 6) {
-                    currMoves.at(tempRow2 - 1).at(tempCol2 - 1) = 2;      // make that spot a 1 to indicate it is a valid move
+                    tempRow2--;     // go another row up
+                    tempCol2--;     // go another column left
+                } else if (board.at(tempRow2 - 1).at(tempCol2 - 1)->GetValue() == 6) {      // if the spot is white king
+                    currMoves.at(tempRow2 - 1).at(tempCol2 - 1) = 2;      // make that spot a 2 to indicate it is check
                     break;
-                } else if (board.at(tempRow1 - 1).at(tempCol1 - 1)->GetValue() > 0) {
-                    currMoves.at(tempRow1 - 1).at(tempCol1 - 1) = 1;      // make that spot a 1 to indicate it is a valid move
+                } else if (board.at(tempRow2 - 1).at(tempCol2 - 1)->GetValue() > 0) {       // if it is any white piece
+                    currMoves.at(tempRow2 - 1).at(tempCol2 - 1) = 1;      // make that spot a 1 to indicate it is a valid move
                     break;
-                } else {
+                } else {        // if it is a black piece
                     break;
                 }
             } catch (const out_of_range &e) {
@@ -73,17 +73,17 @@ vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board) {
         int tempCol3 = col;
         while (true) {
             try {
-                if (board.at(tempRow3 + 1).at(tempCol3 + 1)->GetValue() == 0) {
+                if (board.at(tempRow3 + 1).at(tempCol3 + 1)->GetValue() == 0) {     // if empty
                     currMoves.at(tempRow3 + 1).at(tempCol3 + 1) = 1;      // make that spot a 1 to indicate it is a valid move
-                    tempRow3++;
-                    tempCol3++;
-                } else if (board.at(tempRow1 + 1).at(tempCol1 + 1)->GetValue() == 6) {
-                    currMoves.at(tempRow1 + 1).at(tempCol1 + 1) = 2;      // make that spot a 1 to indicate it is a valid move
-                    break;
-                } else if (board.at(tempRow3 + 1).at(tempCol3 + 1)->GetValue() > 0) {
+                    tempRow3++;     // go down again
+                    tempCol3++;     // go right again
+                } else if (board.at(tempRow3 + 1).at(tempCol3 + 1)->GetValue() == 6) {      // if white king
+                    currMoves.at(tempRow3 + 1).at(tempCol3 + 1) = 2;      // make that spot a 2 to indicate it is a valid move
+                    break;      // exit while loop
+                } else if (board.at(tempRow3 + 1).at(tempCol3 + 1)->GetValue() > 0) {       // if any white piece
                     currMoves.at(tempRow3 + 1).at(tempCol3 + 1) = 1;
                     break;
-                } else {
+                } else {        // if black piece
                     break;
                 }
             } catch (const out_of_range &e) {
@@ -95,17 +95,17 @@ vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board) {
         int tempCol4 = col;
         while (true) {
             try {
-                if (board.at(tempRow4 + 1).at(tempCol4 - 1)->GetValue() == 0) {
+                if (board.at(tempRow4 + 1).at(tempCol4 - 1)->GetValue() == 0) {     // empty
                     currMoves.at(tempRow4 + 1).at(tempCol4 - 1) = 1;      // make that spot a 1 to indicate it is a valid move
                     tempRow4++;
                     tempCol4--;
-                } else if (board.at(tempRow1 + 1).at(tempCol1 - 1)->GetValue() == 6) {
-                    currMoves.at(tempRow1 + 1).at(tempCol1 - 1) = 2;      // make that spot a 1 to indicate it is a valid move
+                } else if (board.at(tempRow4 + 1).at(tempCol4 - 1)->GetValue() == 6) {      // white king
+                    currMoves.at(tempRow4 + 1).at(tempCol4 - 1) = 2;      // make that spot a 1 to indicate it is a valid move
                     break;
-                } else if (board.at(tempRow1 + 1).at(tempCol1 - 1)->GetValue() > 0) {
-                    currMoves.at(tempRow1 + 1).at(tempCol1 - 1) = 2;      // make that spot a 1 to indicate it is a valid move
+                } else if (board.at(tempRow4 + 1).at(tempCol4 - 1)->GetValue() > 0) {       // any white piece
+                    currMoves.at(tempRow4 + 1).at(tempCol4 - 1) = 1;      // make that spot a 1 to indicate it is a valid move
                     break;
-                } else {
+                } else {        // black piece
                     break;
                 }
             } catch (const out_of_range &e) {
@@ -114,24 +114,24 @@ vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board) {
         }
     }
 
-    // white pieces
+    // white bishop
     if (value == 3) {
         // get moves diagonal up and right
         int tempRow1 = row;
         int tempCol1 = col;
         while (true) {
             try {
-                if (board.at(tempRow1 - 1).at(tempCol1 + 1)->GetValue() == 0) {
+                if (board.at(tempRow1 - 1).at(tempCol1 + 1)->GetValue() == 0) {     // if empty spot
                     currMoves.at(tempRow1 - 1).at(tempCol1 + 1) = 1;      // make that spot a 1 to indicate it is a valid move
                     tempRow1--;
                     tempCol1++;
-                } else if (board.at(tempRow1 - 1).at(tempCol1 + 1)->GetValue() == -6) {
+                } else if (board.at(tempRow1 - 1).at(tempCol1 + 1)->GetValue() == -6) {     // black king
                     currMoves.at(tempRow1 - 1).at(tempCol1 + 1) = 2;      // make that spot a 1 to indicate it is a valid move
                     break;
-                } else if (board.at(tempRow1 - 1).at(tempCol1 + 1)->GetValue() < 0) {
+                } else if (board.at(tempRow1 - 1).at(tempCol1 + 1)->GetValue() < 0) {       // any black piece
                     currMoves.at(tempRow1 - 1).at(tempCol1 + 1) = 1;      // make that spot a 1 to indicate it is a valid move
                     break;
-                } else {
+                } else {        // any white piece
                     break;
                 }
             } catch (const out_of_range &e) {
@@ -143,17 +143,17 @@ vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board) {
         int tempCol2 = col;
         while (true) {
             try {
-                if (board.at(tempRow2 - 1).at(tempCol2 - 1)->GetValue() == 0) {
+                if (board.at(tempRow2 - 1).at(tempCol2 - 1)->GetValue() == 0) {     // empty
                     currMoves.at(tempRow2 - 1).at(tempCol2 - 1) = 1;      // make that spot a 1 to indicate it is a valid move
                     tempRow2--;
                     tempCol2--;
-                } else if (board.at(tempRow2 - 1).at(tempCol2 - 1)->GetValue() == -6) {
+                } else if (board.at(tempRow2 - 1).at(tempCol2 - 1)->GetValue() == -6) {     // black king
                     currMoves.at(tempRow2 - 1).at(tempCol2 - 1) = 2;      // make that spot a 1 to indicate it is a valid move
                     break;
-                } else if (board.at(tempRow1 - 1).at(tempCol1 - 1)->GetValue() < 0) {
-                    currMoves.at(tempRow1 - 1).at(tempCol1 - 1) = 1;      // make that spot a 1 to indicate it is a valid move
+                } else if (board.at(tempRow2 - 1).at(tempCol2 - 1)->GetValue() < 0) {   // black piece
+                    currMoves.at(tempRow2 - 1).at(tempCol2 - 1) = 1;      // make that spot a 1 to indicate it is a valid move
                     break;
-                } else {
+                } else {        // white piece
                     break;
                 }
             } catch (const out_of_range &e) {
@@ -169,8 +169,8 @@ vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board) {
                     currMoves.at(tempRow3 + 1).at(tempCol3 + 1) = 1;      // make that spot a 1 to indicate it is a valid move
                     tempRow3++;
                     tempCol3++;
-                } else if (board.at(tempRow1 + 1).at(tempCol1 + 1)->GetValue() == -6) {
-                    currMoves.at(tempRow1 + 1).at(tempCol1 + 1) = 2;      // make that spot a 1 to indicate it is a valid move
+                } else if (board.at(tempRow3 + 1).at(tempCol3 + 1)->GetValue() == -6) {
+                    currMoves.at(tempRow3 + 1).at(tempCol3 + 1) = 2;      // make that spot a 1 to indicate it is a valid move
                     break;
                 } else if (board.at(tempRow3 + 1).at(tempCol3 + 1)->GetValue() < 0) {
                     currMoves.at(tempRow3 + 1).at(tempCol3 + 1) = 1;
@@ -191,11 +191,11 @@ vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board) {
                     currMoves.at(tempRow4 + 1).at(tempCol4 - 1) = 1;      // make that spot a 1 to indicate it is a valid move
                     tempRow4++;
                     tempCol4--;
-                } else if (board.at(tempRow1 + 1).at(tempCol1 - 1)->GetValue() == -6) {
-                    currMoves.at(tempRow1 + 1).at(tempCol1 - 1) = 2;      // make that spot a 1 to indicate it is a valid move
+                } else if (board.at(tempRow4 + 1).at(tempCol4 - 1)->GetValue() == -6) {
+                    currMoves.at(tempRow4 + 1).at(tempCol4 - 1) = 2;      // make that spot a 1 to indicate it is a valid move
                     break;
-                } else if (board.at(tempRow1 + 1).at(tempCol1 - 1)->GetValue() < 0) {
-                    currMoves.at(tempRow1 + 1).at(tempCol1 - 1) = 2;      // make that spot a 1 to indicate it is a valid move
+                } else if (board.at(tempRow4 + 1).at(tempCol4 - 1)->GetValue() < 0) {
+                    currMoves.at(tempRow4 + 1).at(tempCol4 - 1) = 1;      // make that spot a 1 to indicate it is a valid move
                     break;
                 } else {
                     break;
@@ -204,7 +204,7 @@ vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board) {
                 break;
             }
         }
-    } return currMoves;
+    } return currMoves;         // return the list of all moves, 1 is a valid move, 0 is not a valid move, 2 is check
 }
 
 int Bishop::GetValue() {
