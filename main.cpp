@@ -33,3 +33,5 @@ int main() {
         cout << "]" << endl;
     }
 }
+
+// need to figure out why inner vectors are not populating with 0s
