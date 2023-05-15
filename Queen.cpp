@@ -29,14 +29,16 @@ vector<vector<int>> Queen::GetMoves(vector<vector<Piece*>>& board) {
         int tempCol1 = col;
         while (true) {
             try {
-                if (board.at(tempRow1 - 1).at(tempCol1 + 1)->GetValue() == 0) {
+                if (board.at(tempRow1 - 1).at(tempCol1 + 1)->GetValue() == 0) {     // empty
                     currMoves.at(tempRow1 - 1).at(tempCol1 + 1) = 1;      // make that spot a 1 to indicate it is a valid move
                     tempRow1--;
                     tempCol1++;
                 } else if (board.at(tempRow1 - 1).at(tempCol1 + 1)->GetValue() == 6) {
-                    currMoves.at(tempRow1 - 1).at(tempCol1 + 1) = 2;      // make that spot a 1 to indicate it is a valid move
+                    currMoves.at(tempRow1 - 1).at(tempCol1 + 1) = 2;      // make that spot a 2 to indicate it is check
+                    break;
                 } else  if (board.at(tempRow1 - 1).at(tempCol1 + 1)->GetValue() > 0) {
                     currMoves.at(tempRow1 - 1).at(tempCol1 + 1) = 1;      // make that spot a 1 to indicate it is a valid move
+                    break;
                 } else {
                     break;
                 }
@@ -55,8 +57,10 @@ vector<vector<int>> Queen::GetMoves(vector<vector<Piece*>>& board) {
                     tempCol2--;
                 } else if (board.at(tempRow2 - 1).at(tempCol2 - 1)->GetValue() == 6) {
                     currMoves.at(tempRow2 - 1).at(tempCol2 - 1) = 2;      // make that spot a 1 to indicate it is a valid move
+                    break;
                 } else  if (board.at(tempRow2 - 1).at(tempCol2 - 1)->GetValue() > 0) {
                     currMoves.at(tempRow2 - 1).at(tempCol2 - 1) = 1;      // make that spot a 1 to indicate it is a valid move
+                    break;
                 } else {
                     break;
                 }
@@ -74,9 +78,11 @@ vector<vector<int>> Queen::GetMoves(vector<vector<Piece*>>& board) {
                     tempRow3++;
                     tempCol3++;
                 } else if (board.at(tempRow3 + 1).at(tempCol3 + 1)->GetValue() == 6) {
-                    currMoves.at(tempRow3 + 1).at(tempCol3 + 1) = 2;      // make that spot a 1 to indicate it is a valid move
+                    currMoves.at(tempRow3 + 1).at(tempCol3 + 1) = 2;      // make that spot a 2 to indicate it is check
+                    break;
                 } else  if (board.at(tempRow3 + 1).at(tempCol3 + 1)->GetValue() > 0) {
                     currMoves.at(tempRow3 + 1).at(tempCol3 + 1) = 1;      // make that spot a 1 to indicate it is a valid move
+                    break;
                 } else {
                     break;
                 }
@@ -94,9 +100,11 @@ vector<vector<int>> Queen::GetMoves(vector<vector<Piece*>>& board) {
                     tempRow4--;
                     tempCol4++;
                 } else if (board.at(tempRow4 + 1).at(tempCol4 - 1)->GetValue() == 6) {
-                    currMoves.at(tempRow4 + 1).at(tempCol4 - 1) = 2;      // make that spot a 1 to indicate it is a valid move
+                    currMoves.at(tempRow4 + 1).at(tempCol4 - 1) = 2;      // make that spot a 2 to indicate it is check
+                    break;
                 } else  if (board.at(tempRow4 + 1).at(tempCol4 - 1)->GetValue() > 0) {
                     currMoves.at(tempRow4 + 1).at(tempCol4 - 1) = 1;      // make that spot a 1 to indicate it is a valid move
+                    break;
                 } else {
                     break;
                 }
@@ -112,9 +120,11 @@ vector<vector<int>> Queen::GetMoves(vector<vector<Piece*>>& board) {
                     currMoves.at(tempRow5 - 1).at(col) = 1;      // make that spot a 1 to indicate it is a valid move
                     tempRow5--;
                 } else if (board.at(tempRow5 - 1).at(col)->GetValue() == 6) {
-                    currMoves.at(tempRow5 - 1).at(col) = 2;      // make that spot a 1 to indicate it is a valid move
+                    currMoves.at(tempRow5 - 1).at(col) = 2;      // make that spot a 2 to indicate it is check
+                    break;
                 } else  if (board.at(tempRow5 - 1).at(col)->GetValue() > 0) {
                     currMoves.at(tempRow5 - 1).at(col) = 1;      // make that spot a 1 to indicate it is a valid move
+                    break;
                 } else {
                     break;
                 }
@@ -130,9 +140,11 @@ vector<vector<int>> Queen::GetMoves(vector<vector<Piece*>>& board) {
                     currMoves.at(tempRow6 + 1).at(col) = 1;      // make that spot a 1 to indicate it is a valid move
                     tempRow6++;
                 } else if (board.at(tempRow6 + 1).at(col)->GetValue() == 6) {
-                    currMoves.at(tempRow6 + 1).at(col) = 2;      // make that spot a 1 to indicate it is a valid move
+                    currMoves.at(tempRow6 + 1).at(col) = 2;      // make that spot a 2 to indicate it is check
+                    break;
                 } else  if (board.at(tempRow6 + 1).at(col)->GetValue() > 0) {
                     currMoves.at(tempRow6 + 1).at(col) = 1;      // make that spot a 1 to indicate it is a valid move
+                    break;
                 } else {
                     break;
                 }
@@ -148,9 +160,11 @@ vector<vector<int>> Queen::GetMoves(vector<vector<Piece*>>& board) {
                     currMoves.at(row).at(tempCol5 - 1) = 1;      // make that spot a 1 to indicate it is a valid move
                     tempCol5--;
                 } else if (board.at(row).at(tempCol5 - 1)->GetValue() == 6) {
-                    currMoves.at(row).at(tempCol5 - 1) = 2;      // make that spot a 1 to indicate it is a valid move
+                    currMoves.at(row).at(tempCol5 - 1) = 2;      // make that spot a 2 to indicate it is check
+                    break;
                 } else  if (board.at(row).at(tempCol5 - 1)->GetValue() > 0) {
                     currMoves.at(row).at(tempCol5 - 1) = 1;      // make that spot a 1 to indicate it is a valid move
+                    break;
                 } else {
                     break;
                 }
@@ -166,9 +180,11 @@ vector<vector<int>> Queen::GetMoves(vector<vector<Piece*>>& board) {
                     currMoves.at(row).at(tempCol6 + 1) = 1;      // make that spot a 1 to indicate it is a valid move
                     tempCol6++;
                 } else if (board.at(row).at(tempCol6 + 1)->GetValue() == 6) {
-                    currMoves.at(row).at(tempCol6 + 1) = 2;      // make that spot a 1 to indicate it is a valid move
+                    currMoves.at(row).at(tempCol6 + 1) = 2;      // make that spot a 2 to indicate it is check
+                    break;
                 } else  if (board.at(row).at(tempCol6 + 1)->GetValue() > 0) {
                     currMoves.at(row).at(tempCol6 + 1) = 1;      // make that spot a 1 to indicate it is a valid move
+                    break;
                 } else {
                     break;
                 }
@@ -190,9 +206,11 @@ vector<vector<int>> Queen::GetMoves(vector<vector<Piece*>>& board) {
                     tempRow1--;
                     tempCol1++;
                 } else if (board.at(tempRow1 - 1).at(tempCol1 + 1)->GetValue() == -6) {
-                    currMoves.at(tempRow1 - 1).at(tempCol1 + 1) = 2;      // make that spot a 1 to indicate it is a valid move
+                    currMoves.at(tempRow1 - 1).at(tempCol1 + 1) = 2;      // make that spot a 2 to indicate it is check
+                    break;
                 } else  if (board.at(tempRow1 - 1).at(tempCol1 + 1)->GetValue() < 0) {
                     currMoves.at(tempRow1 - 1).at(tempCol1 + 1) = 1;      // make that spot a 1 to indicate it is a valid move
+                    break;
                 } else {
                     break;
                 }
@@ -211,8 +229,10 @@ vector<vector<int>> Queen::GetMoves(vector<vector<Piece*>>& board) {
                     tempCol2--;
                 } else if (board.at(tempRow2 - 1).at(tempCol2 - 1)->GetValue() == -6) {
                     currMoves.at(tempRow2 - 1).at(tempCol2 - 1) = 2;      // make that spot a 1 to indicate it is a valid move
+                    break;
                 } else  if (board.at(tempRow2 - 1).at(tempCol2 - 1)->GetValue() < 0) {
                     currMoves.at(tempRow2 - 1).at(tempCol2 - 1) = 1;      // make that spot a 1 to indicate it is a valid move
+                    break;
                 } else {
                     break;
                 }
@@ -230,9 +250,11 @@ vector<vector<int>> Queen::GetMoves(vector<vector<Piece*>>& board) {
                     tempRow3++;
                     tempCol3++;
                 } else if (board.at(tempRow3 + 1).at(tempCol3 + 1)->GetValue() == -6) {
-                    currMoves.at(tempRow3 + 1).at(tempCol3 + 1) = 2;      // make that spot a 1 to indicate it is a valid move
+                    currMoves.at(tempRow3 + 1).at(tempCol3 + 1) = 2;      // make that spot a 2 to indicate it is check
+                    break;
                 } else  if (board.at(tempRow3 + 1).at(tempCol3 + 1)->GetValue() < 0) {
                     currMoves.at(tempRow3 + 1).at(tempCol3 + 1) = 1;      // make that spot a 1 to indicate it is a valid move
+                    break;
                 } else {
                     break;
                 }
@@ -250,9 +272,11 @@ vector<vector<int>> Queen::GetMoves(vector<vector<Piece*>>& board) {
                     tempRow4--;
                     tempCol4++;
                 } else if (board.at(tempRow4 + 1).at(tempCol4 - 1)->GetValue() == -6) {
-                    currMoves.at(tempRow4 + 1).at(tempCol4 - 1) = 2;      // make that spot a 1 to indicate it is a valid move
+                    currMoves.at(tempRow4 + 1).at(tempCol4 - 1) = 2;      // make that spot a 2 to indicate it is check
+                    break;
                 } else  if (board.at(tempRow4 + 1).at(tempCol4 - 1)->GetValue() < 0) {
                     currMoves.at(tempRow4 + 1).at(tempCol4 - 1) = 1;      // make that spot a 1 to indicate it is a valid move
+                    break;
                 } else {
                     break;
                 }
@@ -268,9 +292,11 @@ vector<vector<int>> Queen::GetMoves(vector<vector<Piece*>>& board) {
                     currMoves.at(tempRow5 - 1).at(col) = 1;      // make that spot a 1 to indicate it is a valid move
                     tempRow5--;
                 } else if (board.at(tempRow5 - 1).at(col)->GetValue() == -6) {
-                    currMoves.at(tempRow5 - 1).at(col) = 2;      // make that spot a 1 to indicate it is a valid move
+                    currMoves.at(tempRow5 - 1).at(col) = 2;      // make that spot a 2 to indicate it is check
+                    break;
                 } else  if (board.at(tempRow5 - 1).at(col)->GetValue() < 0) {
                     currMoves.at(tempRow5 - 1).at(col) = 1;      // make that spot a 1 to indicate it is a valid move
+                    break;
                 } else {
                     break;
                 }
@@ -286,9 +312,11 @@ vector<vector<int>> Queen::GetMoves(vector<vector<Piece*>>& board) {
                     currMoves.at(tempRow6 + 1).at(col) = 1;      // make that spot a 1 to indicate it is a valid move
                     tempRow6++;
                 } else if (board.at(tempRow6 + 1).at(col)->GetValue() == -6) {
-                    currMoves.at(tempRow6 + 1).at(col) = 2;      // make that spot a 1 to indicate it is a valid move
+                    currMoves.at(tempRow6 + 1).at(col) = 2;      // make that spot a 2 to indicate it is check
+                    break;
                 } else  if (board.at(tempRow6 + 1).at(col)->GetValue() < 0) {
                     currMoves.at(tempRow6 + 1).at(col) = 1;      // make that spot a 1 to indicate it is a valid move
+                    break;
                 } else {
                     break;
                 }
@@ -304,9 +332,11 @@ vector<vector<int>> Queen::GetMoves(vector<vector<Piece*>>& board) {
                     currMoves.at(row).at(tempCol5 - 1) = 1;      // make that spot a 1 to indicate it is a valid move
                     tempCol5--;
                 } else if (board.at(row).at(tempCol5 - 1)->GetValue() == -6) {
-                    currMoves.at(row).at(tempCol5 - 1) = 2;      // make that spot a 1 to indicate it is a valid move
+                    currMoves.at(row).at(tempCol5 - 1) = 2;      // make that spot a 2 to indicate it is check
+                    break;
                 } else  if (board.at(row).at(tempCol5 - 1)->GetValue() < 0) {
                     currMoves.at(row).at(tempCol5 - 1) = 1;      // make that spot a 1 to indicate it is a valid move
+                    break;;
                 } else {
                     break;
                 }
@@ -322,9 +352,11 @@ vector<vector<int>> Queen::GetMoves(vector<vector<Piece*>>& board) {
                     currMoves.at(row).at(tempCol6 + 1) = 1;      // make that spot a 1 to indicate it is a valid move
                     tempCol6++;
                 } else if (board.at(row).at(tempCol6 + 1)->GetValue() == -6) {
-                    currMoves.at(row).at(tempCol6 + 1) = 2;      // make that spot a 1 to indicate it is a valid move
+                    currMoves.at(row).at(tempCol6 + 1) = 2;      // make that spot a 2 to indicate it is check
+                    break;
                 } else  if (board.at(row).at(tempCol6 + 1)->GetValue() < 0) {
                     currMoves.at(row).at(tempCol6 + 1) = 1;      // make that spot a 1 to indicate it is a valid move
+                    break;
                 } else {
                     break;
                 }

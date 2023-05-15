@@ -19,4 +19,17 @@ int main() {
         }
         cout << "]" << endl;
     }
+    vector<vector<int>> data = myBoard.board.at(7).at(3)->GetMoves(myBoard.board);
+    for (auto col : data) {
+        cout << "[";
+        for (auto row : col) {
+            cout << row;
+            if (row >= 0) {
+                cout << " " << row << ", ";
+            } else {
+                cout << row << ", ";
+            }
+        }
+        cout << "]" << endl;
+    }
 }

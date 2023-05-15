@@ -27,30 +27,28 @@ vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board) {
         // get moves diagonal up and right
         int tempRow1 = row;     // temporary row to find moves
         int tempCol1 = col;     // temporary column to find moves
-        while (true) {
-            try {
+        try {
+            while (true) {
                 if (board.at(tempRow1 - 1).at(tempCol1 + 1)->GetValue() == 0) {     // if spot is a 0 (empty)
                     currMoves.at(tempRow1 - 1).at(tempCol1 + 1) = 1;      // make that spot a 1 to indicate it is a valid move
                     tempRow1--;     // go another row up
                     tempCol1++;     // go another column right
-                } else if (board.at(tempRow1 - 1).at(tempCol1 + 1)->GetValue() == 6) {      // if the spot is a 6 (white king)
+                } else if (board.at(tempRow1 - 1).at(tempCol1 + 1)->GetValue() ==6) {      // if the spot is a 6 (white king)
                     currMoves.at(tempRow1 - 1).at(tempCol1 + 1) = 2;      // make that spot a 2 to indicate it is check
                     break;      // exit while loop because we have hit a piece
-                } else if (board.at(tempRow1 - 1).at(tempCol1 + 1)->GetValue() > 0) {       // if the spot is any positive number (white piece)
+                } else if (board.at(tempRow1 - 1).at(tempCol1 + 1)->GetValue() >0) {       // if the spot is any positive number (white piece)
                     currMoves.at(tempRow1 - 1).at(tempCol1 + 1) = 1;      // make that spot a 1 to indicate it is a valid move
                     break;      // exit while loop
                 } else {            // else would be if it is a negative number, in which case we exit while loop as well
                     break;
                 }
-            } catch (const out_of_range &e) {       // catch out of range exceptions if we try to access a square that is off the board
-                break;
             }
-        }
+        } catch (const out_of_range &e) {}       // catch out of range exceptions if we try to access a square that is off the board
         // get moves diagonal up and left
         int tempRow2 = row;
         int tempCol2 = col;
-        while (true) {
-            try {
+        try {
+            while (true) {
                 if (board.at(tempRow2 - 1).at(tempCol2 - 1)->GetValue() == 0) {     // if spot is empty
                     currMoves.at(tempRow2 - 1).at(tempCol2 - 1) = 1;      // make that spot a 1 to indicate it is a valid move
                     tempRow2--;     // go another row up
@@ -64,15 +62,13 @@ vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board) {
                 } else {        // if it is a black piece
                     break;
                 }
-            } catch (const out_of_range &e) {
-                break;
             }
-        }
+        } catch (const out_of_range &e) {}
         // get moves diagonal down and right
         int tempRow3 = row;
         int tempCol3 = col;
-        while (true) {
-            try {
+        try {
+            while (true) {
                 if (board.at(tempRow3 + 1).at(tempCol3 + 1)->GetValue() == 0) {     // if empty
                     currMoves.at(tempRow3 + 1).at(tempCol3 + 1) = 1;      // make that spot a 1 to indicate it is a valid move
                     tempRow3++;     // go down again
@@ -86,15 +82,13 @@ vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board) {
                 } else {        // if black piece
                     break;
                 }
-            } catch (const out_of_range &e) {
-                break;
             }
-        }
+        } catch (const out_of_range &e) {}
         // get moves diagonal down and left
         int tempRow4 = row;
         int tempCol4 = col;
-        while (true) {
-            try {
+        try {
+            while (true) {
                 if (board.at(tempRow4 + 1).at(tempCol4 - 1)->GetValue() == 0) {     // empty
                     currMoves.at(tempRow4 + 1).at(tempCol4 - 1) = 1;      // make that spot a 1 to indicate it is a valid move
                     tempRow4++;
@@ -108,10 +102,8 @@ vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board) {
                 } else {        // black piece
                     break;
                 }
-            } catch (const out_of_range &e) {
-                break;
             }
-        }
+        } catch (const out_of_range &e) {}
     }
 
     // white bishop
@@ -119,8 +111,8 @@ vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board) {
         // get moves diagonal up and right
         int tempRow1 = row;
         int tempCol1 = col;
-        while (true) {
-            try {
+        try {
+            while (true) {
                 if (board.at(tempRow1 - 1).at(tempCol1 + 1)->GetValue() == 0) {     // if empty spot
                     currMoves.at(tempRow1 - 1).at(tempCol1 + 1) = 1;      // make that spot a 1 to indicate it is a valid move
                     tempRow1--;
@@ -134,15 +126,13 @@ vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board) {
                 } else {        // any white piece
                     break;
                 }
-            } catch (const out_of_range &e) {
-                break;
             }
-        }
+        } catch (const out_of_range &e) {}
         // get moves diagonal up and left
         int tempRow2 = row;
         int tempCol2 = col;
-        while (true) {
-            try {
+        try {
+            while (true) {
                 if (board.at(tempRow2 - 1).at(tempCol2 - 1)->GetValue() == 0) {     // empty
                     currMoves.at(tempRow2 - 1).at(tempCol2 - 1) = 1;      // make that spot a 1 to indicate it is a valid move
                     tempRow2--;
@@ -156,15 +146,13 @@ vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board) {
                 } else {        // white piece
                     break;
                 }
-            } catch (const out_of_range &e) {
-                break;
             }
-        }
+        } catch (const out_of_range &e) {}
         // get moves diagonal down and right
         int tempRow3 = row;
         int tempCol3 = col;
-        while (true) {
-            try {
+        try {
+            while (true) {
                 if (board.at(tempRow3 + 1).at(tempCol3 + 1)->GetValue() == 0) {
                     currMoves.at(tempRow3 + 1).at(tempCol3 + 1) = 1;      // make that spot a 1 to indicate it is a valid move
                     tempRow3++;
@@ -178,15 +166,13 @@ vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board) {
                 } else {
                     break;
                 }
-            } catch (const out_of_range &e) {
-                break;
             }
-        }
+        } catch (const out_of_range &e) {}
         // get moves diagonal down and left
         int tempRow4 = row;
         int tempCol4 = col;
-        while (true) {
-            try {
+        try {
+            while (true) {
                 if (board.at(tempRow4 + 1).at(tempCol4 - 1)->GetValue() == 0) {
                     currMoves.at(tempRow4 + 1).at(tempCol4 - 1) = 1;      // make that spot a 1 to indicate it is a valid move
                     tempRow4++;
@@ -200,10 +186,8 @@ vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board) {
                 } else {
                     break;
                 }
-            } catch (const out_of_range &e) {
-                break;
             }
-        }
+        } catch (const out_of_range &e) {}
     } return currMoves;         // return the list of all moves, 1 is a valid move, 0 is not a valid move, 2 is check
 }
 
