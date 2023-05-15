@@ -2,14 +2,14 @@
 #include <stdexcept>
 using namespace std;
 
-Bishop::Bishop(bool isWhite, int row, int col) {
-    if (isWhite) {
-        value = 3;
-    } else {
-        value = -3;
+Bishop::Bishop(bool isWhite, int row, int col) {        // constructor
+    if (isWhite) {      // if the piece is white
+        value = 3;          // set the value to 3
+    } else {            // if the piece is black
+        value = -3;         // set the value to -3
     }
-    this->row = row;
-    this->col = col;
+    this->row = row;    // set the row to row
+    this->col = col;    // set the column to column
 }
 
 void Bishop::MovePiece() {
@@ -17,11 +17,12 @@ void Bishop::MovePiece() {
 }
 
 vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board) {
-    vector<vector<int>> currMoves(8);
+    vector<vector<int>> currMoves(8);       // make a vector of vectors to return later
     for (vector<int> row : currMoves) {
-        row.resize(8, 0);
+        row.resize(8, 0);           // initialize each element of the vector to 0
     }
 
+    // black bishop
     if (value == -3) {
         // get moves diagonal up and right
         int tempRow1 = row;
