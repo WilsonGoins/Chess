@@ -19,27 +19,27 @@ void Castle::MovePiece() {
 }
 
 vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board) {
-    vector<vector<int>> currMoves(8);
+    vector<vector<int>> currMoves(8);       // list of spots that we will return at end
     for (vector<int> row : currMoves) {
         row.resize(8, 0);
     }
 
-    // black pieces
+    // black castle
     if (value == -4) {
         // get moves up
         int tempRow1 = row;
         while (true) {
             try {
-                if (board.at(tempRow1 - 1).at(col)->GetValue() == 0) {
+                if (board.at(tempRow1 - 1).at(col)->GetValue() == 0) {      // if empty spot
                     currMoves.at(tempRow1 - 1).at(col) = 1;      // make that spot a 1 to indicate it is a valid move
                     tempRow1--;
-                } else if (board.at(tempRow1 - 1).at(col)->GetValue() == 6){
-                    currMoves.at(tempRow1 - 1).at(col) = 2;      // make that spot a 1 to indicate it is a valid move
+                } else if (board.at(tempRow1 - 1).at(col)->GetValue() == 6){        // white king
+                    currMoves.at(tempRow1 - 1).at(col) = 2;      // make that spot a 2 to indicate it is check
                     break;
-                } else if (board.at(tempRow1 - 1).at(col)->GetValue() > 0) {
+                } else if (board.at(tempRow1 - 1).at(col)->GetValue() > 0) {        // white piece
                     currMoves.at(tempRow1 - 1).at(col) = 1;      // make that spot a 1 to indicate it is a valid move
                     break;
-                } else {
+                } else {        // black piece
                     break;
                 }
             } catch (const out_of_range &e) {
@@ -50,16 +50,16 @@ vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board) {
         int tempRow2 = row;
         while (true) {
             try {
-                if (board.at(tempRow2 + 1).at(col)->GetValue() == 0) {
+                if (board.at(tempRow2 + 1).at(col)->GetValue() == 0) {      // empty
                     currMoves.at(tempRow2 + 1).at(col) = 1;      // make that spot a 1 to indicate it is a valid move
                     tempRow2++;
-                } else if (board.at(tempRow1 + 1).at(col)->GetValue() == 6){
-                    currMoves.at(tempRow1 + 1).at(col) = 2;      // make that spot a 1 to indicate it is a valid move
+                } else if (board.at(tempRow2 + 1).at(col)->GetValue() == 6){        // white king
+                    currMoves.at(tempRow2 + 1).at(col) = 2;      // make that spot a 2 to indicate it is check
                     break;
-                } else if (board.at(tempRow1 + 1).at(col)->GetValue() > 0) {
-                    currMoves.at(tempRow1 + 1).at(col) = 1;      // make that spot a 1 to indicate it is a valid move
+                } else if (board.at(tempRow2 + 1).at(col)->GetValue() > 0) {        // any white piece
+                    currMoves.at(tempRow2 + 1).at(col) = 1;      // make that spot a 1 to indicate it is a valid move
                     break;
-                } else {
+                } else {        // any black piece
                     break;
                 }
             } catch (const out_of_range &e) {
@@ -74,7 +74,7 @@ vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board) {
                     currMoves.at(row).at(tempCol1 - 1) = 1;      // make that spot a 1 to indicate it is a valid move
                     tempCol1--;
                 } else if (board.at(row).at(tempCol1 - 1)->GetValue() == 6){
-                    currMoves.at(row).at(tempCol1 - 1) = 2;      // make that spot a 1 to indicate it is a valid move
+                    currMoves.at(row).at(tempCol1 - 1) = 2;      // make that spot a 2 to indicate it is check
                     break;
                 } else if (board.at(row).at(tempCol1 - 1)->GetValue() > 0) {
                     currMoves.at(row).at(tempCol1 - 1) = 1;      // make that spot a 1 to indicate it is a valid move
@@ -91,13 +91,13 @@ vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board) {
         while (true) {
             try {
                 if (board.at(row).at(tempCol2 + 1)->GetValue() == 0) {
-                    currMoves.at(row).at(tempCol1 + 1) = 1;      // make that spot a 1 to indicate it is a valid move
+                    currMoves.at(row).at(tempCol2 + 1) = 1;      // make that spot a 1 to indicate it is a valid move
                     tempCol1++;
-                } else if (board.at(row).at(tempCol1 + 1)->GetValue() == 6){
-                    currMoves.at(row).at(tempCol1 + 1) = 2;      // make that spot a 1 to indicate it is a valid move
+                } else if (board.at(row).at(tempCol2 + 1)->GetValue() == 6){
+                    currMoves.at(row).at(tempCol2 + 1) = 2;      // make that spot a 2 to indicate it is check
                     break;
-                } else if (board.at(row).at(tempCol1 + 1)->GetValue() > 0) {
-                    currMoves.at(row).at(tempCol1 + 1) = 1;      // make that spot a 1 to indicate it is a valid move
+                } else if (board.at(row).at(tempCol2 + 1)->GetValue() > 0) {
+                    currMoves.at(row).at(tempCol2 + 1) = 1;      // make that spot a 1 to indicate it is a valid move
                     break;
                 } else {
                     break;
@@ -118,7 +118,7 @@ vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board) {
                     currMoves.at(tempRow1 - 1).at(col) = 1;      // make that spot a 1 to indicate it is a valid move
                     tempRow1--;
                 } else if (board.at(tempRow1 - 1).at(col)->GetValue() == -6){
-                    currMoves.at(tempRow1 - 1).at(col) = 2;      // make that spot a 1 to indicate it is a valid move
+                    currMoves.at(tempRow1 - 1).at(col) = 2;      // make that spot a 2 to indicate it is check
                     break;
                 } else if (board.at(tempRow1 - 1).at(col)->GetValue() < 0) {
                     currMoves.at(tempRow1 - 1).at(col) = 1;      // make that spot a 1 to indicate it is a valid move
@@ -137,11 +137,11 @@ vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board) {
                 if (board.at(tempRow2 + 1).at(col)->GetValue() == 0) {
                     currMoves.at(tempRow2 + 1).at(col) = 1;      // make that spot a 1 to indicate it is a valid move
                     tempRow2++;
-                } else if (board.at(tempRow1 + 1).at(col)->GetValue() == -6){
-                    currMoves.at(tempRow1 + 1).at(col) = 2;      // make that spot a 1 to indicate it is a valid move
+                } else if (board.at(tempRow2 + 1).at(col)->GetValue() == -6){
+                    currMoves.at(tempRow2 + 1).at(col) = 2;      // make that spot a 2 to indicate it is check
                     break;
-                } else if (board.at(tempRow1 + 1).at(col)->GetValue() < 0) {
-                    currMoves.at(tempRow1 + 1).at(col) = 1;      // make that spot a 1 to indicate it is a valid move
+                } else if (board.at(tempRow2 + 1).at(col)->GetValue() < 0) {
+                    currMoves.at(tempRow2 + 1).at(col) = 1;      // make that spot a 1 to indicate it is a valid move
                     break;
                 } else {
                     break;
@@ -158,7 +158,7 @@ vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board) {
                     currMoves.at(row).at(tempCol1 - 1) = 1;      // make that spot a 1 to indicate it is a valid move
                     tempCol1--;
                 } else if (board.at(row).at(tempCol1 - 1)->GetValue() == -6){
-                    currMoves.at(row).at(tempCol1 - 1) = 2;      // make that spot a 1 to indicate it is a valid move
+                    currMoves.at(row).at(tempCol1 - 1) = 2;      // make that spot a 2 to indicate it is check
                     break;
                 } else if (board.at(row).at(tempCol1 - 1)->GetValue() < 0) {
                     currMoves.at(row).at(tempCol1 - 1) = 1;      // make that spot a 1 to indicate it is a valid move
@@ -175,13 +175,13 @@ vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board) {
         while (true) {
             try {
                 if (board.at(row).at(tempCol2 + 1)->GetValue() == 0) {
-                    currMoves.at(row).at(tempCol1 + 1) = 1;      // make that spot a 1 to indicate it is a valid move
+                    currMoves.at(row).at(tempCol2 + 1) = 1;      // make that spot a 1 to indicate it is a valid move
                     tempCol1++;
-                } else if (board.at(row).at(tempCol1 + 1)->GetValue() == -6){
-                    currMoves.at(row).at(tempCol1 + 1) = 2;      // make that spot a 1 to indicate it is a valid move
+                } else if (board.at(row).at(tempCol2 + 1)->GetValue() == -6){
+                    currMoves.at(row).at(tempCol2 + 1) = 2;      // make that spot a 1 to indicate it is a valid move
                     break;
-                } else if (board.at(row).at(tempCol1 + 1)->GetValue() < 0) {
-                    currMoves.at(row).at(tempCol1 + 1) = 1;      // make that spot a 1 to indicate it is a valid move
+                } else if (board.at(row).at(tempCol2 + 1)->GetValue() < 0) {
+                    currMoves.at(row).at(tempCol2 + 1) = 1;      // make that spot a 1 to indicate it is a valid move
                     break;
                 } else {
                     break;

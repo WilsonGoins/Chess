@@ -22,7 +22,7 @@ Board::Board() {
         board.at(6).push_back(new Pawn(true, 6, i));
     }
 
-    // make black back row
+    // make 1st row (black pieces)
     board.at(0).push_back(new Castle(false, 0, 0));
     board.at(0).push_back(new Knight(false, 0, 1));
     board.at(0).push_back(new Bishop(false, 0, 2));
@@ -32,7 +32,7 @@ Board::Board() {
     board.at(0).push_back(new Knight(false, 0, 6));
     board.at(0).push_back(new Castle(false, 0, 7));
 
-    // make white back row
+    // make 8th row (white pieces)
     board.at(7).push_back(new Castle(true, 7, 0));
     board.at(7).push_back(new Knight(true, 7, 1));
     board.at(7).push_back(new Bishop(true, 7, 2));
@@ -42,7 +42,7 @@ Board::Board() {
     board.at(7).push_back(new Knight(true, 7, 6));
     board.at(7).push_back(new Castle(true, 7, 7));
 
-    for (int i = 2; i < 6; i++) {
+    for (int i = 2; i < 6; i++) {     // make rows 3 - 6 (empty squares)
         for (int j = 0; j < 8; j++) {
             board.at(i).push_back(new Empty(i, j));
         }

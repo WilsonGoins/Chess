@@ -22,59 +22,68 @@ vector<vector<int>> King::GetMoves(vector<vector<Piece*>>& board) {
         row.resize(8, 0);
     }
 
-    if (value == -6) {      // for a black knight
+    // black king
+    if (value == -6) {
+        // 1 down, 1 left
         try {       // try block to handle out of range exceptions
-            if (board.at(row + 1).at(col - 1)->GetValue() == 6) {     // 1 down, 1 left
-                currMoves.at(row + 1).at(col - 1) = 2;      // make that spot a 1 to indicate it is a valid move
+            if (board.at(row + 1).at(col - 1)->GetValue() == 6) {
+                currMoves.at(row + 1).at(col - 1) = 2;      // make that spot a 2 to indicate it is check
             } else if (board.at(row + 1).at(col - 1)->GetValue() >= 0) {
                 currMoves.at(row + 1).at(col - 1) = 1;      // make that spot a 1 to indicate it is a valid move
             }
         } catch (const out_of_range &e) {}
+        // 1 down
         try {
-            if (board.at(row + 1).at(col)->GetValue() == 6) {     // 1 down
-                currMoves.at(row + 1).at(col) = 2;      // make that spot a 1 to indicate it is a valid move
+            if (board.at(row + 1).at(col)->GetValue() == 6) {
+                currMoves.at(row + 1).at(col) = 2;      // make that spot a 2 to indicate it is check
             } else if (board.at(row + 1).at(col)->GetValue() >= 0) {
                 currMoves.at(row + 1).at(col) = 1;      // make that spot a 1 to indicate it is a valid move
             }
         } catch (const out_of_range &e) {}
+        // 1 down, 1 right
         try {
-            if (board.at(row + 1).at(col + 1)->GetValue() == 6) {      // 1 down, 1 right
-                currMoves.at(row + 1).at(col + 1) = 2;                      // it is valid
+            if (board.at(row + 1).at(col + 1)->GetValue() == 6) {
+                currMoves.at(row + 1).at(col + 1) = 2;                      // put 2, meaning it is check
             } else if (board.at(row + 1).at(col + 1)->GetValue() >= 0) {
                 currMoves.at(row + 1).at(col + 1) = 1;      // make that spot a 1 to indicate it is a valid move
             }
         } catch (const out_of_range &e) {}
+        // 1 right
         try {
-            if (board.at(row).at(col + 1)->GetValue() == 6) {      // 1 down, 1 right
-                currMoves.at(row).at(col + 1) = 2;                      // it is valid
+            if (board.at(row).at(col + 1)->GetValue() == 6) {
+                currMoves.at(row).at(col + 1) = 2;                      // it is check
             } else if (board.at(row).at(col + 1)->GetValue() >= 0) {
                 currMoves.at(row).at(col + 1) = 1;      // make that spot a 1 to indicate it is a valid move
             }
         } catch (const out_of_range &e) {}
+        // 1 up, 1 right
         try {
-            if (board.at(row - 1).at(col + 1)->GetValue() == 6) {      // 1 down, 1 right
-                currMoves.at(row - 1).at(col + 1) = 2;                      // it is valid
+            if (board.at(row - 1).at(col + 1)->GetValue() == 6) {
+                currMoves.at(row - 1).at(col + 1) = 2;                      // it is check
             } else if (board.at(row - 1).at(col + 1)->GetValue() >= 0) {
                 currMoves.at(row - 1).at(col + 1) = 1;      // make that spot a 1 to indicate it is a valid move
             }
         } catch (const out_of_range &e) {}
+        // 1 up
         try {
-            if (board.at(row - 1).at(col)->GetValue() == 6) {      // 1 down, 1 right
-                currMoves.at(row - 1).at(col) = 2;                      // it is valid
+            if (board.at(row - 1).at(col)->GetValue() == 6) {
+                currMoves.at(row - 1).at(col) = 2;                      // it is check
             } else if (board.at(row - 1).at(col)->GetValue() >= 0) {
                 currMoves.at(row - 1).at(col) = 1;      // make that spot a 1 to indicate it is a valid move
             }
         } catch (const out_of_range &e) {}
+        // 1 up, 1 left
         try {
-            if (board.at(row - 1).at(col - 1)->GetValue() == 6) {      // 1 down, 1 right
-                currMoves.at(row - 1).at(col - 1) = 2;                      // it is valid
+            if (board.at(row - 1).at(col - 1)->GetValue() == 6) {
+                currMoves.at(row - 1).at(col - 1) = 2;                      // it is check
             } else if (board.at(row - 1).at(col - 1)->GetValue() >= 0) {
                 currMoves.at(row - 1).at(col - 1) = 1;      // make that spot a 1 to indicate it is a valid move
             }
         } catch (const out_of_range &e) {}
+        // 1 left
         try {
-            if (board.at(row).at(col - 1)->GetValue() == 6) {      // 1 down, 1 right
-                currMoves.at(row).at(col - 1) = 2;                      // it is valid
+            if (board.at(row).at(col - 1)->GetValue() == 6) {
+                currMoves.at(row).at(col - 1) = 2;                      // it is check
             } else if (board.at(row).at(col - 1)->GetValue() >= 0) {
                 currMoves.at(row).at(col - 1) = 1;      // make that spot a 1 to indicate it is a valid move
             }
@@ -82,59 +91,67 @@ vector<vector<int>> King::GetMoves(vector<vector<Piece*>>& board) {
     }
 
     // white king
-    if (value == 6) {      // for a black knight
+    if (value == 6) {
+        // 1 down, 1 left
         try {       // try block to handle out of range exceptions
-            if (board.at(row + 1).at(col - 1)->GetValue() == -6) {     // 1 down, 1 left
-                currMoves.at(row + 1).at(col - 1) = 2;      // make that spot a 1 to indicate it is a valid move
+            if (board.at(row + 1).at(col - 1)->GetValue() == -6) {
+                currMoves.at(row + 1).at(col - 1) = 2;      // make that spot a 2 to indicate it is check
             } else if (board.at(row + 1).at(col - 1)->GetValue() <= 0) {
                 currMoves.at(row + 1).at(col - 1) = 1;      // make that spot a 1 to indicate it is a valid move
             }
         } catch (const out_of_range &e) {}
+        // 1 down
         try {
-            if (board.at(row + 1).at(col)->GetValue() == -6) {     // 1 down
-                currMoves.at(row + 1).at(col) = 2;      // make that spot a 1 to indicate it is a valid move
+            if (board.at(row + 1).at(col)->GetValue() == -6) {
+                currMoves.at(row + 1).at(col) = 2;      // make that spot a 2 to indicate it is check
             } else if (board.at(row + 1).at(col)->GetValue() <= 0) {
                 currMoves.at(row + 1).at(col) = 1;      // make that spot a 1 to indicate it is a valid move
             }
         } catch (const out_of_range &e) {}
+        // 1 down, 1 right
         try {
-            if (board.at(row + 1).at(col + 1)->GetValue() == -6) {      // 1 down, 1 right
-                currMoves.at(row + 1).at(col + 1) = 2;                      // it is valid
+            if (board.at(row + 1).at(col + 1)->GetValue() == -6) {
+                currMoves.at(row + 1).at(col + 1) = 2;                      // it is check
             } else if (board.at(row + 1).at(col + 1)->GetValue() <= 0) {
                 currMoves.at(row + 1).at(col + 1) = 1;      // make that spot a 1 to indicate it is a valid move
             }
         } catch (const out_of_range &e) {}
+        // 1 right
         try {
-            if (board.at(row).at(col + 1)->GetValue() == -6) {      // 1 down, 1 right
-                currMoves.at(row).at(col + 1) = 2;                      // it is valid
+            if (board.at(row).at(col + 1)->GetValue() == -6) {
+                currMoves.at(row).at(col + 1) = 2;                      // it is check
             } else if (board.at(row).at(col + 1)->GetValue() <= 0) {
                 currMoves.at(row).at(col + 1) = 1;      // make that spot a 1 to indicate it is a valid move
             }
         } catch (const out_of_range &e) {}
+        // 1 up, 1 right
         try {
-            if (board.at(row - 1).at(col + 1)->GetValue() == -6) {      // 1 down, 1 right
-                currMoves.at(row - 1).at(col + 1) = 2;                      // it is valid
+            if (board.at(row - 1).at(col + 1)->GetValue() == -6) {
+                currMoves.at(row - 1).at(col + 1) = 2;                      // it is check
             } else if (board.at(row - 1).at(col + 1)->GetValue() <= 0) {
                 currMoves.at(row - 1).at(col + 1) = 1;      // make that spot a 1 to indicate it is a valid move
             }
         } catch (const out_of_range &e) {}
+        // 1 up
         try {
-            if (board.at(row - 1).at(col)->GetValue() == -6) {      // 1 down, 1 right
+            if (board.at(row - 1).at(col)->GetValue() == -6) {
                 currMoves.at(row - 1).at(col) = 2;                      // it is valid
             } else if (board.at(row - 1).at(col)->GetValue() <= 0) {
                 currMoves.at(row - 1).at(col) = 1;      // make that spot a 1 to indicate it is a valid move
             }
         } catch (const out_of_range &e) {}
+        // 1 up, 1 left
         try {
-            if (board.at(row - 1).at(col - 1)->GetValue() == -6) {      // 1 down, 1 right
+            if (board.at(row - 1).at(col - 1)->GetValue() == -6) {
                 currMoves.at(row - 1).at(col - 1) = 2;                      // it is valid
             } else if (board.at(row - 1).at(col - 1)->GetValue() <= 0) {
                 currMoves.at(row - 1).at(col - 1) = 1;      // make that spot a 1 to indicate it is a valid move
             }
         } catch (const out_of_range &e) {}
+        // 1 left
         try {
-            if (board.at(row).at(col - 1)->GetValue() == -6) {      // 1 down, 1 right
-                currMoves.at(row).at(col - 1) = 2;                      // it is valid
+            if (board.at(row).at(col - 1)->GetValue() == -6) {
+                currMoves.at(row).at(col - 1) = 2;                      // it is check
             } else if (board.at(row).at(col - 1)->GetValue() <= 0) {
                 currMoves.at(row).at(col - 1) = 1;      // make that spot a 1 to indicate it is a valid move
             }

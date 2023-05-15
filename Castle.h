@@ -6,7 +6,7 @@ using namespace std;
 class Castle : public Piece {
 public:
     int value;
-    bool hasMoved;
+    bool hasMoved;      // track if the castle has moved or not (for castling)
     int row;
     int col;
 
