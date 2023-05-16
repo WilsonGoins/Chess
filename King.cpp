@@ -17,9 +17,12 @@ void King::MovePiece() {
 }
 
 vector<vector<int>> King::GetMoves(vector<vector<Piece*>>& board) {
-    vector<vector<int>> currMoves(8);
-    for (vector<int> row : currMoves) {
-        row.resize(8, 0);
+    vector<vector<int>> currMoves;      // vector of moves to return
+    currMoves.resize(8);            // make it 2d
+    for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {
+            currMoves.at(j).push_back(0);       // initialize each value to 0
+        }
     }
 
     // black king

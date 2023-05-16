@@ -7,6 +7,8 @@ using namespace std;
 int main() {
     Board myBoard = Board();
     cout << "here" << endl;
+
+
     for (auto col : myBoard.board) {
         cout << "[";
         for (auto row : col) {
@@ -19,19 +21,19 @@ int main() {
         }
         cout << "]" << endl;
     }
+
+    cout << endl << endl;
+
     vector<vector<int>> data = myBoard.board.at(7).at(3)->GetMoves(myBoard.board);
     for (auto col : data) {
         cout << "[";
         for (auto row : col) {
-            cout << row;
-            if (row >= 0) {
-                cout << " " << row << ", ";
-            } else {
-                cout << row << ", ";
-            }
+            cout << " " << row << ", ";
         }
         cout << "]" << endl;
     }
+    cout << "done" << endl;
+    return 0;
 }
 
 // need to figure out why inner vectors are not populating with 0s

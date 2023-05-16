@@ -18,13 +18,10 @@ Board::Board() {
     for (int i = 0; i < 8; i++) {       // make black pawns in the 2nd row
         board.at(1).push_back(new Pawn(false, 1, i));
     }
-//    for (int i = 0; i < 8; i++) {       // make white pawns in the 7th row
-//        board.at(6).push_back(new Pawn(true, 6, i));
-//    }
-    for (int i = 0; i < 8; i++) {       // make white pawns in the 7th row
-        board.at(6).push_back(new Empty(6, i));
-    }
 
+    for (int i = 0; i < 8; i++) {       // make white pawns in the 7th row
+        board.at(6).push_back(new Pawn(true, 6, i));
+    }
 
     // make 1st row (black pieces)
     board.at(0).push_back(new Castle(false, 0, 0));
