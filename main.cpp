@@ -6,8 +6,6 @@ using namespace std;
 
 int main() {
     Board myBoard = Board();
-    cout << "here" << endl;
-
 
     for (auto col : myBoard.board) {
         cout << "[";
@@ -24,7 +22,7 @@ int main() {
 
     cout << endl << endl;
 
-    vector<vector<int>> data = myBoard.board.at(7).at(3)->GetMoves(myBoard.board);
+    vector<vector<int>> data = myBoard.board.at(1).at(3)->GetMoves(myBoard.board, true);
     for (auto col : data) {
         cout << "[";
         for (auto row : col) {

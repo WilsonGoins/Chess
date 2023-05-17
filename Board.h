@@ -9,5 +9,6 @@ public:
 
     vector<vector<Piece*>> board;       // 2d vector to represent the board
     Board();        // board constructor
+    bool CheckKingSafety(int fromRow, int fromCol, int toRow, int toCol) const;
     ~Board() = default;
 };

@@ -16,7 +16,7 @@ void King::MovePiece() {
 
 }
 
-vector<vector<int>> King::GetMoves(vector<vector<Piece*>>& board) {
+vector<vector<int>> King::GetMoves(vector<vector<Piece*>>& board, bool checkForKing) {
     vector<vector<int>> currMoves;      // vector of moves to return
     currMoves.resize(8);            // make it 2d
     for (int i = 0; i < 8; i++) {
