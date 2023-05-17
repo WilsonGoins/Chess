@@ -39,7 +39,7 @@ vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board, bool checkFo
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(tempRow1 - 1).at(col) = board.at(row).at(col);       // put the piece to be moved in new spot
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
-                        if (not CheckKingSafety(newBoard, row, col)) {  // if this move puts our king in check
+                        if (not CheckKingSafety(newBoard, false)) {  // if this move puts our king in check
                             tempRow1--;     // go another row up
                             continue;       // go back to start of while loop with these new positions
                         }
@@ -51,7 +51,7 @@ vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board, bool checkFo
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(tempRow1 - 1).at(col) = board.at(row).at(col);       // put the piece to be moved in new spot
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
-                        if (not CheckKingSafety(newBoard, row, col)) {  // if this move puts our king in check
+                        if (not CheckKingSafety(newBoard, false)) {  // if this move puts our king in check
                             break;
                         }
                     }   // if it doesn't put our king in check
@@ -62,7 +62,7 @@ vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board, bool checkFo
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(tempRow1 - 1).at(col) = board.at(row).at(col);       // put the piece to be moved in new spot
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
-                        if (not CheckKingSafety(newBoard, row, col)) {  // if this move puts our king in check
+                        if (not CheckKingSafety(newBoard, false)) {  // if this move puts our king in check
                             break;
                         }
                     }   // if it doesn't put our king in check
@@ -82,7 +82,7 @@ vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board, bool checkFo
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(tempRow2 + 1).at(col) = board.at(row).at(col);       // put the piece to be moved in new spot
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
-                        if (not CheckKingSafety(newBoard, row, col)) {  // if this move puts our king in check
+                        if (not CheckKingSafety(newBoard, false)) {  // if this move puts our king in check
                             tempRow2++;     // go another row up
                             continue;       // go back to start of while loop with these new positions
                         }
@@ -94,7 +94,7 @@ vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board, bool checkFo
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(tempRow2 + 1).at(col) = board.at(row).at(col);       // put the piece to be moved in new spot
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
-                        if (not CheckKingSafety(newBoard, row, col)) {  // if this move puts our king in check
+                        if (not CheckKingSafety(newBoard, false)) {  // if this move puts our king in check
                             break;
                         }
                     }   // if it doesn't put our king in check
@@ -105,7 +105,7 @@ vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board, bool checkFo
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(tempRow2 + 1).at(col) = board.at(row).at(col);       // put the piece to be moved in new spot
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
-                        if (not CheckKingSafety(newBoard, row, col)) {  // if this move puts our king in check
+                        if (not CheckKingSafety(newBoard, false)) {  // if this move puts our king in check
                             break;
                         }
                     }   // if it doesn't put our king in check
@@ -125,7 +125,7 @@ vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board, bool checkFo
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(row).at(tempCol1 - 1) = board.at(row).at(col);       // put the piece to be moved in new spot
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
-                        if (not CheckKingSafety(newBoard, row, col)) {  // if this move puts our king in check
+                        if (not CheckKingSafety(newBoard, false)) {  // if this move puts our king in check
                             tempCol1--;     // go another col up
                             continue;       // go back to start of while loop with these new positions
                         }
@@ -137,7 +137,7 @@ vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board, bool checkFo
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(row).at(tempCol1 - 1) = board.at(row).at(col);       // put the piece to be moved in new spot
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
-                        if (not CheckKingSafety(newBoard, row, col)) {  // if this move puts our king in check
+                        if (not CheckKingSafety(newBoard, false)) {  // if this move puts our king in check
                             break;
                         }
                     }   // if it doesn't put our king in check
@@ -148,7 +148,7 @@ vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board, bool checkFo
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(row).at(tempCol1 - 1) = board.at(row).at(col);       // put the piece to be moved in new spot
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
-                        if (not CheckKingSafety(newBoard, row, col)) {  // if this move puts our king in check
+                        if (not CheckKingSafety(newBoard, false)) {  // if this move puts our king in check
                             break;
                         }
                     }   // if it doesn't put our king in check
@@ -168,7 +168,7 @@ vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board, bool checkFo
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(row).at(tempCol2 + 1) = board.at(row).at(col);       // put the piece to be moved in new spot
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
-                        if (not CheckKingSafety(newBoard, row, col)) {  // if this move puts our king in check
+                        if (not CheckKingSafety(newBoard, false)) {  // if this move puts our king in check
                             tempCol2++;     // go another col up
                             continue;       // go back to start of while loop with these new positions
                         }
@@ -180,7 +180,7 @@ vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board, bool checkFo
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(row).at(tempCol2 + 1) = board.at(row).at(col);       // put the piece to be moved in new spot
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
-                        if (not CheckKingSafety(newBoard, row, col)) {  // if this move puts our king in check
+                        if (not CheckKingSafety(newBoard, false)) {  // if this move puts our king in check
                             break;
                         }
                     }   // if it doesn't put our king in check
@@ -191,7 +191,7 @@ vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board, bool checkFo
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(row).at(tempCol2 + 1) = board.at(row).at(col);       // put the piece to be moved in new spot
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
-                        if (not CheckKingSafety(newBoard, row, col)) {  // if this move puts our king in check
+                        if (not CheckKingSafety(newBoard, false)) {  // if this move puts our king in check
                             break;
                         }
                     }   // if it doesn't put our king in check
@@ -215,7 +215,7 @@ vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board, bool checkFo
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(tempRow1 - 1).at(col) = board.at(row).at(col);       // put the piece to be moved in new spot
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
-                        if (not CheckKingSafety(newBoard, row, col)) {  // if this move puts our king in check
+                        if (not CheckKingSafety(newBoard, true)) {  // if this move puts our king in check
                             tempRow1--;     // go another row up
                             continue;       // go back to start of while loop with these new positions
                         }
@@ -227,7 +227,7 @@ vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board, bool checkFo
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(tempRow1 - 1).at(col) = board.at(row).at(col);       // put the piece to be moved in new spot
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
-                        if (not CheckKingSafety(newBoard, row, col)) {  // if this move puts our king in check
+                        if (not CheckKingSafety(newBoard, true)) {  // if this move puts our king in check
                             break;
                         }
                     }   // if it doesn't put our king in check
@@ -238,7 +238,7 @@ vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board, bool checkFo
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(tempRow1 - 1).at(col) = board.at(row).at(col);       // put the piece to be moved in new spot
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
-                        if (not CheckKingSafety(newBoard, row, col)) {  // if this move puts our king in check
+                        if (not CheckKingSafety(newBoard, true)) {  // if this move puts our king in check
                             break;
                         }
                     }   // if it doesn't put our king in check
@@ -258,7 +258,7 @@ vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board, bool checkFo
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(tempRow2 + 1).at(col) = board.at(row).at(col);       // put the piece to be moved in new spot
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
-                        if (not CheckKingSafety(newBoard, row, col)) {  // if this move puts our king in check
+                        if (not CheckKingSafety(newBoard, true)) {  // if this move puts our king in check
                             tempRow2++;     // go another row up
                             continue;       // go back to start of while loop with these new positions
                         }
@@ -270,7 +270,7 @@ vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board, bool checkFo
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(tempRow2 + 1).at(col) = board.at(row).at(col);       // put the piece to be moved in new spot
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
-                        if (not CheckKingSafety(newBoard, row, col)) {  // if this move puts our king in check
+                        if (not CheckKingSafety(newBoard, true)) {  // if this move puts our king in check
                             break;
                         }
                     }   // if it doesn't put our king in check
@@ -281,7 +281,7 @@ vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board, bool checkFo
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(tempRow2 + 1).at(col) = board.at(row).at(col);       // put the piece to be moved in new spot
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
-                        if (not CheckKingSafety(newBoard, row, col)) {  // if this move puts our king in check
+                        if (not CheckKingSafety(newBoard, true)) {  // if this move puts our king in check
                             break;
                         }
                     }   // if it doesn't put our king in check
@@ -301,7 +301,7 @@ vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board, bool checkFo
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(row).at(tempCol1 - 1) = board.at(row).at(col);       // put the piece to be moved in new spot
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
-                        if (not CheckKingSafety(newBoard, row, col)) {  // if this move puts our king in check
+                        if (not CheckKingSafety(newBoard, true)) {  // if this move puts our king in check
                             tempCol1--;     // go another col up
                             continue;       // go back to start of while loop with these new positions
                         }
@@ -313,7 +313,7 @@ vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board, bool checkFo
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(row).at(tempCol1 - 1) = board.at(row).at(col);       // put the piece to be moved in new spot
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
-                        if (not CheckKingSafety(newBoard, row, col)) {  // if this move puts our king in check
+                        if (not CheckKingSafety(newBoard, true)) {  // if this move puts our king in check
                             break;
                         }
                     }   // if it doesn't put our king in check
@@ -324,7 +324,7 @@ vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board, bool checkFo
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(row).at(tempCol1 - 1) = board.at(row).at(col);       // put the piece to be moved in new spot
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
-                        if (not CheckKingSafety(newBoard, row, col)) {  // if this move puts our king in check
+                        if (not CheckKingSafety(newBoard, true)) {  // if this move puts our king in check
                             break;
                         }
                     }   // if it doesn't put our king in check
@@ -344,7 +344,7 @@ vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board, bool checkFo
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(row).at(tempCol2 + 1) = board.at(row).at(col);       // put the piece to be moved in new spot
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
-                        if (not CheckKingSafety(newBoard, row, col)) {  // if this move puts our king in check
+                        if (not CheckKingSafety(newBoard, true)) {  // if this move puts our king in check
                             tempCol1++;     // go another col up
                             continue;       // restart loop
                         }
@@ -356,7 +356,7 @@ vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board, bool checkFo
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(row).at(tempCol2 + 1) = board.at(row).at(col);       // put the piece to be moved in new spot
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
-                        if (not CheckKingSafety(newBoard, row, col)) {  // if this move puts our king in check
+                        if (not CheckKingSafety(newBoard, true)) {  // if this move puts our king in check
                             break;
                         }
                     }   // if it doesn't put our king in check
@@ -367,7 +367,7 @@ vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board, bool checkFo
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(row).at(tempCol2 + 1) = board.at(row).at(col);       // put the piece to be moved in new spot
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
-                        if (not CheckKingSafety(newBoard, row, col)) {  // if this move puts our king in check
+                        if (not CheckKingSafety(newBoard, true)) {  // if this move puts our king in check
                             break;
                         }
                     }   // if it doesn't put our king in check

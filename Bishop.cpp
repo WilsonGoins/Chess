@@ -38,7 +38,7 @@ vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board, bool checkFo
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(tempRow1 - 1).at(tempCol1 + 1) = board.at(row).at(col);       // put the piece to be moved in new spot
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
-                        if (not CheckKingSafety(newBoard, row, col)) {  // if this move puts our king in check
+                        if (not CheckKingSafety(newBoard, false)) {  // if this move puts our king in check
                             tempRow1--;     // go another row up
                             tempCol1++;     // go another column right
                             continue;       // go back to start of while loop with these new positions
@@ -52,7 +52,7 @@ vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board, bool checkFo
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(tempRow1 - 1).at(tempCol1 + 1) = board.at(row).at(col);       // put the piece to be moved in new spot
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
-                        if (not CheckKingSafety(newBoard, row, col)) {  // if this move puts our king in check
+                        if (not CheckKingSafety(newBoard, false)) {  // if this move puts our king in check
                             break;      // break out of the while loop
                         }
                     }   // if it doesn't put our king in check
@@ -63,7 +63,7 @@ vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board, bool checkFo
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(tempRow1 - 1).at(tempCol1 + 1) = board.at(row).at(col);       // put the piece to be moved in new spot
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
-                        if (not CheckKingSafety(newBoard, row, col)) {  // if this move puts our king in check
+                        if (not CheckKingSafety(newBoard, false)) {  // if this move puts our king in check
                             break;      // break out of the while loop
                         }
                     }   // if it doesn't put our king in check
@@ -84,7 +84,7 @@ vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board, bool checkFo
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(tempRow2 - 1).at(tempCol2 - 1) = board.at(row).at(col);       // put the piece to be moved in new spot
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
-                        if (not CheckKingSafety(newBoard, row, col)) {  // if this move puts our king in check
+                        if (not CheckKingSafety(newBoard, false)) {  // if this move puts our king in check
                             tempRow1--;     // go another row up
                             tempCol1--;     // go another column right
                             continue;       // go back to start of while loop with these new positions
@@ -98,7 +98,7 @@ vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board, bool checkFo
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(tempRow1 - 1).at(tempCol1 - 1) = board.at(row).at(col);       // put the piece to be moved in new spot
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
-                        if (not CheckKingSafety(newBoard, row, col)) {  // if this move puts our king in check
+                        if (not CheckKingSafety(newBoard, false)) {  // if this move puts our king in check
                             break;      // break out of the while loop
                         }
                     }   // if it doesn't put our king in check
@@ -109,7 +109,7 @@ vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board, bool checkFo
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(tempRow1 - 1).at(tempCol1 - 1) = board.at(row).at(col);       // put the piece to be moved in new spot
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
-                        if (not CheckKingSafety(newBoard, row, col)) {  // if this move puts our king in check
+                        if (not CheckKingSafety(newBoard, false)) {  // if this move puts our king in check
                             break;      // break out of the while loop
                         }
                     }   // if it doesn't put our king in check
@@ -130,7 +130,7 @@ vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board, bool checkFo
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(tempRow2 + 1).at(tempCol2 + 1) = board.at(row).at(col);       // put the piece to be moved in new spot
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
-                        if (not CheckKingSafety(newBoard, row, col)) {  // if this move puts our king in check
+                        if (not CheckKingSafety(newBoard, false)) {  // if this move puts our king in check
                             tempRow1++;     // go another row up
                             tempCol1++;     // go another column right
                             continue;       // go back to start of while loop with these new positions
@@ -144,7 +144,7 @@ vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board, bool checkFo
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(tempRow1 + 1).at(tempCol1 + 1) = board.at(row).at(col);       // put the piece to be moved in new spot
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
-                        if (not CheckKingSafety(newBoard, row, col)) {  // if this move puts our king in check
+                        if (not CheckKingSafety(newBoard, false)) {  // if this move puts our king in check
                             break;      // break out of the while loop
                         }
                     }   // if it doesn't put our king in check
@@ -155,7 +155,7 @@ vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board, bool checkFo
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(tempRow1 + 1).at(tempCol1 + 1) = board.at(row).at(col);       // put the piece to be moved in new spot
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
-                        if (not CheckKingSafety(newBoard, row, col)) {  // if this move puts our king in check
+                        if (not CheckKingSafety(newBoard, false)) {  // if this move puts our king in check
                             break;      // break out of the while loop
                         }
                     }   // if it doesn't put our king in check
@@ -176,7 +176,7 @@ vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board, bool checkFo
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(tempRow4 + 1).at(tempCol4 - 1) = board.at(row).at(col);       // put the piece to be moved in new spot
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
-                        if (not CheckKingSafety(newBoard, row, col)) {  // if this move puts our king in check
+                        if (not CheckKingSafety(newBoard, false)) {  // if this move puts our king in check
                             tempRow1++;     // go another row up
                             tempCol1--;     // go another column right
                             continue;       // go back to start of while loop with these new positions
@@ -190,7 +190,7 @@ vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board, bool checkFo
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(tempRow4 + 1).at(tempCol4 - 1) = board.at(row).at(col);       // put the piece to be moved in new spot
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
-                        if (not CheckKingSafety(newBoard, row, col)) {  // if this move puts our king in check
+                        if (not CheckKingSafety(newBoard, false)) {  // if this move puts our king in check
                             break;      // break out of the while loop
                         }
                     }   // if it doesn't put our king in check
@@ -201,7 +201,7 @@ vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board, bool checkFo
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(tempRow4 + 1).at(tempCol4 - 1) = board.at(row).at(col);       // put the piece to be moved in new spot
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
-                        if (not CheckKingSafety(newBoard, row, col)) {  // if this move puts our king in check
+                        if (not CheckKingSafety(newBoard, false)) {  // if this move puts our king in check
                             break;      // break out of the while loop
                         }
                     }   // if it doesn't put our king in check
@@ -226,7 +226,7 @@ vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board, bool checkFo
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(tempRow1 - 1).at(tempCol1 + 1) = board.at(row).at(col);       // put the piece to be moved in new spot
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
-                        if (not CheckKingSafety(newBoard, row, col)) {  // if this move puts our king in check
+                        if (not CheckKingSafety(newBoard, true)) {  // if this move puts our king in check
                             tempRow1--;     // go another row up
                             tempCol1++;     // go another column right
                             continue;       // go back to start of while loop with these new positions
@@ -240,7 +240,7 @@ vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board, bool checkFo
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(tempRow1 - 1).at(tempCol1 + 1) = board.at(row).at(col);       // put the piece to be moved in new spot
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
-                        if (not CheckKingSafety(newBoard, row, col)) {  // if this move puts our king in check
+                        if (not CheckKingSafety(newBoard, true)) {  // if this move puts our king in check
                             break;      // break out of the while loop
                         }
                     }   // if it doesn't put our king in check
@@ -251,7 +251,7 @@ vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board, bool checkFo
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(tempRow1 - 1).at(tempCol1 + 1) = board.at(row).at(col);       // put the piece to be moved in new spot
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
-                        if (not CheckKingSafety(newBoard, row, col)) {  // if this move puts our king in check
+                        if (not CheckKingSafety(newBoard, true)) {  // if this move puts our king in check
                             break;      // break out of the while loop
                         }
                     }   // if it doesn't put our king in check
@@ -272,7 +272,7 @@ vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board, bool checkFo
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(tempRow2 - 1).at(tempCol2 - 1) = board.at(row).at(col);       // put the piece to be moved in new spot
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
-                        if (not CheckKingSafety(newBoard, row, col)) {  // if this move puts our king in check
+                        if (not CheckKingSafety(newBoard, true)) {  // if this move puts our king in check
                             tempRow1--;     // go another row up
                             tempCol1--;     // go another column right
                             continue;       // go back to start of while loop with these new positions
@@ -286,7 +286,7 @@ vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board, bool checkFo
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(tempRow2 - 1).at(tempCol2 - 1) = board.at(row).at(col);       // put the piece to be moved in new spot
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
-                        if (not CheckKingSafety(newBoard, row, col)) {  // if this move puts our king in check
+                        if (not CheckKingSafety(newBoard, true)) {  // if this move puts our king in check
                             break;
                         }
                     }   // if it doesn't put our king in check
@@ -297,7 +297,7 @@ vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board, bool checkFo
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(tempRow2 - 1).at(tempCol2 - 1) = board.at(row).at(col);       // put the piece to be moved in new spot
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
-                        if (not CheckKingSafety(newBoard, row, col)) {  // if this move puts our king in check
+                        if (not CheckKingSafety(newBoard, true)) {  // if this move puts our king in check
                             break;
                         }
                     }   // if it doesn't put our king in check
@@ -318,7 +318,7 @@ vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board, bool checkFo
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(tempRow3 + 1).at(tempCol3 + 1) = board.at(row).at(col);       // put the piece to be moved in new spot
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
-                        if (not CheckKingSafety(newBoard, row, col)) {  // if this move puts our king in check
+                        if (not CheckKingSafety(newBoard, true)) {  // if this move puts our king in check
                             tempRow1++;     // go another row up
                             tempCol1++;     // go another column right
                             continue;       // go back to start of while loop with these new positions
@@ -332,7 +332,7 @@ vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board, bool checkFo
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(tempRow3 + 1).at(tempCol3 + 1) = board.at(row).at(col);       // put the piece to be moved in new spot
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
-                        if (not CheckKingSafety(newBoard, row, col)) {  // if this move puts our king in check
+                        if (not CheckKingSafety(newBoard, true)) {  // if this move puts our king in check
                             break;
                         }
                     }   // if it doesn't put our king in check
@@ -343,7 +343,7 @@ vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board, bool checkFo
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(tempRow3 + 1).at(tempCol3 + 1) = board.at(row).at(col);       // put the piece to be moved in new spot
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
-                        if (not CheckKingSafety(newBoard, row, col)) {  // if this move puts our king in check
+                        if (not CheckKingSafety(newBoard, true)) {  // if this move puts our king in check
                             break;
                         }
                     }   // if it doesn't put our king in check
@@ -364,7 +364,7 @@ vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board, bool checkFo
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(tempRow4 + 1).at(tempCol4 - 1) = board.at(row).at(col);       // put the piece to be moved in new spot
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
-                        if (not CheckKingSafety(newBoard, row, col)) {  // if this move puts our king in check
+                        if (not CheckKingSafety(newBoard, true)) {  // if this move puts our king in check
                             tempRow1++;     // go another row up
                             tempCol1--;     // go another column right
                             continue;       // go back to start of while loop with these new positions
@@ -378,7 +378,7 @@ vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board, bool checkFo
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(tempRow4 + 1).at(tempCol4 - 1) = board.at(row).at(col);       // put the piece to be moved in new spot
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
-                        if (not CheckKingSafety(newBoard, row, col)) {  // if this move puts our king in check
+                        if (not CheckKingSafety(newBoard, true)) {  // if this move puts our king in check
                             break;
                         }
                     }   // if it doesn't put our king in check
@@ -390,7 +390,7 @@ vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board, bool checkFo
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(tempRow4 + 1).at(tempCol4 - 1) = board.at(row).at(col);       // put the piece to be moved in new spot
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
-                        if (not CheckKingSafety(newBoard, row, col)) {  // if this move puts our king in check
+                        if (not CheckKingSafety(newBoard, true)) {  // if this move puts our king in check
                             break;
                         }
                     }   // if it doesn't put our king in check

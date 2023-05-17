@@ -1,5 +1,7 @@
 #include <stdexcept>
 #include "Knight.h"
+#include "Empty.h"
+
 using namespace std;
 
 Knight::Knight(bool isWhite, int row, int col) {
@@ -30,65 +32,209 @@ vector<vector<int>> Knight::GetMoves(vector<vector<Piece*>>& board, bool checkFo
         // 2 down, 1 left
         try {       // try block to handle out of range exceptions
             if (board.at(row + 2).at(col - 1)->GetValue() == 6) {
-                currMoves.at(row + 2).at(col - 1) = 2;      // make that spot a 2 to indicate it is check
+                if (checkForKing) {     // if we are told to check for king
+                    vector<vector<Piece *>> newBoard = board;        // make a copy of the board
+                    newBoard.at(row + 2).at(col - 1) = board.at(row).at(col);       // put the piece to be moved in new spot
+                    newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
+                    if (CheckKingSafety(newBoard, false)) {  // if this move doesn't put our king in check
+                        currMoves.at(row + 2).at(col - 1) = 2;      // make that spot a 2 to indicate it is check
+                    }
+                } else {
+                    currMoves.at(row + 2).at(col - 1) = 2;      // make that spot a 2 to indicate it is check
+                }
             } else if (board.at(row + 2).at(col - 1)->GetValue() >= 0) {
-                currMoves.at(row + 2).at(col - 1) = 1;      // make that spot a 1 to indicate it is a valid move
+                if (checkForKing) {     // if we are told to check for king
+                    vector<vector<Piece *>> newBoard = board;        // make a copy of the board
+                    newBoard.at(row + 2).at(col - 1) = board.at(row).at(col);       // put the piece to be moved in new spot
+                    newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
+                    if (CheckKingSafety(newBoard, false)) {  // if this move doesn't put our king in check
+                        currMoves.at(row + 2).at(col - 1) = 1;      // make that spot a 1 to indicate it is valid
+                    }
+                } else {
+                    currMoves.at(row + 2).at(col - 1) = 1;      // make that spot a 1 to indicate it is valid
+                }
             }
         } catch (const out_of_range &e) {}
         // 2 down, 1 right
         try {
             if (board.at(row + 2).at(col + 1)->GetValue() == 6) {
-                currMoves.at(row + 2).at(col + 1) = 2;      // make that spot a 2 to indicate it is check
+                if (checkForKing) {     // if we are told to check for king
+                    vector<vector<Piece *>> newBoard = board;        // make a copy of the board
+                    newBoard.at(row + 2).at(col + 1) = board.at(row).at(col);       // put the piece to be moved in new spot
+                    newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
+                    if (CheckKingSafety(newBoard, false)) {  // if this move doesn't put our king in check
+                        currMoves.at(row + 2).at(col + 1 ) = 2;      // make that spot a 2 to indicate it is check
+                    }
+                } else {
+                    currMoves.at(row + 2).at(col + 1) = 2;      // make that spot a 2 to indicate it is check
+                }
             } else if (board.at(row + 2).at(col + 1)->GetValue() >= 0) {
-                currMoves.at(row + 2).at(col + 1) = 1;      // make that spot a 1 to indicate it is a valid move
+                if (checkForKing) {     // if we are told to check for king
+                    vector<vector<Piece *>> newBoard = board;        // make a copy of the board
+                    newBoard.at(row + 2).at(col + 1) = board.at(row).at(col);       // put the piece to be moved in new spot
+                    newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
+                    if (CheckKingSafety(newBoard, false)) {  // if this move doesn't put our king in check
+                        currMoves.at(row + 2).at(col + 1) = 2;      // make that spot a 1 to indicate it is valid
+                    }
+                } else {
+                    currMoves.at(row + 2).at(col + 1) = 2;      // make that spot a 1 to indicate it is valid
+                }
             }
         } catch (const out_of_range &e) {}
         // 1 down, 2 right
         try {
             if (board.at(row + 1).at(col + 2)->GetValue() == 6) {
-                currMoves.at(row + 1).at(col + 2) = 2;      // make that spot a 2 to indicate it is check
+                if (checkForKing) {     // if we are told to check for king
+                    vector<vector<Piece *>> newBoard = board;        // make a copy of the board
+                    newBoard.at(row + 1).at(col + 2) = board.at(row).at(col);       // put the piece to be moved in new spot
+                    newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
+                    if (CheckKingSafety(newBoard, false)) {  // if this move doesn't put our king in check
+                        currMoves.at(row + 1).at(col + 2) = 2;      // make that spot a 2 to indicate it is check
+                    }
+                } else {
+                    currMoves.at(row + 1).at(col + 2) = 2;      // make that spot a 2 to indicate it is check
+                }
             } else if (board.at(row + 1).at(col + 2)->GetValue() >= 0) {
-                currMoves.at(row + 1).at(col + 2) = 1;      // make that spot a 1 to indicate it is a valid move
+                if (checkForKing) {     // if we are told to check for king
+                    vector<vector<Piece *>> newBoard = board;        // make a copy of the board
+                    newBoard.at(row + 1).at(col + 2) = board.at(row).at(col);       // put the piece to be moved in new spot
+                    newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
+                    if (CheckKingSafety(newBoard, false)) {  // if this move doesn't put our king in check
+                        currMoves.at(row + 1).at(col + 2) = 1;      // make that spot a 1 to indicate it is valid
+                    }
+                } else {
+                    currMoves.at(row + 1).at(col + 2) = 1;      // make that spot a 1 to indicate it is valid
+                }
             }
         } catch (const out_of_range &e) {}
         // 1 up, 2 right
         try {
             if (board.at(row - 1).at(col + 2)->GetValue() == 6) {
-                currMoves.at(row - 1).at(col + 2) = 2;      // make that spot a 2 to indicate it is check
+                if (checkForKing) {     // if we are told to check for king
+                    vector<vector<Piece *>> newBoard = board;        // make a copy of the board
+                    newBoard.at(row - 1).at(col + 2) = board.at(row).at(col);       // put the piece to be moved in new spot
+                    newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
+                    if (CheckKingSafety(newBoard, false)) {  // if this move doesn't put our king in check
+                        currMoves.at(row - 1).at(col + 2) = 2;      // make that spot a 2 to indicate it is check
+                    }
+                } else {
+                    currMoves.at(row - 1).at(col + 2) = 2;      // make that spot a 2 to indicate it is check
+                }
             } else if (board.at(row - 1).at(col + 2)->GetValue() >= 0) {
-                currMoves.at(row - 1).at(col + 2) = 1;      // make that spot a 1 to indicate it is a valid move
+                if (checkForKing) {     // if we are told to check for king
+                    vector<vector<Piece *>> newBoard = board;        // make a copy of the board
+                    newBoard.at(row - 1).at(col + 2) = board.at(row).at(col);       // put the piece to be moved in new spot
+                    newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
+                    if (CheckKingSafety(newBoard, false)) {  // if this move doesn't put our king in check
+                        currMoves.at(row - 1).at(col + 2) = 1;      // make that spot a 1 to indicate it is valid
+                    }
+                } else {
+                    currMoves.at(row - 1).at(col + 2) = 1;      // make that spot a 1 to indicate it is valid
+                }
             }
         } catch (const out_of_range &e) {}
         // 2 up, 1 right
         try {
             if (board.at(row - 2).at(col + 1)->GetValue() == 6) {
-                currMoves.at(row - 2).at(col + 1) = 2;      // make that spot a 2 to indicate it is check
+                if (checkForKing) {     // if we are told to check for king
+                    vector<vector<Piece *>> newBoard = board;        // make a copy of the board
+                    newBoard.at(row - 2).at(col + 1) = board.at(row).at(col);       // put the piece to be moved in new spot
+                    newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
+                    if (CheckKingSafety(newBoard, false)) {  // if this move doesn't put our king in check
+                        currMoves.at(row - 2).at(col + 1) = 2;      // make that spot a 2 to indicate it is check
+                    }
+                } else {
+                    currMoves.at(row - 2).at(col + 1) = 2;      // make that spot a 2 to indicate it is check
+                }
             } else if (board.at(row - 2).at(col + 1)->GetValue() >= 0) {
-                currMoves.at(row - 2).at(col + 1) = 1;      // make that spot a 1 to indicate it is a valid move
+                if (checkForKing) {     // if we are told to check for king
+                    vector<vector<Piece *>> newBoard = board;        // make a copy of the board
+                    newBoard.at(row - 2).at(col + 1) = board.at(row).at(col);       // put the piece to be moved in new spot
+                    newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
+                    if (CheckKingSafety(newBoard, false)) {  // if this move doesn't put our king in check
+                        currMoves.at(row - 2).at(col + 1) = 1;      // make that spot a 1 to indicate it is valid
+                    }
+                } else {
+                    currMoves.at(row - 2).at(col + 1) = 1;      // make that spot a 1 to indicate it is valid
+                }
             }
         } catch (const out_of_range &e) {}
         // 2 up, 1 left
         try {
             if (board.at(row - 2).at(col - 1)->GetValue() == 6) {
-                currMoves.at(row - 2).at(col - 1) = 2;      // make that spot a 2 to indicate it is check
+                if (checkForKing) {     // if we are told to check for king
+                    vector<vector<Piece *>> newBoard = board;        // make a copy of the board
+                    newBoard.at(row - 2).at(col - 1) = board.at(row).at(col);       // put the piece to be moved in new spot
+                    newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
+                    if (CheckKingSafety(newBoard, false)) {  // if this move doesn't put our king in check
+                        currMoves.at(row - 2).at(col - 1) = 2;      // make that spot a 2 to indicate it is check
+                    }
+                } else {
+                    currMoves.at(row - 2).at(col - 1) = 2;      // make that spot a 2 to indicate it is check
+                }
             } else if (board.at(row - 2).at(col - 1)->GetValue() >= 0) {
-                currMoves.at(row - 2).at(col - 1) = 1;      // make that spot a 1 to indicate it is a valid move
+                if (checkForKing) {     // if we are told to check for king
+                    vector<vector<Piece *>> newBoard = board;        // make a copy of the board
+                    newBoard.at(row - 2).at(col - 1) = board.at(row).at(col);       // put the piece to be moved in new spot
+                    newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
+                    if (CheckKingSafety(newBoard, false)) {  // if this move doesn't put our king in check
+                        currMoves.at(row - 2).at(col - 1) = 1;      // make that spot a 1 to indicate it is valid
+                    }
+                } else {
+                    currMoves.at(row - 2).at(col - 1) = 1;      // make that spot a 1 to indicate it is valid
+                }
             }
         } catch (const out_of_range &e) {}
         // 1 up, 2 left
         try {
             if (board.at(row - 1).at(col - 2)->GetValue() == 6) {
-                currMoves.at(row - 1).at(col - 2) = 2;      // make that spot a 2 to indicate it is check
+                if (checkForKing) {     // if we are told to check for king
+                    vector<vector<Piece *>> newBoard = board;        // make a copy of the board
+                    newBoard.at(row - 1).at(col - 2) = board.at(row).at(col);       // put the piece to be moved in new spot
+                    newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
+                    if (CheckKingSafety(newBoard, false)) {  // if this move doesn't put our king in check
+                        currMoves.at(row - 1).at(col - 2) = 2;      // make that spot a 2 to indicate it is check
+                    }
+                } else {
+                    currMoves.at(row - 1).at(col - 2) = 2;      // make that spot a 2 to indicate it is check
+                }
             } else if (board.at(row - 1).at(col - 2)->GetValue() >= 0) {
-                currMoves.at(row - 1).at(col - 2) = 1;      // make that spot a 1 to indicate it is a valid move
+                if (checkForKing) {     // if we are told to check for king
+                    vector<vector<Piece *>> newBoard = board;        // make a copy of the board
+                    newBoard.at(row - 1).at(col - 2) = board.at(row).at(col);       // put the piece to be moved in new spot
+                    newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
+                    if (CheckKingSafety(newBoard, false)) {  // if this move doesn't put our king in check
+                        currMoves.at(row - 1).at(col - 2) = 1;      // make that spot a 1 to indicate it is valid
+                    }
+                } else {
+                    currMoves.at(row - 1).at(col - 2) = 1;      // make that spot a 1 to indicate it is valid
+                }
             }
         } catch (const out_of_range &e) {}
         // 1 down, 2 left
         try {
             if (board.at(row + 1).at(col - 2)->GetValue() == 6) {
-                currMoves.at(row + 1).at(col - 2) = 2;      // make that spot a 2 to indicate it is check
+                if (checkForKing) {     // if we are told to check for king
+                    vector<vector<Piece *>> newBoard = board;        // make a copy of the board
+                    newBoard.at(row + 1).at(col - 2) = board.at(row).at(col);       // put the piece to be moved in new spot
+                    newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
+                    if (CheckKingSafety(newBoard, false)) {  // if this move doesn't put our king in check
+                        currMoves.at(row + 1).at(col - 2) = 2;      // make that spot a 2 to indicate it is check
+                    }
+                } else {
+                    currMoves.at(row + 1).at(col - 2) = 2;      // make that spot a 2 to indicate it is check
+                }
             } else if (board.at(row + 1).at(col - 2)->GetValue() >= 0) {
-                currMoves.at(row + 1).at(col - 2) = 1;      // make that spot a 1 to indicate it is a valid move
+                if (checkForKing) {     // if we are told to check for king
+                    vector<vector<Piece *>> newBoard = board;        // make a copy of the board
+                    newBoard.at(row + 1).at(col - 2) = board.at(row).at(col);       // put the piece to be moved in new spot
+                    newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
+                    if (CheckKingSafety(newBoard, false)) {  // if this move doesn't put our king in check
+                        currMoves.at(row + 1).at(col - 2) = 1;      // make that spot a 1 to indicate it is valid
+                    }
+                } else {
+                    currMoves.at(row + 1).at(col - 2) = 1;      // make that spot a 1 to indicate it is valid
+                }
             }
         } catch (const out_of_range &e) {}
     }
@@ -98,65 +244,209 @@ vector<vector<int>> Knight::GetMoves(vector<vector<Piece*>>& board, bool checkFo
         // 2 down, 1 left
         try {       // try block to handle out of range exceptions
             if (board.at(row + 2).at(col - 1)->GetValue() == -6) {
-                currMoves.at(row + 2).at(col - 1) = 2;      // make that spot a 2 to indicate it is check
+                if (checkForKing) {     // if we are told to check for king
+                    vector<vector<Piece *>> newBoard = board;        // make a copy of the board
+                    newBoard.at(row + 2).at(col - 1) = board.at(row).at(col);       // put the piece to be moved in new spot
+                    newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
+                    if (CheckKingSafety(newBoard, true)) {  // if this move doesn't put our king in check
+                        currMoves.at(row + 2).at(col - 1) = 2;      // make that spot a 2 to indicate it is check
+                    }
+                } else {
+                    currMoves.at(row + 2).at(col - 1) = 2;      // make that spot a 2 to indicate it is check
+                }
             } else if (board.at(row + 2).at(col - 1)->GetValue() <= 0) {
-                currMoves.at(row + 2).at(col - 1) = 1;      // make that spot a 1 to indicate it is a valid move
+                if (checkForKing) {     // if we are told to check for king
+                    vector<vector<Piece *>> newBoard = board;        // make a copy of the board
+                    newBoard.at(row + 2).at(col - 1) = board.at(row).at(col);       // put the piece to be moved in new spot
+                    newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
+                    if (CheckKingSafety(newBoard, true)) {  // if this move doesn't put our king in check
+                        currMoves.at(row + 2).at(col - 1) = 1;      // make that spot a 1 to indicate it is valid
+                    }
+                } else {
+                    currMoves.at(row + 2).at(col - 1) = 1;      // make that spot a 1 to indicate it is valid
+                }
             }
         } catch (const out_of_range &e) {}
         // 2 down, 1 right
         try {
             if (board.at(row + 2).at(col + 1)->GetValue() == -6) {
-                currMoves.at(row + 2).at(col + 1) = 2;      // make that spot a 2 to indicate it is check
+                if (checkForKing) {     // if we are told to check for king
+                    vector<vector<Piece *>> newBoard = board;        // make a copy of the board
+                    newBoard.at(row + 2).at(col + 1) = board.at(row).at(col);       // put the piece to be moved in new spot
+                    newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
+                    if (CheckKingSafety(newBoard, true)) {  // if this move doesn't put our king in check
+                        currMoves.at(row + 2).at(col + 1 ) = 2;      // make that spot a 2 to indicate it is check
+                    }
+                } else {
+                    currMoves.at(row + 2).at(col + 1) = 2;      // make that spot a 2 to indicate it is check
+                }
             } else if (board.at(row + 2).at(col + 1)->GetValue() <= 0) {
-                currMoves.at(row + 2).at(col + 1) = 1;      // make that spot a 1 to indicate it is a valid move
+                if (checkForKing) {     // if we are told to check for king
+                    vector<vector<Piece *>> newBoard = board;        // make a copy of the board
+                    newBoard.at(row + 2).at(col + 1) = board.at(row).at(col);       // put the piece to be moved in new spot
+                    newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
+                    if (CheckKingSafety(newBoard, true)) {  // if this move doesn't put our king in check
+                        currMoves.at(row + 2).at(col + 1) = 2;      // make that spot a 1 to indicate it is valid
+                    }
+                } else {
+                    currMoves.at(row + 2).at(col + 1) = 2;      // make that spot a 1 to indicate it is valid
+                }
             }
         } catch (const out_of_range &e) {}
         // 1 down, 2 right
         try {
             if (board.at(row + 1).at(col + 2)->GetValue() == -6) {
-                currMoves.at(row + 1).at(col + 2) = 2;      // make that spot a 2 to indicate it is check
+                if (checkForKing) {     // if we are told to check for king
+                    vector<vector<Piece *>> newBoard = board;        // make a copy of the board
+                    newBoard.at(row + 1).at(col + 2) = board.at(row).at(col);       // put the piece to be moved in new spot
+                    newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
+                    if (CheckKingSafety(newBoard, true)) {  // if this move doesn't put our king in check
+                        currMoves.at(row + 1).at(col + 2) = 2;      // make that spot a 2 to indicate it is check
+                    }
+                } else {
+                    currMoves.at(row + 1).at(col + 2) = 2;      // make that spot a 2 to indicate it is check
+                }
             } else if (board.at(row + 1).at(col + 2)->GetValue() <= 0) {
-                currMoves.at(row + 1).at(col + 2) = 1;      // make that spot a 1 to indicate it is a valid move
+                if (checkForKing) {     // if we are told to check for king
+                    vector<vector<Piece *>> newBoard = board;        // make a copy of the board
+                    newBoard.at(row + 1).at(col + 2) = board.at(row).at(col);       // put the piece to be moved in new spot
+                    newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
+                    if (CheckKingSafety(newBoard, true)) {  // if this move doesn't put our king in check
+                        currMoves.at(row + 1).at(col + 2) = 1;      // make that spot a 1 to indicate it is valid
+                    }
+                } else {
+                    currMoves.at(row + 1).at(col + 2) = 1;      // make that spot a 1 to indicate it is valid
+                }
             }
         } catch (const out_of_range &e) {}
         // 1 up, 2 right
         try {
             if (board.at(row - 1).at(col + 2)->GetValue() == -6) {
-                currMoves.at(row - 1).at(col + 2) = 2;      // make that spot a 2 to indicate it is check
+                if (checkForKing) {     // if we are told to check for king
+                    vector<vector<Piece *>> newBoard = board;        // make a copy of the board
+                    newBoard.at(row - 1).at(col + 2) = board.at(row).at(col);       // put the piece to be moved in new spot
+                    newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
+                    if (CheckKingSafety(newBoard, true)) {  // if this move doesn't put our king in check
+                        currMoves.at(row - 1).at(col + 2) = 2;      // make that spot a 2 to indicate it is check
+                    }
+                } else {
+                    currMoves.at(row - 1).at(col + 2) = 2;      // make that spot a 2 to indicate it is check
+                }
             } else if (board.at(row - 1).at(col + 2)->GetValue() <= 0) {
-                currMoves.at(row - 1).at(col + 2) = 1;      // make that spot a 1 to indicate it is a valid move
+                if (checkForKing) {     // if we are told to check for king
+                    vector<vector<Piece *>> newBoard = board;        // make a copy of the board
+                    newBoard.at(row - 1).at(col + 2) = board.at(row).at(col);       // put the piece to be moved in new spot
+                    newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
+                    if (CheckKingSafety(newBoard, true)) {  // if this move doesn't put our king in check
+                        currMoves.at(row - 1).at(col + 2) = 1;      // make that spot a 1 to indicate it is valid
+                    }
+                } else {
+                    currMoves.at(row - 1).at(col + 2) = 1;      // make that spot a 1 to indicate it is valid
+                }
             }
         } catch (const out_of_range &e) {}
         // 2 up, 1 right
         try {
             if (board.at(row - 2).at(col + 1)->GetValue() == -6) {
-                currMoves.at(row - 2).at(col + 1) = 2;      // make that spot a 2 to indicate it is check
+                if (checkForKing) {     // if we are told to check for king
+                    vector<vector<Piece *>> newBoard = board;        // make a copy of the board
+                    newBoard.at(row - 2).at(col + 1) = board.at(row).at(col);       // put the piece to be moved in new spot
+                    newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
+                    if (CheckKingSafety(newBoard, true)) {  // if this move doesn't put our king in check
+                        currMoves.at(row - 2).at(col + 1) = 2;      // make that spot a 2 to indicate it is check
+                    }
+                } else {
+                    currMoves.at(row - 2).at(col + 1) = 2;      // make that spot a 2 to indicate it is check
+                }
             } else if (board.at(row - 2).at(col + 1)->GetValue() <= 0) {
-                currMoves.at(row - 2).at(col + 1) = 1;      // make that spot a 1 to indicate it is a valid move
+                if (checkForKing) {     // if we are told to check for king
+                    vector<vector<Piece *>> newBoard = board;        // make a copy of the board
+                    newBoard.at(row - 2).at(col + 1) = board.at(row).at(col);       // put the piece to be moved in new spot
+                    newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
+                    if (CheckKingSafety(newBoard, true)) {  // if this move doesn't put our king in check
+                        currMoves.at(row - 2).at(col + 1) = 1;      // make that spot a 1 to indicate it is valid
+                    }
+                } else {
+                    currMoves.at(row - 2).at(col + 1) = 1;      // make that spot a 1 to indicate it is valid
+                }
             }
         } catch (const out_of_range &e) {}
         // 2 up, 1 left
         try {
             if (board.at(row - 2).at(col - 1)->GetValue() == -6) {
-                currMoves.at(row - 2).at(col - 1) = 2;      // make that spot a 2 to indicate it is check
+                if (checkForKing) {     // if we are told to check for king
+                    vector<vector<Piece *>> newBoard = board;        // make a copy of the board
+                    newBoard.at(row - 2).at(col - 1) = board.at(row).at(col);       // put the piece to be moved in new spot
+                    newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
+                    if (CheckKingSafety(newBoard, true)) {  // if this move doesn't put our king in check
+                        currMoves.at(row - 2).at(col - 1) = 2;      // make that spot a 2 to indicate it is check
+                    }
+                } else {
+                    currMoves.at(row - 2).at(col - 1) = 2;      // make that spot a 2 to indicate it is check
+                }
             } else if (board.at(row - 2).at(col - 1)->GetValue() <= 0) {
-                currMoves.at(row - 2).at(col - 1) = 1;      // make that spot a 1 to indicate it is a valid move
+                if (checkForKing) {     // if we are told to check for king
+                    vector<vector<Piece *>> newBoard = board;        // make a copy of the board
+                    newBoard.at(row - 2).at(col - 1) = board.at(row).at(col);       // put the piece to be moved in new spot
+                    newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
+                    if (CheckKingSafety(newBoard, true)) {  // if this move doesn't put our king in check
+                        currMoves.at(row - 2).at(col - 1) = 1;      // make that spot a 1 to indicate it is valid
+                    }
+                } else {
+                    currMoves.at(row - 2).at(col - 1) = 1;      // make that spot a 1 to indicate it is valid
+                }
             }
         } catch (const out_of_range &e) {}
         // 1 up, 2 left
         try {
             if (board.at(row - 1).at(col - 2)->GetValue() == -6) {
-                currMoves.at(row - 1).at(col - 2) = 2;      // make that spot a 2 to indicate it is check
+                if (checkForKing) {     // if we are told to check for king
+                    vector<vector<Piece *>> newBoard = board;        // make a copy of the board
+                    newBoard.at(row - 1).at(col - 2) = board.at(row).at(col);       // put the piece to be moved in new spot
+                    newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
+                    if (CheckKingSafety(newBoard, true)) {  // if this move doesn't put our king in check
+                        currMoves.at(row - 1).at(col - 2) = 2;      // make that spot a 2 to indicate it is check
+                    }
+                } else {
+                    currMoves.at(row - 1).at(col - 2) = 2;      // make that spot a 2 to indicate it is check
+                }
             } else if (board.at(row - 1).at(col - 2)->GetValue() <= 0) {
-                currMoves.at(row - 1).at(col - 2) = 1;      // make that spot a 1 to indicate it is a valid move
+                if (checkForKing) {     // if we are told to check for king
+                    vector<vector<Piece *>> newBoard = board;        // make a copy of the board
+                    newBoard.at(row - 1).at(col - 2) = board.at(row).at(col);       // put the piece to be moved in new spot
+                    newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
+                    if (CheckKingSafety(newBoard, true)) {  // if this move doesn't put our king in check
+                        currMoves.at(row - 1).at(col - 2) = 1;      // make that spot a 1 to indicate it is valid
+                    }
+                } else {
+                    currMoves.at(row - 1).at(col - 2) = 1;      // make that spot a 1 to indicate it is valid
+                }
             }
         } catch (const out_of_range &e) {}
         // 1 down, 2 left
         try {
             if (board.at(row + 1).at(col - 2)->GetValue() == -6) {
-                currMoves.at(row + 1).at(col - 2) = 2;      // make that spot a 2 to indicate it is check
+                if (checkForKing) {     // if we are told to check for king
+                    vector<vector<Piece *>> newBoard = board;        // make a copy of the board
+                    newBoard.at(row + 1).at(col - 2) = board.at(row).at(col);       // put the piece to be moved in new spot
+                    newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
+                    if (CheckKingSafety(newBoard, true)) {  // if this move doesn't put our king in check
+                        currMoves.at(row + 1).at(col - 2) = 2;      // make that spot a 2 to indicate it is check
+                    }
+                } else {
+                    currMoves.at(row + 1).at(col - 2) = 2;      // make that spot a 2 to indicate it is check
+                }
             } else if (board.at(row + 1).at(col - 2)->GetValue() <= 0) {
-                currMoves.at(row + 1).at(col - 2) = 1;      // make that spot a 1 to indicate it is a valid move
+                if (checkForKing) {     // if we are told to check for king
+                    vector<vector<Piece *>> newBoard = board;        // make a copy of the board
+                    newBoard.at(row + 1).at(col - 2) = board.at(row).at(col);       // put the piece to be moved in new spot
+                    newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
+                    if (CheckKingSafety(newBoard, true)) {  // if this move doesn't put our king in check
+                        currMoves.at(row + 1).at(col - 2) = 1;      // make that spot a 1 to indicate it is valid
+                    }
+                } else {
+                    currMoves.at(row + 1).at(col - 2) = 1;      // make that spot a 1 to indicate it is valid
+                }
             }
         } catch (const out_of_range &e) {}
     } return currMoves;

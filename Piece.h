@@ -8,43 +8,15 @@ public:
     virtual vector<vector<int>> GetMoves(vector<vector<Piece*>>& board, bool checkForKing) = 0;
     virtual int GetValue() = 0;
     virtual ~Piece() = default;
-    bool CheckKingSafety(vector<vector<Piece*>>& board, int fromRow, int fromCol) const {
-        // if piece to be moved is black
-        if (board.at(fromRow).at(fromCol)->GetValue() < 0) {
-            // go through every piece of the opposite color
-            for (const vector<Piece*>& row: board) {        // go through every row
-                for (Piece* piece: row) {                          // for every piece
-                    if (piece->GetValue() > 0) {                              // if it is the opposite color (white)
-                        vector<vector<int>> moves = piece->GetMoves(board, false);       // get the moves for that piece (don't need to check for self check)
-                        for (const vector<int>& rows : moves) {         // each row in moves
-                            for (int move : rows) {                     // each move
-                                if (move == 2) {
-                                    return false;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+    bool CheckKingSafety(vector<vector<Piece*>>& board, bool isWhite) const {
+        // if black
+        if (not isWhite) {
+            ;
         }
-        // if piece to be moved is white
-        if (board.at(fromRow).at(fromCol)->GetValue() < 0) {
-            // go through every black piece
-            for (const vector<Piece *> &row: board) {        // go through every row
-                for (Piece *piece: row) {                          // for every piece
-                    if (piece->GetValue() < 0) {                              // if it is the opposite color (black)
-                        vector<vector<int>> moves = piece->GetMoves(board,false);       // get the moves for that piece (don't need to check for self check)
-                        for (const vector<int> &rows: moves) {         // each row in moves
-                            for (int move: rows) {                     // each move
-                                if (move == 2) {            // if the move is a 2 it is a check on the king
-                                    return false;               // so the move is not valid and we return false
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return true;        // if none of the opposite colored pieces are checking the king, return true (the king is safe)
+        return true;
     }
 };
+
+// for CheckKingSafety() we are going to treat the king like a queen in that we will go through all files and ranks and see if it looks
+// at another piece. we must also make sure that it is the right king of piece. for example if we go straight up and hit a piece, we must make
+// sure that piece is a castle, if it was a knight or a bishop it would not be checking us and thus would not matter.

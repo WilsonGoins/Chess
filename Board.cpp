@@ -22,6 +22,15 @@ Board::Board() {
         board.at(6).push_back(new Pawn(true, 6, i));
     }
 
+//    for (int i = 0; i < 8; i++) {       // make black pawns in the 2nd row
+//        board.at(1).push_back(new Empty(1, i));
+//    }
+//
+//    for (int i = 0; i < 8; i++) {       // make white pawns in the 7th row
+//        board.at(6).push_back(new Empty(6, i));
+//    }
+//    board.at(6).at(4) = new Bishop(true, 6, 4);
+
     // make 1st row (black pieces)
     board.at(0).push_back(new Castle(false, 0, 0));
     board.at(0).push_back(new Knight(false, 0, 1));
@@ -47,48 +56,4 @@ Board::Board() {
             board.at(i).push_back(new Empty(i, j));
         }
     }
-}
-
-bool Board::CheckKingSafety(int fromRow, int fromCol, int toRow, int toCol) const {
-    vector<vector<Piece*>> newBoard = board;        // make a copy of the board
-    newBoard.at(toRow).at(toCol) = board.at(fromRow).at(fromCol);       // put the piece to be moved in new spot
-    newBoard.at(fromRow).at(fromCol) = new Empty(fromRow, fromCol);         // make the old spot empty
-
-    // if piece to be moved is black
-    if (board.at(fromRow).at(fromCol)->GetValue() < 0) {
-        // go through every piece of the opposite color
-        for (const vector<Piece*>& row: newBoard) {        // go through every row
-            for (Piece* piece: row) {                          // for every piece
-                if (piece->GetValue() > 0) {                              // if it is the opposite color (white)
-                    vector<vector<int>> moves = piece->GetMoves(newBoard, false);       // get the moves for that piece (don't need to check for self check)
-                    for (const vector<int>& rows : moves) {         // each row in moves
-                        for (int move : rows) {                     // each move
-                            if (move == 2) {
-                                return false;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    // if piece to be moved is white
-    if (board.at(fromRow).at(fromCol)->GetValue() < 0) {
-        // go through every black piece
-        for (const vector<Piece *> &row: newBoard) {        // go through every row
-            for (Piece *piece: row) {                          // for every piece
-                if (piece->GetValue() < 0) {                              // if it is the opposite color (black)
-                    vector<vector<int>> moves = piece->GetMoves(newBoard,false);       // get the moves for that piece (don't need to check for self check)
-                    for (const vector<int> &rows: moves) {         // each row in moves
-                        for (int move: rows) {                     // each move
-                            if (move == 2) {            // if the move is a 2 it is a check on the king
-                                return false;               // so the move is not valid and we return false
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    return true;        // if none of the opposite colored pieces are checking the king, return true (the king is safe)
 }
