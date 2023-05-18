@@ -86,3 +86,12 @@
 331	724	7060423188616870	Chess.exe	b44016f2c5b01986
 3	514	7060439175780910	CMakeFiles/Chess.dir/Pawn.cpp.obj	d4ace96e1aa5dc1b
 517	1040	7060439180927418	Chess.exe	b44016f2c5b01986
+3	2025	7061378710514396	CMakeFiles/Chess.dir/main.cpp.obj	efb46fa104ede64b
+18	2058	7061378710837332	CMakeFiles/Chess.dir/Pawn.cpp.obj	d4ace96e1aa5dc1b
+9	2065	7061378710927362	CMakeFiles/Chess.dir/Board.cpp.obj	de7d367c03eacb11
+40	2069	7061378710957344	CMakeFiles/Chess.dir/Castle.cpp.obj	2323188e562a006d
+34	2074	7061378711017437	CMakeFiles/Chess.dir/Queen.cpp.obj	b38a8f603ae7b234
+24	2085	7061378711107362	CMakeFiles/Chess.dir/Knight.cpp.obj	290b27597b86f20e
+57	2088	7061378711127367	CMakeFiles/Chess.dir/King.cpp.obj	b5a55f25f0d0183c
+49	2089	7061378711127367	CMakeFiles/Chess.dir/Bishop.cpp.obj	f08506f791f6e822
+2090	2838	7061378718617801	Chess.exe	b44016f2c5b01986

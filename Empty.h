@@ -17,7 +17,7 @@ public:
         return value;
     }
     void MovePiece() override {}
-    vector<vector<int>> GetMoves(vector<vector<Piece*>>& board, bool checkForKing) override {
+    vector<vector<int>> GetMoves(vector<vector<Piece*>>& board) override {
         vector<vector<int>> currMoves;      // vector of moves to return
         currMoves.resize(8);            // make it 2d
         for (int i = 0; i < 8; i++) {
