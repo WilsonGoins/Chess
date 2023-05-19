@@ -52,7 +52,7 @@ vector<vector<int>> King::GetMoves(vector<vector<Piece*>>& board) {
             }
         } catch (const out_of_range &e) {}    // catch out of range exceptions if we try to access a square that is off the board
 
-        // 1 u[, 1 right
+        // 1 up, 1 right
         try {
             if (board.at(row - 1).at(col + 1)->GetValue() >= 0) {       // if next piece value is empty or white
                 vector<vector<Piece *>> newBoard = board;        // make a copy of the board

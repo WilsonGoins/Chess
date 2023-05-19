@@ -22,7 +22,7 @@ int main() {
 
     cout << endl << endl;
 
-    vector<vector<int>> data = myBoard.board.at(4).at(4)->GetMoves(myBoard.board);
+    vector<vector<int>> data = myBoard.board.at(5).at(5)->GetMoves(myBoard.board);
     for (auto col : data) {
         cout << "[";
         for (auto row : col) {

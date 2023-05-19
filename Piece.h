@@ -5,8 +5,6 @@ using namespace std;
 
 class Piece {
 public:
-    int row = 8;
-    int col = 8;
     virtual void MovePiece() = 0;
     virtual vector<vector<int>> GetMoves(vector<vector<Piece*>>& board) = 0;
     virtual int GetValue() = 0;
@@ -15,14 +13,14 @@ public:
         int kingRow;
         int kingCol;
         // get the position of the king
-        for (const vector<Piece*>& rows : board) {
-            for (Piece* piece : rows) {
-                if ((piece->GetValue() == -6) and (not isWhite)) {     // if the piece is a black king and isWhite is false
-                    kingRow = piece->row;
-                    kingCol = piece->col;
-                } else if ((piece->GetValue() == 6) and (isWhite)) {        // if the piece is white king and isWhite is true
-                    kingRow = piece->row;
-                    kingCol = piece->col;
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if ((board.at(i).at(j)->GetValue() == -6) and (not isWhite)) {
+                    kingRow = i;
+                    kingCol = j;
+                } else if ((board.at(i).at(j)->GetValue() == 6) and (isWhite)) {
+                    kingRow = i;
+                    kingCol = j;
                 }
             }
         }
@@ -237,7 +235,7 @@ public:
                 }
             } catch (const out_of_range &e) {}
 
-        } else {        // if the king is white
+        } else if (isWhite) {        // if the king is white
             // check vertical up file
             int tempRow1 = kingRow;
             try {

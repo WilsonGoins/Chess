@@ -40,14 +40,17 @@ vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board) {
                     newBoard.at(tempRow1 - 1).at(col) = board.at(row).at(col);       // put the piece to be moved in new spot
                     newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
                     if (CheckKingSafety(newBoard, false)) {  // if out king will still be safe
-                        currMoves.at(tempRow1 + 1).at(col) = 1;      // make that spot a 1 to indicate it is a valid move
+                        currMoves.at(tempRow1 - 1).at(col) = 1;      // make that spot a 1 to indicate it is a valid move
                         if (nextPiece == 0) {       // if the spot is empty, continue
                             tempRow1--;     // go another row up
                             continue;       // restart while loop
                         } else {        // if the spot is a white piece
                             break;
                         }
-                    }      // if it does put our king in check we just go back to while loop and check next spot
+                    } else {            // if it does put our king in check we don't add the move
+                        tempRow1--;         // increment the row
+                        continue;               // and continue
+                    }
                 } else {            // else would be if it is a negative number, in which case we exit while loop as well
                     break;
                 }
@@ -66,12 +69,15 @@ vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board) {
                     if (CheckKingSafety(newBoard, false)) {  // if out king will still be safe
                         currMoves.at(tempRow1 + 1).at(col) = 1;      // make that spot a 1 to indicate it is a valid move
                         if (nextPiece == 0) {       // if the spot is empty, continue
-                            tempRow1++;     // go another row up
+                            tempRow2++;     // go another row up
                             continue;       // restart while loop
                         } else {        // if the spot is a white piece
                             break;
                         }
-                    }      // if it does put our king in check we just go back to while loop and check next spot
+                    } else {        // break if
+                        tempRow2++;     // go another row up
+                        continue;       // continue
+                    }
                 } else {            // else would be if it is a negative number, in which case we exit while loop as well
                     break;
                 }
@@ -95,7 +101,10 @@ vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board) {
                         } else {        // if the spot is a white piece
                             break;
                         }
-                    }      // if it does put our king in check we just go back to while loop and check next spot
+                    } else {            // if it does put our king in check we don't add the move
+                        tempCol1--;         // increment the col
+                        continue;               // and continue
+                    }
                 } else {            // else would be if it is a negative number, in which case we exit while loop as well
                     break;
                 }
@@ -112,14 +121,18 @@ vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board) {
                     newBoard.at(row).at(tempCol2 + 1) = board.at(row).at(col);       // put the piece to be moved in new spot
                     newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
                     if (CheckKingSafety(newBoard, false)) {  // if out king will still be safe
-                        currMoves.at(row).at(tempCol2 + 1) = 1;      // make that spot a 1 to indicate it is a valid move
+                        currMoves.at(row).at(
+                                tempCol2 + 1) = 1;      // make that spot a 1 to indicate it is a valid move
                         if (nextPiece == 0) {       // if the spot is empty, continue
                             tempCol2++;     // go another row up
                             continue;       // restart while loop
                         } else {        // if the spot is a white piece
                             break;
                         }
-                    }      // if it does put our king in check we just go back to while loop and check next spot
+                    } else {            // if it does put our king in check we don't add the move
+                        tempCol2++;         // increment the col
+                        continue;               // and continue
+                    }
                 } else {            // else would be if it is a negative number, in which case we exit while loop as well
                     break;
                 }
@@ -139,14 +152,18 @@ vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board) {
                     newBoard.at(tempRow1 - 1).at(col) = board.at(row).at(col);       // put the piece to be moved in new spot
                     newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
                     if (CheckKingSafety(newBoard, true)) {  // if out king will still be safe
-                        currMoves.at(tempRow1 - 1).at(col) = 1;      // make that spot a 1 to indicate it is a valid move
+                        currMoves.at(tempRow1 - 1).at(
+                                col) = 1;      // make that spot a 1 to indicate it is a valid move
                         if (nextPiece == 0) {       // if the spot is empty, continue
                             tempRow1--;     // go another row up
                             continue;       // restart while loop
                         } else {        // if the spot is a white piece
                             break;
                         }
-                    }      // if it does put our king in check we just go back to while loop and check next spot
+                    } else {            // if it does put our king in check we don't add the move
+                        tempRow1--;         // increment the row
+                        continue;               // and continue
+                    }
                 } else {            // else would be if it is a negative number, in which case we exit while loop as well
                     break;
                 }
@@ -170,7 +187,10 @@ vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board) {
                         } else {        // if the spot is a white piece
                             break;
                         }
-                    }      // if it does put our king in check we just go back to while loop and check next spot
+                    } else {            // if it does put our king in check we don't add the move
+                        tempRow2++;         // increment the row
+                        continue;               // and continue
+                    }
                 } else {            // else would be if it is a negative number, in which case we exit while loop as well
                     break;
                 }
@@ -187,14 +207,18 @@ vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board) {
                     newBoard.at(row).at(tempCol1 - 1) = board.at(row).at(col);       // put the piece to be moved in new spot
                     newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
                     if (CheckKingSafety(newBoard, true)) {  // if out king will still be safe
-                        currMoves.at(row).at(tempCol1 - 1) = 1;      // make that spot a 1 to indicate it is a valid move
+                        currMoves.at(row).at(
+                                tempCol1 - 1) = 1;      // make that spot a 1 to indicate it is a valid move
                         if (nextPiece == 0) {       // if the spot is empty, continue
                             tempCol1--;     // go another row up
                             continue;       // restart while loop
                         } else {        // if the spot is a white piece
                             break;
                         }
-                    }      // if it does put our king in check we just go back to while loop and check next spot
+                    } else {            // if it does put our king in check we don't add the move
+                        tempCol1--;         // increment the col
+                        continue;               // and continue
+                    }
                 } else {            // else would be if it is a negative number, in which case we exit while loop as well
                     break;
                 }
@@ -211,14 +235,18 @@ vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board) {
                     newBoard.at(row).at(tempCol2 + 1) = board.at(row).at(col);       // put the piece to be moved in new spot
                     newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
                     if (CheckKingSafety(newBoard, true)) {  // if out king will still be safe
-                        currMoves.at(row).at(tempCol2 + 1) = 1;      // make that spot a 1 to indicate it is a valid move
+                        currMoves.at(row).at(
+                                tempCol2 + 1) = 1;      // make that spot a 1 to indicate it is a valid move
                         if (nextPiece == 0) {       // if the spot is empty, continue
                             tempCol2++;     // go another row up
                             continue;       // restart while loop
                         } else {        // if the spot is a white piece
                             break;
                         }
-                    }      // if it does put our king in check we just go back to while loop and check next spot
+                    } else {            // if it does put our king in check we don't add the move
+                        tempCol2++;         // increment the col
+                        continue;               // and continue
+                    }
                 } else {            // else would be if it is a negative number, in which case we exit while loop as well
                     break;
                 }
