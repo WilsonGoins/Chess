@@ -11,7 +11,7 @@ public:
     virtual vector<vector<int>> GetMoves(vector<vector<Piece*>>& board) = 0;
     virtual int GetValue() = 0;
     virtual ~Piece() = default;
-    bool CheckKingSafety(vector<vector<Piece*>>& board, bool isWhite) const {
+    static bool CheckKingSafety(vector<vector<Piece*>>& board, bool isWhite) {
         int kingRow;
         int kingCol;
         // get the position of the king
@@ -37,7 +37,7 @@ public:
                     if (nextPiece == 0) {      // if empty spot
                         tempRow1--;     // increment row
                         continue;           // continue
-                    } else if ((nextPiece == 4) or (nextPiece == 5)) {   // if white castle or white queen
+                    } else if ((nextPiece == 4) or (nextPiece == 5) or ((nextPiece == 6) and (tempRow1 == kingRow))) {   // if white castle or white queen
                         return false;
                     } else {        // if it's anything else (other black piece or other white piece)
                         break;
@@ -53,7 +53,7 @@ public:
                     if (nextPiece == 0) {      // if empty spot
                         tempRow2++;     // increment row
                         continue;           // continue
-                    } else if ((nextPiece == 4) or (nextPiece == 5)) {   // if white castle or white queen
+                    } else if ((nextPiece == 4) or (nextPiece == 5) or ((nextPiece == 6) and (tempRow2 == kingRow))) {   // if white castle or white queen
                         return false;
                     } else {        // if it's anything else (other black piece or other white piece)
                         break;
@@ -69,7 +69,7 @@ public:
                     if (nextPiece == 0) {      // if empty spot
                         tempCol1--;     // increment row
                         continue;           // continue
-                    } else if ((nextPiece == 4) or (nextPiece == 5)) {   // if white castle or white queen
+                    } else if ((nextPiece == 4) or (nextPiece == 5) or ((nextPiece == 6) and (tempCol1 == kingCol))) {   // if white castle or white queen
                         return false;
                     } else {        // if it's anything else (other black piece or other white piece)
                         break;
@@ -85,7 +85,7 @@ public:
                     if (nextPiece == 0) {      // if empty spot
                         tempCol2--;     // increment row
                         continue;           // continue
-                    } else if ((nextPiece == 4) or (nextPiece == 5)) {   // if white castle or white queen
+                    } else if ((nextPiece == 4) or (nextPiece == 5) or ((nextPiece == 6) and (tempCol2 == kingCol))) {   // if white castle or white queen
                         return false;
                     } else {        // if it's anything else (other black piece or other white piece)
                         break;
@@ -103,7 +103,7 @@ public:
                         tempRow3--;     // increment row
                         tempCol3--;     // increment col
                         continue;           // continue
-                    } else if ((nextPiece == 3) or (nextPiece == 5)) {   // if white castle or white queen
+                    } else if ((nextPiece == 3) or (nextPiece == 5) or ((nextPiece == 6) and (tempRow3 == kingRow) and (tempCol3 == kingCol))) {   // if white castle or white queen
                         return false;
                     } else {        // if it's anything else (other black piece or other white piece)
                         break;
@@ -121,7 +121,7 @@ public:
                         tempRow4--;     // increment row
                         tempCol4++;     // increment col
                         continue;           // continue
-                    } else if ((nextPiece == 3) or (nextPiece == 5)) {   // if white castle or white queen
+                    } else if ((nextPiece == 3) or (nextPiece == 5) or ((nextPiece == 6) and (tempRow4 == kingRow) and (tempCol4 == kingCol))) {   // if white castle or white queen
                         return false;
                     } else {        // if it's anything else (other black piece or other white piece)
                         break;
@@ -139,7 +139,7 @@ public:
                         tempRow5++;     // increment row
                         tempCol5--;     // increment col
                         continue;           // continue
-                    } else if ((nextPiece == 3) or (nextPiece == 5)) {   // if white castle or white queen
+                    } else if ((nextPiece == 3) or (nextPiece == 5) or ((nextPiece == 6) and (tempRow5 == kingRow) and (tempCol5 == kingCol))) {   // if white castle or white queen
                         return false;
                     } else {        // if it's anything else (other black piece or other white piece)
                         break;
@@ -157,7 +157,7 @@ public:
                         tempRow6++;     // increment row
                         tempCol6++;     // increment col
                         continue;           // continue
-                    } else if ((nextPiece == 3) or (nextPiece == 5)) {   // if white castle or white queen
+                    } else if ((nextPiece == 3) or (nextPiece == 5) or ((nextPiece == 6) and (tempRow6 == kingRow) and (tempCol6 == kingCol))) {   // if white castle or white queen
                         return false;
                     } else {        // if it's anything else (other black piece or other white piece)
                         break;

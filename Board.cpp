@@ -22,14 +22,16 @@ Board::Board() {
         board.at(6).push_back(new Pawn(true, 6, i));
     }
 
-//    for (int i = 0; i < 8; i++) {       // make black pawns in the 2nd row
+
+    // ***DELETE PAWNS***
+//    for (int i = 0; i < 8; i++) {       // delete black pawns in the 2nd row
 //        board.at(1).push_back(new Empty(1, i));
 //    }
 //
-//    for (int i = 0; i < 8; i++) {       // make white pawns in the 7th row
+//    for (int i = 0; i < 8; i++) {       // delete white pawns in the 7th row
 //        board.at(6).push_back(new Empty(6, i));
 //    }
-//    board.at(6).at(4) = new Bishop(true, 6, 4);
+
 
     // make 1st row (black pieces)
     board.at(0).push_back(new Castle(false, 0, 0));

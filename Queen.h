@@ -11,6 +11,6 @@ public:
 
     Queen(bool isWhite, int row, int col);
     void MovePiece() override;      // move the piece
-    vector<vector<int>> GetMoves(vector<vector<Piece*>>& board, bool checkForKing) override;       // get all available moves
+    vector<vector<int>> GetMoves(vector<vector<Piece*>>& board) override;       // get all available moves
     int GetValue() override;
 };
