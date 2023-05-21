@@ -50,50 +50,66 @@ cmake_ninja_workdir = C$:/Users/HP/OneDrive/Documents/GitHub/Chess/cmake-build-d
 build cmake_object_order_depends_target_Chess: phony || CMakeFiles/Chess.dir
 
 build CMakeFiles/Chess.dir/main.cpp.obj: CXX_COMPILER__Chess_Debug C$:/Users/HP/OneDrive/Documents/GitHub/Chess/main.cpp || cmake_object_order_depends_target_Chess
+  DEFINES = -DSFML_STATIC
   DEP_FILE = CMakeFiles\Chess.dir\main.cpp.obj.d
   FLAGS = -g -fdiagnostics-color=always
+  INCLUDES = -Ic:/SFML/include/SFML -isystem C:/Users/HP/SFML/include
   OBJECT_DIR = CMakeFiles\Chess.dir
   OBJECT_FILE_DIR = CMakeFiles\Chess.dir
 
 build CMakeFiles/Chess.dir/Pawn.cpp.obj: CXX_COMPILER__Chess_Debug C$:/Users/HP/OneDrive/Documents/GitHub/Chess/Pawn.cpp || cmake_object_order_depends_target_Chess
+  DEFINES = -DSFML_STATIC
   DEP_FILE = CMakeFiles\Chess.dir\Pawn.cpp.obj.d
   FLAGS = -g -fdiagnostics-color=always
+  INCLUDES = -Ic:/SFML/include/SFML -isystem C:/Users/HP/SFML/include
   OBJECT_DIR = CMakeFiles\Chess.dir
   OBJECT_FILE_DIR = CMakeFiles\Chess.dir
 
 build CMakeFiles/Chess.dir/Board.cpp.obj: CXX_COMPILER__Chess_Debug C$:/Users/HP/OneDrive/Documents/GitHub/Chess/Board.cpp || cmake_object_order_depends_target_Chess
+  DEFINES = -DSFML_STATIC
   DEP_FILE = CMakeFiles\Chess.dir\Board.cpp.obj.d
   FLAGS = -g -fdiagnostics-color=always
+  INCLUDES = -Ic:/SFML/include/SFML -isystem C:/Users/HP/SFML/include
   OBJECT_DIR = CMakeFiles\Chess.dir
   OBJECT_FILE_DIR = CMakeFiles\Chess.dir
 
 build CMakeFiles/Chess.dir/Castle.cpp.obj: CXX_COMPILER__Chess_Debug C$:/Users/HP/OneDrive/Documents/GitHub/Chess/Castle.cpp || cmake_object_order_depends_target_Chess
+  DEFINES = -DSFML_STATIC
   DEP_FILE = CMakeFiles\Chess.dir\Castle.cpp.obj.d
   FLAGS = -g -fdiagnostics-color=always
+  INCLUDES = -Ic:/SFML/include/SFML -isystem C:/Users/HP/SFML/include
   OBJECT_DIR = CMakeFiles\Chess.dir
   OBJECT_FILE_DIR = CMakeFiles\Chess.dir
 
 build CMakeFiles/Chess.dir/Bishop.cpp.obj: CXX_COMPILER__Chess_Debug C$:/Users/HP/OneDrive/Documents/GitHub/Chess/Bishop.cpp || cmake_object_order_depends_target_Chess
+  DEFINES = -DSFML_STATIC
   DEP_FILE = CMakeFiles\Chess.dir\Bishop.cpp.obj.d
   FLAGS = -g -fdiagnostics-color=always
+  INCLUDES = -Ic:/SFML/include/SFML -isystem C:/Users/HP/SFML/include
   OBJECT_DIR = CMakeFiles\Chess.dir
   OBJECT_FILE_DIR = CMakeFiles\Chess.dir
 
 build CMakeFiles/Chess.dir/Knight.cpp.obj: CXX_COMPILER__Chess_Debug C$:/Users/HP/OneDrive/Documents/GitHub/Chess/Knight.cpp || cmake_object_order_depends_target_Chess
+  DEFINES = -DSFML_STATIC
   DEP_FILE = CMakeFiles\Chess.dir\Knight.cpp.obj.d
   FLAGS = -g -fdiagnostics-color=always
+  INCLUDES = -Ic:/SFML/include/SFML -isystem C:/Users/HP/SFML/include
   OBJECT_DIR = CMakeFiles\Chess.dir
   OBJECT_FILE_DIR = CMakeFiles\Chess.dir
 
 build CMakeFiles/Chess.dir/Queen.cpp.obj: CXX_COMPILER__Chess_Debug C$:/Users/HP/OneDrive/Documents/GitHub/Chess/Queen.cpp || cmake_object_order_depends_target_Chess
+  DEFINES = -DSFML_STATIC
   DEP_FILE = CMakeFiles\Chess.dir\Queen.cpp.obj.d
   FLAGS = -g -fdiagnostics-color=always
+  INCLUDES = -Ic:/SFML/include/SFML -isystem C:/Users/HP/SFML/include
   OBJECT_DIR = CMakeFiles\Chess.dir
   OBJECT_FILE_DIR = CMakeFiles\Chess.dir
 
 build CMakeFiles/Chess.dir/King.cpp.obj: CXX_COMPILER__Chess_Debug C$:/Users/HP/OneDrive/Documents/GitHub/Chess/King.cpp || cmake_object_order_depends_target_Chess
+  DEFINES = -DSFML_STATIC
   DEP_FILE = CMakeFiles\Chess.dir\King.cpp.obj.d
   FLAGS = -g -fdiagnostics-color=always
+  INCLUDES = -Ic:/SFML/include/SFML -isystem C:/Users/HP/SFML/include
   OBJECT_DIR = CMakeFiles\Chess.dir
   OBJECT_FILE_DIR = CMakeFiles\Chess.dir
 
@@ -105,9 +121,9 @@ build CMakeFiles/Chess.dir/King.cpp.obj: CXX_COMPILER__Chess_Debug C$:/Users/HP/
 #############################################
 # Link the executable Chess.exe
 
-build Chess.exe: CXX_EXECUTABLE_LINKER__Chess_Debug CMakeFiles/Chess.dir/main.cpp.obj CMakeFiles/Chess.dir/Pawn.cpp.obj CMakeFiles/Chess.dir/Board.cpp.obj CMakeFiles/Chess.dir/Castle.cpp.obj CMakeFiles/Chess.dir/Bishop.cpp.obj CMakeFiles/Chess.dir/Knight.cpp.obj CMakeFiles/Chess.dir/Queen.cpp.obj CMakeFiles/Chess.dir/King.cpp.obj
+build Chess.exe: CXX_EXECUTABLE_LINKER__Chess_Debug CMakeFiles/Chess.dir/main.cpp.obj CMakeFiles/Chess.dir/Pawn.cpp.obj CMakeFiles/Chess.dir/Board.cpp.obj CMakeFiles/Chess.dir/Castle.cpp.obj CMakeFiles/Chess.dir/Bishop.cpp.obj CMakeFiles/Chess.dir/Knight.cpp.obj CMakeFiles/Chess.dir/Queen.cpp.obj CMakeFiles/Chess.dir/King.cpp.obj | C$:/Users/HP/SFML/lib/libsfml-system-s-d.a C$:/Users/HP/SFML/lib/libsfml-window-s-d.a C$:/Users/HP/SFML/lib/libsfml-graphics-s-d.a C$:/Users/HP/SFML/lib/libsfml-audio-s-d.a C$:/Users/HP/SFML/lib/libsfml-window-s-d.a C$:/Users/HP/SFML/lib/libfreetype.a C$:/Users/HP/SFML/lib/libsfml-system-s-d.a C$:/Users/HP/SFML/lib/libopenal32.a C$:/Users/HP/SFML/lib/libvorbisfile.a C$:/Users/HP/SFML/lib/libvorbisenc.a C$:/Users/HP/SFML/lib/libvorbis.a C$:/Users/HP/SFML/lib/libogg.a C$:/Users/HP/SFML/lib/libFLAC.a
   FLAGS = -g
-  LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
+  LINK_LIBRARIES = C:/Users/HP/SFML/lib/libsfml-system-s-d.a  C:/Users/HP/SFML/lib/libsfml-window-s-d.a  C:/Users/HP/SFML/lib/libsfml-graphics-s-d.a  C:/Users/HP/SFML/lib/libsfml-audio-s-d.a  C:/Users/HP/SFML/lib/libsfml-window-s-d.a  -lgdi32  -lOpenGL32  C:/Users/HP/SFML/lib/libfreetype.a  C:/Users/HP/SFML/lib/libsfml-system-s-d.a  -lwinmm  C:/Users/HP/SFML/lib/libopenal32.a  C:/Users/HP/SFML/lib/libvorbisfile.a  C:/Users/HP/SFML/lib/libvorbisenc.a  C:/Users/HP/SFML/lib/libvorbis.a  C:/Users/HP/SFML/lib/libogg.a  C:/Users/HP/SFML/lib/libFLAC.a  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\Chess.dir
   POST_BUILD = cd .
   PRE_LINK = cd .
@@ -160,14 +176,14 @@ build all: phony Chess.exe
 #############################################
 # Re-run CMake if any of its inputs changed.
 
-build build.ninja: RERUN_CMAKE | C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/CMakeCInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/CMakeCXXInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/CMakeCommonLanguageInclude.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/CMakeGenericSystem.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/CMakeInitializeConfigs.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/CMakeLanguageInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/CMakeRCInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/CMakeSystemSpecificInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/CMakeSystemSpecificInitialize.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/Compiler/CMakeCommonCompilerMacros.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/Compiler/GNU-C.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/Compiler/GNU-CXX.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/Compiler/GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/Platform/Windows-GNU-C-ABI.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/Platform/Windows-GNU-C.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/Platform/Windows-GNU-CXX-ABI.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/Platform/Windows-GNU-CXX.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/Platform/Windows-GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/Platform/Windows-windres.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/Platform/Windows.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/Platform/WindowsPaths.cmake C$:/Users/HP/OneDrive/Documents/GitHub/Chess/CMakeLists.txt CMakeCache.txt CMakeFiles/3.25.2/CMakeCCompiler.cmake CMakeFiles/3.25.2/CMakeCXXCompiler.cmake CMakeFiles/3.25.2/CMakeRCCompiler.cmake CMakeFiles/3.25.2/CMakeSystem.cmake
+build build.ninja: RERUN_CMAKE | C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/CMakeCInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/CMakeCXXInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/CMakeCommonLanguageInclude.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/CMakeGenericSystem.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/CMakeInitializeConfigs.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/CMakeLanguageInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/CMakeRCInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/CMakeSystemSpecificInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/CMakeSystemSpecificInitialize.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/Compiler/CMakeCommonCompilerMacros.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/Compiler/GNU-C.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/Compiler/GNU-CXX.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/Compiler/GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/Platform/Windows-GNU-C-ABI.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/Platform/Windows-GNU-C.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/Platform/Windows-GNU-CXX-ABI.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/Platform/Windows-GNU-CXX.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/Platform/Windows-GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/Platform/Windows-windres.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/Platform/Windows.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/Platform/WindowsPaths.cmake C$:/Users/HP/OneDrive/Documents/GitHub/Chess/CMakeLists.txt C$:/Users/HP/SFML/lib/cmake/SFML/SFMLConfig.cmake C$:/Users/HP/SFML/lib/cmake/SFML/SFMLConfigDependencies.cmake C$:/Users/HP/SFML/lib/cmake/SFML/SFMLConfigVersion.cmake C$:/Users/HP/SFML/lib/cmake/SFML/SFMLStaticTargets-debug.cmake C$:/Users/HP/SFML/lib/cmake/SFML/SFMLStaticTargets-release.cmake C$:/Users/HP/SFML/lib/cmake/SFML/SFMLStaticTargets.cmake CMakeCache.txt CMakeFiles/3.25.2/CMakeCCompiler.cmake CMakeFiles/3.25.2/CMakeCXXCompiler.cmake CMakeFiles/3.25.2/CMakeRCCompiler.cmake CMakeFiles/3.25.2/CMakeSystem.cmake
   pool = console
 
 
 #############################################
 # A missing CMake input file is not an error.
 
-build C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/CMakeCInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/CMakeCXXInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/CMakeCommonLanguageInclude.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/CMakeGenericSystem.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/CMakeInitializeConfigs.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/CMakeLanguageInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/CMakeRCInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/CMakeSystemSpecificInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/CMakeSystemSpecificInitialize.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/Compiler/CMakeCommonCompilerMacros.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/Compiler/GNU-C.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/Compiler/GNU-CXX.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/Compiler/GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/Platform/Windows-GNU-C-ABI.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/Platform/Windows-GNU-C.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/Platform/Windows-GNU-CXX-ABI.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/Platform/Windows-GNU-CXX.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/Platform/Windows-GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/Platform/Windows-windres.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/Platform/Windows.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/Platform/WindowsPaths.cmake C$:/Users/HP/OneDrive/Documents/GitHub/Chess/CMakeLists.txt CMakeCache.txt CMakeFiles/3.25.2/CMakeCCompiler.cmake CMakeFiles/3.25.2/CMakeCXXCompiler.cmake CMakeFiles/3.25.2/CMakeRCCompiler.cmake CMakeFiles/3.25.2/CMakeSystem.cmake: phony
+build C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/CMakeCInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/CMakeCXXInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/CMakeCommonLanguageInclude.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/CMakeGenericSystem.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/CMakeInitializeConfigs.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/CMakeLanguageInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/CMakeRCInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/CMakeSystemSpecificInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/CMakeSystemSpecificInitialize.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/Compiler/CMakeCommonCompilerMacros.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/Compiler/GNU-C.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/Compiler/GNU-CXX.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/Compiler/GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/Platform/Windows-GNU-C-ABI.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/Platform/Windows-GNU-C.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/Platform/Windows-GNU-CXX-ABI.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/Platform/Windows-GNU-CXX.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/Platform/Windows-GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/Platform/Windows-windres.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/Platform/Windows.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.1.2/bin/cmake/win/x64/share/cmake-3.25/Modules/Platform/WindowsPaths.cmake C$:/Users/HP/OneDrive/Documents/GitHub/Chess/CMakeLists.txt C$:/Users/HP/SFML/lib/cmake/SFML/SFMLConfig.cmake C$:/Users/HP/SFML/lib/cmake/SFML/SFMLConfigDependencies.cmake C$:/Users/HP/SFML/lib/cmake/SFML/SFMLConfigVersion.cmake C$:/Users/HP/SFML/lib/cmake/SFML/SFMLStaticTargets-debug.cmake C$:/Users/HP/SFML/lib/cmake/SFML/SFMLStaticTargets-release.cmake C$:/Users/HP/SFML/lib/cmake/SFML/SFMLStaticTargets.cmake CMakeCache.txt CMakeFiles/3.25.2/CMakeCCompiler.cmake CMakeFiles/3.25.2/CMakeCXXCompiler.cmake CMakeFiles/3.25.2/CMakeRCCompiler.cmake CMakeFiles/3.25.2/CMakeSystem.cmake: phony
 
 
 #############################################

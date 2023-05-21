@@ -248,6 +248,30 @@ Chess_IS_TOP_LEVEL:STATIC=ON
 //Value Computed by CMake
 Chess_SOURCE_DIR:STATIC=C:/Users/HP/OneDrive/Documents/GitHub/Chess
 
+//Path to a library.
+FLAC_LIB:FILEPATH=C:/Users/HP/SFML/lib/libFLAC.a
+
+//Path to a library.
+FreeType_LIB:FILEPATH=C:/Users/HP/SFML/lib/libfreetype.a
+
+//Path to a library.
+Ogg_LIB:FILEPATH=C:/Users/HP/SFML/lib/libogg.a
+
+//Path to a library.
+OpenAL_LIB:FILEPATH=C:/Users/HP/SFML/lib/libopenal32.a
+
+//Path to a file.
+SFML_DOC_DIR:PATH=SFML_DOC_DIR-NOTFOUND
+
+//Path to a library.
+VorbisEnc_LIB:FILEPATH=C:/Users/HP/SFML/lib/libvorbisenc.a
+
+//Path to a library.
+VorbisFile_LIB:FILEPATH=C:/Users/HP/SFML/lib/libvorbisfile.a
+
+//Path to a library.
+Vorbis_LIB:FILEPATH=C:/Users/HP/SFML/lib/libvorbis.a
+
 
 ########################
 # INTERNAL cache entries
@@ -405,6 +429,20 @@ CMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 CMAKE_STRIP-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: FLAC_LIB
+FLAC_LIB-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: FreeType_LIB
+FreeType_LIB-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: Ogg_LIB
+Ogg_LIB-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: OpenAL_LIB
+OpenAL_LIB-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: VorbisEnc_LIB
+VorbisEnc_LIB-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: VorbisFile_LIB
+VorbisFile_LIB-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: Vorbis_LIB
+Vorbis_LIB-ADVANCED:INTERNAL=1
 //linker supports push/pop state
 _CMAKE_LINKER_PUSHPOP_STATE_SUPPORTED:INTERNAL=TRUE
 

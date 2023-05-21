@@ -7,6 +7,7 @@ public:
     int value;
     int row;
     int col;
+    int numMoves = 0;
 
     Empty(int row, int col) {
         value = 0;
@@ -16,7 +17,7 @@ public:
     int GetValue() override {
         return value;
     }
-    void MovePiece() override {}
+    void MovePiece(vector<vector<Piece*>>& board, int toRow, int toCol) override {}
     vector<vector<int>> GetMoves(vector<vector<Piece*>>& board) override {
         vector<vector<int>> currMoves;      // vector of moves to return
         currMoves.resize(8);            // make it 2d

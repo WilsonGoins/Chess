@@ -15,7 +15,11 @@ Queen::Queen(bool isWhite, int row, int col) {
     this->col = col;
 }
 
-void Queen::MovePiece() {
+void Queen::MovePiece(vector<vector<Piece*>>& board, int toRow, int toCol) {
+    board.at(toRow).at(toCol) = board.at(row).at(col);          // make the to-spot the queen
+    board.at(row).at(col) = new Empty(row, col);                        // make queen's curr spot empty
+    row = toRow;    // update row
+    col = toCol;    // update col
 
 }
 

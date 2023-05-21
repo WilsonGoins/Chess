@@ -8,9 +8,10 @@ public:
     int value;
     int row;
     int col;
+    int numMoves = 0;
 
     Knight(bool isWhite, int row, int col);
-    void MovePiece() override;      // move the piece
+    void MovePiece(vector<vector<Piece*>>& board, int toRow, int toCol) override;      // move the piece
     vector<vector<int>> GetMoves(vector<vector<Piece*>>& board) override;       // get all available moves
     int GetValue() override;
 };

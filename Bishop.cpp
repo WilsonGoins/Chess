@@ -13,8 +13,11 @@ Bishop::Bishop(bool isWhite, int row, int col) {        // constructor
     this->col = col;    // set the column to column
 }
 
-void Bishop::MovePiece() {
-
+void Bishop::MovePiece(vector<vector<Piece *>> &board, int toRow, int toCol) {
+    board.at(toRow).at(toCol) = board.at(row).at(col);          // make the to-spot the bishop
+    board.at(row).at(col) = new Empty(row, col);                        // make bishop's curr spot empty
+    row = toRow;    // update row
+    col = toCol;    // update col
 }
 
 vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board) {

@@ -14,8 +14,11 @@ Knight::Knight(bool isWhite, int row, int col) {
     this->col = col;
 }
 
-void Knight::MovePiece() {
-
+void Knight::MovePiece(vector<vector<Piece*>>& board, int toRow, int toCol) {
+    board.at(toRow).at(toCol) = board.at(row).at(col);          // make the to-spot the knight
+    board.at(row).at(col) = new Empty(row, col);                        // make knight's curr spot empty
+    row = toRow;    // update row
+    col = toCol;    // update col
 }
 
 vector<vector<int>> Knight::GetMoves(vector<vector<Piece*>>& board) {

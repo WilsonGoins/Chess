@@ -10,13 +10,15 @@ Castle::Castle(bool isWhite, int row, int col) {
     } else {
         value = -4;
     }
-    hasMoved = false;
     this->row = row;
     this->col = col;
 }
 
-void Castle::MovePiece() {
-    cout << "moving castle..." << endl;
+void Castle::MovePiece(vector<vector<Piece*>>& board, int toRow, int toCol) {
+    board.at(toRow).at(toCol) = board.at(row).at(col);          // make the to-spot the castle
+    board.at(row).at(col) = new Empty(row, col);                        // make castle's curr spot empty
+    row = toRow;    // update row
+    col = toCol;    // update col
 }
 
 vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board) {
