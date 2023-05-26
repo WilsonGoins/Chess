@@ -14,5 +14,4 @@ public:
     void MovePiece(vector<vector<Piece*>>& board, int toRow, int toCol) override;      // move the piece
     vector<vector<int>> GetMoves(vector<vector<Piece*>>& board) override;       // get all available moves
     int GetValue() override;
-    void Promote();
 };

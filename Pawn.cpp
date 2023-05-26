@@ -1,6 +1,10 @@
 #include <iostream>
 #include "Pawn.h"
 #include "Empty.h"
+#include "Knight.h"
+#include "Queen.h"
+#include "Bishop.h"
+#include "Castle.h"
 
 using namespace std;
 
@@ -194,10 +198,6 @@ vector<vector<int>> Pawn::GetMoves(vector<vector<Piece*>>& board) {
             }
         }
     } return currMoves;
-}
-
-void Pawn::Promote() {
-    ;
 }
 
 int Pawn::GetValue() {

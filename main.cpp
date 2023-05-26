@@ -16,6 +16,7 @@ int main() {
     int gameScreenResult = GameScreen(window, board);
 
 
+
     return 0;
 }
 
@@ -31,7 +32,7 @@ void WelcomeScreen(sf::RenderWindow& window, Board& board) {
     sf::Text chessText("Chess", font, 175);
     chessText.setFillColor(sf::Color::White);
     chessText.setOrigin(chessText.getLocalBounds().width / 2.0f - 150, chessText.getLocalBounds().height / 2.0f + 50);
-    chessText.setPosition(sf::Vector2f(150, 150));        // put it in the top left
+    chessText.setPosition(sf::Vector2f(125, 150));        // put it in the top left
     // draw player 1 prompt
     sf::Text p1Prompt("Player 1:                            ", font, 40);      // lots of extra space so the clickable area is bigger
     p1Prompt.setFillColor(sf::Color::White);
@@ -65,7 +66,6 @@ void WelcomeScreen(sf::RenderWindow& window, Board& board) {
     playButton.setStyle(sf::Text::Bold);
     playButton.setFillColor(sf::Color::Yellow);
     playButton.setPosition(sf::Vector2f(playButton.getLocalBounds().width + 800, 745));       // right after player2 name
-    cout << playButton.getLocalBounds().width << endl;
     // credits
     sf::Text credit1("Program Developer: Wilson Goins", font, 30);
     credit1.setStyle(sf::Text::Bold);
@@ -75,41 +75,60 @@ void WelcomeScreen(sf::RenderWindow& window, Board& board) {
     credit2.setStyle(sf::Text::Bold);
     credit2.setFillColor(sf::Color::Black);
     credit2.setPosition(sf::Vector2f(25, 800));       // right after player2 name
-//    // white pawn
-//    sf::Texture whitePawn;
-//    whitePawn.loadFromFile("Images/whitePawn.jpg");
-//    sf::Sprite wPawn(whitePawn);
-//    wPawn.scale(.1, .1);
-//    wPawn.setPosition(sf::Vector2f(650, 100));
-//    // black pawn
-//    sf::Texture blackPawn;
-//    blackPawn.loadFromFile("Images/blackPawn.jpg");
-//    sf::Sprite bPawn(blackPawn);
-//    bPawn.scale(.3, .3);
-//    bPawn.setPosition(sf::Vector2f(650, 150));
-//    // flip button
-//    sf::Texture flipButton;
-//    flipButton.loadFromFile("Images/flipButt.jpg");
-//    sf::Sprite sprite;
-//    sprite.setTexture(flipButton, true); // Enable alpha channel
-//    sf::Image image = flipButton.copyToImage();
-//    for (unsigned int x = 0; x < image.getSize().x; ++x) {
-//        for (unsigned int y = 0; y < image.getSize().y; ++y) {
-//            sf::Color pixel = image.getPixel(x, y);
-//            // Check if the pixel is white (you may need to adjust the threshold)
-//            if (pixel == sf::Color::White) {
-//                pixel.a = 0; // Set the alpha channel to 0 (transparent)
-//                image.setPixel(x, y, pixel);
-//            }
-//        }
-//    }
-//    flipButton.loadFromImage(image);
-//    sprite.setTexture(flipButton);
-//    sf::Sprite flipButt(flipButton);
-//    flipButt.scale(.03, .03);
-//    flipButt.setPosition(sf::Vector2f(600, 125));
-
-
+    // white pawn
+    sf::Vector2f topCoords(675, 90);
+    sf::Texture whitePawn;
+    whitePawn.loadFromFile("Images/whitePawn.PNG");
+    sf::Sprite wPawn(whitePawn);
+    wPawn.scale(.05, .05);
+    wPawn.setPosition(topCoords);
+    // black pawn
+    sf::Vector2f bottomCoords(675, 165);
+    sf::Texture blackPawn;
+    blackPawn.loadFromFile("Images/blackPawn.PNG");
+    sf::Sprite bPawn(blackPawn);
+    bPawn.scale(.05, .05);
+    bPawn.setPosition(bottomCoords);
+    // flip button
+    sf::Texture flipButton;
+    flipButton.loadFromFile("Images/flipButt.jpg");
+    sf::Sprite flipButt(flipButton);
+    flipButt.scale(.04, .04);
+    flipButt.setPosition(sf::Vector2f(600, 115));
+    // time choice 1 (3 minutes)
+    int timeChoice;
+    sf::Color rectColor(255, 255, 255, 75);
+    sf::RectangleShape time1Rect;
+    time1Rect.setSize(sf::Vector2f(100, 60));
+    time1Rect.setPosition(550, 270);
+    time1Rect.setFillColor(rectColor);
+    sf::Text time1(" 3:00 ", font, 40);
+    time1.setFillColor(sf::Color::Black);
+    time1.setPosition(sf::Vector2f(550, 275));
+    // time choice 2 (5 minutes)
+    sf::RectangleShape time2Rect;
+    time2Rect.setSize(sf::Vector2f(100, 60));
+    time2Rect.setFillColor(rectColor);
+    time2Rect.setPosition(675, 270);
+    sf::Text time2(" 5:00 ", font, 40);
+    time2.setFillColor(sf::Color::Black);
+    time2.setPosition(sf::Vector2f(675, 275));
+    // time choice 3 (10 minutes)
+    sf::RectangleShape time3Rect;
+    time3Rect.setSize(sf::Vector2f(125, 60));
+    time3Rect.setFillColor(rectColor);
+    time3Rect.setPosition(800, 270);
+    sf::Text time3(" 10:00 ", font, 40);
+    time3.setFillColor(sf::Color::Black);
+    time3.setPosition(sf::Vector2f(800, 275));
+    // time choice 4 (10 minutes)
+    sf::RectangleShape time4Rect;
+    time4Rect.setSize(sf::Vector2f(125, 60));
+    time4Rect.setFillColor(rectColor);
+    time4Rect.setPosition(950, 270);
+    sf::Text time4(" 60:00 ", font, 40);
+    time4.setFillColor(sf::Color::Black);
+    time4.setPosition(sf::Vector2f(950, 275));
 
 
     sf::Mouse mouse;        // mouse object to get position of the clicks
@@ -143,15 +162,51 @@ void WelcomeScreen(sf::RenderWindow& window, Board& board) {
         sf::Vector2i hoverLocal = mouse.getPosition(window);        // get the mouse position
         if (playButton.getGlobalBounds().contains(hoverLocal.x, hoverLocal.y)) {
             playButton.setCharacterSize(65);
+        } else if (time1Rect.getGlobalBounds().contains(hoverLocal.x, hoverLocal.y)) {
+            time1.setFillColor(sf::Color::Yellow);
+        } else if (time2Rect.getGlobalBounds().contains(hoverLocal.x, hoverLocal.y)) {
+            time2.setFillColor(sf::Color::Yellow);
+        } else if (time3Rect.getGlobalBounds().contains(hoverLocal.x, hoverLocal.y)) {
+            time3.setFillColor(sf::Color::Yellow);
+        } else if (time4Rect.getGlobalBounds().contains(hoverLocal.x, hoverLocal.y)) {
+            time4.setFillColor(sf::Color::Yellow);
         } else {
             playButton.setCharacterSize(60);
+            time1.setFillColor(sf::Color::Black);
+            time2.setFillColor(sf::Color::Black);
+            time3.setFillColor(sf::Color::Black);
+            time4.setFillColor(sf::Color::Black);
         }
         window.draw(playButton);
         window.draw(credit1);
         window.draw(credit2);
-//        window.draw(wPawn);
-//        window.draw(bPawn);
-//        window.draw(flipButt);
+        if (timeChoice == 180) {
+            time1.setFillColor(sf::Color::Yellow);
+        } else if (timeChoice == 300) {
+            time2.setFillColor(sf::Color::Yellow);
+        } else if (timeChoice == 600) {
+            time3.setFillColor(sf::Color::Yellow);
+        } else if (timeChoice == 6000) {
+            time4.setFillColor(sf::Color::Yellow);
+        }
+        window.draw(time1Rect);
+        window.draw(time1);
+        window.draw(time2Rect);
+        window.draw(time2);
+        window.draw(time3Rect);
+        window.draw(time3);
+        window.draw(time4Rect);
+        window.draw(time4);
+        if (player1White) {
+            wPawn.setPosition(topCoords);
+            bPawn.setPosition(bottomCoords);
+        } else {
+            wPawn.setPosition(bottomCoords);
+            bPawn.setPosition(topCoords);
+        }
+        window.draw(wPawn);
+        window.draw(bPawn);
+        window.draw(flipButt);
 
         sf::Event event;
         while (window.pollEvent(event)) {
@@ -161,18 +216,38 @@ void WelcomeScreen(sf::RenderWindow& window, Board& board) {
             } else if (event.type == sf::Event::MouseButtonPressed) {       // if they click
                 sf::Vector2i click = mouse.getPosition(window);        // get the mouse position
                 if (p1Prompt.getGlobalBounds().contains(click.x, click.y)) {     // if they click player1's name
-                    cout << click.x << endl;
                     P1Selected = true;          // player1 is selected
                     userName = p1Text;          // username equals the current player 1 name
                 } else if (p2Prompt.getGlobalBounds().contains(click.x, click.y)) {
                     P1Selected = false;         // player2 is selected
                     userName = p2Text;          // set username equal to player2 name
+                } else if (time1Rect.getGlobalBounds().contains(click.x, click.y)) {
+                    timeChoice = 180;
+                } else if (time2Rect.getGlobalBounds().contains(click.x, click.y)) {
+                    timeChoice = 300;
+                } else if (time3Rect.getGlobalBounds().contains(click.x, click.y)) {
+                    timeChoice = 600;
+                } else if (time4Rect.getGlobalBounds().contains(click.x, click.y)) {
+                    timeChoice = 6000;
                 } else if (playButton.getGlobalBounds().contains(click.x, click.y)) {
-                    board.userName1 = p1Text;                   // update the things we actually wanted from this screen
-                    board.userName2 = p2Text;
-                    board.user1IsWhite = player1White;
+                    window.clear(sf::Color::White);
+                    window.display();
+                    if (player1White) {     // if player 1 is chosen to be white
+                        board.whiteName = p1Text;       // then the white name is player 1's name
+                        board.blackName = p2Text;
+                    } else {                // if not...
+                        board.whiteName = p2Text;       // the white name is player 2's name
+                        board.blackName = p1Text;
+                    }
+                    board.initTime = timeChoice;        // update initial time to be whatever they chose
                     return;
+                } else if (flipButt.getGlobalBounds().contains(click.x, click.y)) {
+                    player1White = !player1White;
                 }
+                time1.setFillColor(sf::Color::Black);       // keep these here so that after every click all times are reset to black
+                time2.setFillColor(sf::Color::Black);       // then only the currently chosen one is made yellow
+                time3.setFillColor(sf::Color::Black);
+                time4.setFillColor(sf::Color::Black);
             } else if (event.type == sf::Event::TextEntered) {      // checks if text was entered
                 if (isalpha(static_cast<char>(event.text.unicode))) {       // checks if the text was a letter
                     if (userName.size() == 10) {            // if name length is at 10
@@ -200,6 +275,17 @@ void WelcomeScreen(sf::RenderWindow& window, Board& board) {
     }
 }
 int GameScreen(sf::RenderWindow& window, Board& board) {
-
+    while (window.isOpen()) {
+//        window.clear(sf::Color::White);
+        board.DrawBoard(window, true);
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed) {      // if they close the window
+                window.close();
+                return 1;
+            }
+        }
+        window.display();
+    } return 0;
 }
 

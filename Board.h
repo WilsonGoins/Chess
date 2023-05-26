@@ -7,15 +7,28 @@ using namespace std;
 
 class Board {
 public:
-    bool gameOver;          // if the game is over or not
-    Images textures;
-    string userName1 = "none";
-    string userName2 = "none";
-    bool user1IsWhite = true;
+    // general information about the game
     vector<vector<Piece*>> board;       // 2d vector to represent the board
+    bool gameOver;                  // if the game is over or not
+    float initTime = 600.0f;        // initial time of game (can be changed) is 600 seconds which is 10 minutes
 
+    // all the textures to be used by sprites
+    Images textures;
+
+    // information for white
+    string whiteName = "none";          // whites user nam
+    sf::Clock whiteClock;        // Clock object to keep track of time
+    float whiteTime = 0.0f;      // whiteTime which will hold the temporary time for white constantly
+
+    // information for black
+    string blackName = "none";
+    sf::Clock blackClock;               // same thing but for black
+    float blackTime = 0.0f;
+
+    // functions
+    void DrawBoard(sf::RenderWindow& window, bool whiteTurn) const;
     int CheckForEnd(bool isWhite);            // checks for mate or stalemate. returns -1 if mate, 0, if stalemated, 1 if play continues
-    int CheckForPromote(bool isWhite);        // check if a pawn is at the end of the board, if so returns the column of that pawn, if not returns -1
+    void CheckForPromote(sf::RenderWindow& window, bool isWhite);        // check if a pawn is at the end of the board, if so returns the column of that pawn, if not returns -1
     Board();        // board constructor
     ~Board() = default;
 };

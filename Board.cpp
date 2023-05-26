@@ -81,6 +81,11 @@ int Board::CheckForEnd(bool isWhite) {
             }
         }
     }
+    if ((isWhite) and (whiteTime <= 0.0f)) {
+        return 2;
+    } else if ((not isWhite) and (blackTime <= 0.0f)) {
+        return 2;
+    }
     // if we have reached this point we have gone through all pieces of our color and found no possible moves
     if (Piece::CheckKingSafety(board, isWhite)) {       // so if we are not in check...
         return 0;                                               // return 0 because it must be stalemate
@@ -89,7 +94,7 @@ int Board::CheckForEnd(bool isWhite) {
     }
 }
 
-int Board::CheckForPromote(bool isWhite) {
+void Board::CheckForPromote(sf::RenderWindow& window, bool isWhite) {
     int rowToCheck;
     if (isWhite) {
         rowToCheck = 0;     // if we are looking for a white pawn, the row to check is the 1st row (0)
@@ -97,10 +102,27 @@ int Board::CheckForPromote(bool isWhite) {
         rowToCheck = 7;     // if it's black, we need to check in row 7
     }
 
+    int promotionChoice;
     for (int i = 0; i < 8; i++) {       // iterator for columns
         if (abs(board.at(rowToCheck).at(i)->GetValue()) == 1) {     // if the piece in the desired row is a pawn
-            return i;       // return that pawn's column
+            sf::Mouse mouse;
+            while (window.isOpen()) {
+                sf::Event event;
+                while (window.pollEvent(event)) {
+                    if (event.type == sf::Event::Closed) {      // if they close the window, close it
+                        window.close();
+                        return;
+                    } else if (event.type == sf::Event::MouseButtonPressed) {
+                        // if the click is on one of the images to promote, return that number or something
+                    }
+                }
+            }
         }
     }
-    return -1;      // if no pawns were found, return -1
+}
+
+void Board::DrawBoard(sf::RenderWindow& window, bool whiteTurn) const {
+    sf::Sprite chessBoard = textures.chessBoard;
+    chessBoard.setPosition(200, 75);
+    window.draw(chessBoard);
 }
