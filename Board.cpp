@@ -10,7 +10,7 @@
 
 Board::Board() {
     gameOver = false;
-//    textures = Images();
+    lastMove = -1;
     board.resize(8);        // resize the outer vector of board to a size of 8
 
     // make pawns
@@ -21,17 +21,6 @@ Board::Board() {
     for (int i = 0; i < 8; i++) {       // make white pawns in the 7th row
         board.at(6).push_back(new Pawn(true, 6, i));
     }
-
-
-    // ***DELETE PAWNS***
-//    for (int i = 0; i < 8; i++) {       // delete black pawns in the 2nd row
-//        board.at(1).push_back(new Empty(1, i));
-//    }
-//
-//    for (int i = 0; i < 8; i++) {       // delete white pawns in the 7th row
-//        board.at(6).push_back(new Empty(6, i));
-//    }
-
 
     // make 1st row (black pieces)
     board.at(0).push_back(new Castle(false, 0, 0));
@@ -71,7 +60,7 @@ int Board::CheckForEnd(bool isWhite) {
             } else {
                 continue;
             }
-            vector<vector<int>> possibleMoves = currPiece->GetMoves(board);     // get moves for the current piece
+            vector<vector<int>> possibleMoves = currPiece->GetMoves(board, lastMove);     // get moves for the current piece
             for (const vector<int>& rows: possibleMoves) {
                 for (int move : rows) {
                     if (move == 1) {        // if there is a 1, it represents a possible move
@@ -121,8 +110,96 @@ void Board::CheckForPromote(sf::RenderWindow& window, bool isWhite) {
     }
 }
 
-void Board::DrawBoard(sf::RenderWindow& window, bool whiteTurn) const {
-    sf::Sprite chessBoard = textures.chessBoard;
-    chessBoard.setPosition(200, 75);
-    window.draw(chessBoard);
+void Board::DrawBoard(sf::RenderWindow& window, bool whiteTurn) {
+    window.clear(sf::Color::Blue);   // clear the window to have a blue background
+
+    // sprite for the board
+    sf::Sprite chessBoard(textures.chessBoard);
+    // new size is 704x704. this makes it a square. 700 width leaves 198 pixels on each size, 700 height leaves 73 pixels on top and bottom
+    // 704x704 also makes it so our chess board is divisible by 64 for a total of 64 different 88x88 squares
+    sf::Vector2f chessBoardNewSize(704.0f, 704.0f);
+    // scale the board
+    chessBoard.setScale(chessBoardNewSize.x / chessBoard.getLocalBounds().width, chessBoardNewSize.y / chessBoard.getLocalBounds().height);
+    chessBoard.setPosition(200, 75);        // set position of the board
+    textures.globalBounds.emplace("chessBoard", chessBoard.getGlobalBounds());
+    window.draw(chessBoard);        // draw the board
+
+    // if there is a piece selected
+    if (pieceSelected) {
+        HighlightPiece(window, selectedRow, selectedCol);     // draw the highlight over that piece
+        HighlightMoves(window, selectedRow, selectedCol);     // draw highlights over that piece's moves
+    }
+
+
+    // draw pieces on top of the board
+    for (auto row : board) {
+        for (auto piece : row) {
+            window.draw(piece->DrawPiece(window, textures));
+        }
+    }
+}
+
+void Board::HighlightPiece(sf::RenderWindow& window, int row, int col) {
+    if (board.at(row).at(col)->GetValue() == 0) {       // if the piece is an empty square just return
+        return;
+    } else if ((board.at(row).at(col)->GetValue() < 0) and (whiteTurn)) {           // if it's a black piece, and it's white's turn
+        return;
+    } else if ((board.at(row).at(col)->GetValue() > 0) and (not whiteTurn)) {         // if it's a white piece, and it's black's turn
+        return;
+    }
+
+    sf::Color highlightColor(255, 255, 0);        // color
+    sf::RectangleShape highlightRect;
+    highlightRect.setSize(sf::Vector2f(88, 88));        // each tile is 88x88 big
+    highlightRect.setPosition(200.0f + (col) * 88.0f, 75.0f + (row * 88.0f));       // set position to whatever square in the top left
+    highlightRect.setFillColor(highlightColor);
+    window.draw(highlightRect);
+}
+
+bool Board::CheckValidMove(int toRow, int toCol) {
+    // we should now check if their click is on one of the moves they can make
+    vector<vector<int>> currMoves = board.at(selectedRow).at(selectedCol)->GetMoves(board, lastMove);       // selected pieces moves
+    if (currMoves.at(toRow).at(toCol) == 1) {           // if their desired spot is a 1 (valid move) return true
+        return true;
+    } else {
+        return false;       // if not, return false
+    }
+}
+
+void Board::HighlightMoves(sf::RenderWindow &window, int row, int col) {
+    // we want this function to highlight all the possible moves for a piece at row, col
+    vector<vector<int>> moves = board.at(row).at(col)->GetMoves(board, lastMove);   // get the current moves
+    sf::Color blankColor(255, 255, 0);        // color to be drawn on blank spot
+    sf::Color captureColor(255, 0, 0);        // color to be drawn on capturing spot
+
+    // loop through every move in the piece's move set
+    for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {
+            if (moves.at(i).at(j) == 1) {        // if the move is a 1
+                sf::RectangleShape highlightRect;               // make a new square
+                highlightRect.setSize(sf::Vector2f(88, 88));        // each tile is 88x88 big
+                highlightRect.setPosition(200.0f + (j) * 88.0f, 75.0f + (i * 88.0f));       // set position
+                if (board.at(i).at(j)->GetValue() == 0) {       // if the spot is a blank space
+                    highlightRect.setFillColor(blankColor);         // make the square yellow
+                } else if (board.at(i).at(j)->GetValue() != 0) {        // if it is a opposing piece
+                    highlightRect.setFillColor(captureColor);               // make it red
+                }
+                window.draw(highlightRect);     // draw it
+            }
+        }
+    }
+}
+
+void Board::UpdateSelection(int toRow, int toCol) {
+    if ((board.at(toRow).at(toCol)->GetValue() > 0) and (whiteTurn)) {        // if it is white's turn and a white piece was clicked on
+        pieceSelected = true;     // there is a click on the board so pieceSelected is now true (empties are still pieces)
+        selectedRow = toRow;       // update the row
+        selectedCol = toCol;       // update the column
+    } else if ((board.at(toRow).at(toCol)->GetValue() < 0) and (not whiteTurn)) {       // if it's blacks turn and a black piece was clicked on
+        pieceSelected = true;     // there is a click on the board so pieceSelected is now true (empties are still pieces)
+        selectedRow = toRow;       // update the row
+        selectedCol = toCol;       // update the column
+    } else if (board.at(toRow).at(toCol)->GetValue() == 0) {
+        pieceSelected = false;
+    }
 }

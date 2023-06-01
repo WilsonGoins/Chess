@@ -1,4 +1,5 @@
 #include "Piece.h"
+#include "Images.h"
 #include <vector>
 using namespace std;
 #pragma once
@@ -8,11 +9,12 @@ public:
     int value;
     int row;
     int col;
-    int numMoves = 0;
+    int numMoves;
 
     King(bool isWhite, int row, int col);
     void MovePiece(vector<vector<Piece*>>& board, int toRow, int toCol) override;      // move the piece
-    vector<vector<int>> GetMoves(vector<vector<Piece*>>& board) override;       // get all available moves
+    vector<vector<int>> GetMoves(vector<vector<Piece*>>& board, int lastMove) override;       // get all available moves
+    sf::Sprite DrawPiece(sf::RenderWindow& window, Images& textures) override;
     int GetValue() override;
-    void Castle();
+    int GetNumMoves() override {return numMoves;}
 };

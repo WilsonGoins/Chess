@@ -1,14 +1,16 @@
 #pragma once
+#include "Images.h"
 #include <vector>
 #include <stdexcept>
+#include <SFML/Graphics.hpp>
+
 using namespace std;
 
 class Piece {
 public:
-    int numMoves = 0;
-    bool lastToMove = false;
     virtual void MovePiece(vector<vector<Piece*>>& board, int toRow, int toCol) = 0;
-    virtual vector<vector<int>> GetMoves(vector<vector<Piece*>>& board) = 0;
+    virtual vector<vector<int>> GetMoves(vector<vector<Piece*>>& board, int lastMove) = 0;
+    virtual sf::Sprite DrawPiece(sf::RenderWindow& window, Images& textures) = 0;
     virtual int GetValue() = 0;
     virtual ~Piece() = default;
     static bool CheckKingSafety(vector<vector<Piece*>>& board, bool isWhite) {
@@ -448,5 +450,5 @@ public:
         }
         return true;
     }
-    int GetNumMoves() const {return numMoves;}
+    virtual int GetNumMoves() = 0;
 };      // end of class

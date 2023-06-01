@@ -1,4 +1,5 @@
 #include "Piece.h"
+#include "Images.h"
 #include <vector>
 using namespace std;
 #pragma once
@@ -12,6 +13,8 @@ public:
 
     Bishop(bool isWhite, int row, int col);         // constructor
     void MovePiece(vector<vector<Piece*>>& board, int toRow, int toCol) override;      // move the piece
-    vector<vector<int>> GetMoves(vector<vector<Piece*>>& board) override;       // get all available moves
+    vector<vector<int>> GetMoves(vector<vector<Piece*>>& board, int lastMove) override;       // get all available moves
+    sf::Sprite DrawPiece(sf::RenderWindow& window, Images& textures) override;
     int GetValue() override;        // get the pieces value
+    int GetNumMoves() override {return numMoves;}
 };

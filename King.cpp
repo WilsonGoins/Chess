@@ -1,6 +1,8 @@
 #include "King.h"
 #include "Empty.h"
 #include <stdexcept>
+#include <SFML/Graphics.hpp>
+
 using namespace std;
 
 King::King(bool isWhite, int row, int col) {
@@ -11,23 +13,23 @@ King::King(bool isWhite, int row, int col) {
     }
     this->row = row;
     this->col = col;
+    numMoves = 0;
 }
 
 void King::MovePiece(vector<vector<Piece*>>& board, int toRow, int toCol) {
+    numMoves++;
     int moveDist = toCol - col;
     if (abs(moveDist) == 2) {        // if the distance of the move is 2 (meaning it is a castling move...)
         if (moveDist < 0) {         // if the move is negative, then col > toCol. so, we are moving left, so it's a queenside castle
             board.at(row).at(toCol) = board.at(row).at(col);        // king is assigned to new space
-            board.at(row).at(col - 1) = board.at(row).at(0);        // castle is assigned to new space
-            board.at(row).at(0) = new Empty(row, 0);                  // castle spot is made empty
-            board.at(row).at(col) = new Empty(row, col);                    // king spot is made empty
+            board.at(row).at(col) = new Empty(row, col);                  // king spot is made empty
+            board.at(row).at(0)->MovePiece(board, row, col - 1);        // move the castle
             row = toRow;            // row is updated (this should be the same though)
             col = toCol;            // col is updated
         } else if (moveDist > 0) {
             board.at(row).at(toCol) = board.at(row).at(col);        // king is assigned to new space
-            board.at(row).at(col + 1) = board.at(row).at(7);        // castle is assigned to new space
-            board.at(row).at(7) = new Empty(row, 7);                    // castle spot is made empty
             board.at(row).at(col) = new Empty(row, col);                    // king spot is made empty
+            board.at(row).at(7)->MovePiece(board, row, col + 1);        // move the castle
             row = toRow;            // row is updated (this should be the same though)
             col = toCol;            // col is updated
         }
@@ -39,7 +41,7 @@ void King::MovePiece(vector<vector<Piece*>>& board, int toRow, int toCol) {
     }
 }
 
-vector<vector<int>> King::GetMoves(vector<vector<Piece*>>& board) {
+vector<vector<int>> King::GetMoves(vector<vector<Piece*>>& board, int lastMove) {
     vector<vector<int>> currMoves;      // vector of moves to return
     currMoves.resize(8);            // make it 2d
     for (int i = 0; i < 8; i++) {
@@ -328,4 +330,19 @@ vector<vector<int>> King::GetMoves(vector<vector<Piece*>>& board) {
 
 int King::GetValue() {
     return value;
+}
+
+sf::Sprite King::DrawPiece(sf::RenderWindow& window, Images& textures) {
+    sf::Sprite sprite;
+    if (value == -6) {
+        sprite.setTexture(textures.bKing);
+    } else if (value == 6) {
+        sprite.setTexture(textures.wKing);
+    }
+    sf::Vector2f newSize(66.0f, 66.0f);     // a little bit smaller than the size of a single tile (88x88)
+    sprite.setScale(newSize.x / sprite.getLocalBounds().width, newSize.y / sprite.getLocalBounds().height);
+    sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
+    sprite.setPosition(200.0f + (static_cast<float>(col) * 88.0f) + 44, 75.0f + (static_cast<float>(row) * 88.0f) + 44);
+    return sprite;
+    //window.draw(sprite);
 }

@@ -18,7 +18,8 @@ public:
         return value;
     }
     void MovePiece(vector<vector<Piece*>>& board, int toRow, int toCol) override {}
-    vector<vector<int>> GetMoves(vector<vector<Piece*>>& board) override {
+    sf::Sprite DrawPiece(sf::RenderWindow& window, Images& textures) override {sf::Sprite sprite; return sprite;};
+    vector<vector<int>> GetMoves(vector<vector<Piece*>>& board, int lastMove) override {
         vector<vector<int>> currMoves;      // vector of moves to return
         currMoves.resize(8);            // make it 2d
         for (int i = 0; i < 8; i++) {
@@ -28,4 +29,5 @@ public:
         }
         return currMoves;
     }
+    int GetNumMoves() override {return numMoves;}
 };

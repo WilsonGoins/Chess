@@ -1,10 +1,7 @@
+#include <SFML/Graphics.hpp>
 #include <iostream>
 #include "Pawn.h"
 #include "Empty.h"
-#include "Knight.h"
-#include "Queen.h"
-#include "Bishop.h"
-#include "Castle.h"
 
 using namespace std;
 
@@ -16,9 +13,11 @@ Pawn::Pawn(bool isWhite, int row, int col) {
     }
     this->row = row;
     this->col = col;
+    numMoves = 0;
 }
 
 void Pawn::MovePiece(vector<vector<Piece*>>& board, int toRow, int toCol) {
+    numMoves++;     // increment the number of moves BEFORE WE COPY IT OVER
     // if the space the pawn is moving to is a 0, and it isn't in the same col, it must be EN PASSANT!
     if ((board.at(toRow).at(toCol)->GetValue() == 0) and (col != toCol)) {
         board.at(toRow).at(toCol) = board.at(row).at(col);      // assign pawn to new square
@@ -34,7 +33,7 @@ void Pawn::MovePiece(vector<vector<Piece*>>& board, int toRow, int toCol) {
     }
 }
 
-vector<vector<int>> Pawn::GetMoves(vector<vector<Piece*>>& board) {
+vector<vector<int>> Pawn::GetMoves(vector<vector<Piece*>>& board, int lastMove) {
     vector<vector<int>> currMoves;      // vector of moves to return
     currMoves.resize(8);            // make it 2d
     for (int i = 0; i < 8; i++) {
@@ -55,7 +54,7 @@ vector<vector<int>> Pawn::GetMoves(vector<vector<Piece*>>& board) {
                     currMoves.at(row + 1).at(col) = 1;      // make that spot a 1 to indicate it is a valid move
                 }
                 // if we can go 1 forward, perhaps we can go 2 forward
-                if ((board.at(row + 2).at(col)->GetValue() == 0) and (numMoves == 0)) {       // if next piece value is empty and we haven't moved yet
+                if ((board.at(row + 2).at(col)->GetValue() == 0) and (numMoves == 0)) {       // if next piece value is empty, and we haven't moved yet
                     vector<vector<Piece *>> newerBoard = board;        // make a copy of the board
                     newerBoard.at(row + 2).at(col) = board.at(row).at(col);       // put the piece to be moved in new spot
                     newerBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
@@ -95,25 +94,25 @@ vector<vector<int>> Pawn::GetMoves(vector<vector<Piece*>>& board) {
         if (row == 4) {     // if the black pawn is on the fourth row
             if (board.at(4).at(col - 1)->GetValue() == 1) {     // if the square next to it is a white pawn
                 if (board.at(4).at(col - 1)->GetNumMoves() == 1) {      // if that pawn has only made one move
-                    if (board.at(4).at(col - 1)->lastToMove) {
+                    if (lastMove == ((4 * 8) + (col - 1))) {
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(row + 1).at(col - 1) = board.at(row).at(col);       // put the piece to be moved in new spot
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
                         newBoard.at(row).at(col - 1) = new Empty(row, col - 1);     // make the white pawn empty
                         if (CheckKingSafety(newBoard, false)) {  // if our king will still be safe
-                            currMoves.at(row + 1).at(col - 1) = 2;      // make that spot a 1 to indicate it is a valid move
+                            currMoves.at(row + 1).at(col - 1) = 1;      // make that spot a 1 to indicate it is a valid move
                         }
                     }
                 }
             } else if (board.at(4).at(col + 1)->GetValue() == 1) {
                 if (board.at(4).at(col + 1)->GetNumMoves() == 1) {      // if that pawn has only made one move
-                    if (board.at(4).at(col + 1)->lastToMove) {
+                    if (lastMove == ((4 * 8) + (col + 1))) {
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(row + 1).at(col + 1) = board.at(row).at(col);       // put the piece to be moved in new spot
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
                         newBoard.at(row).at(col + 1) = new Empty(row, col - 1);     // make the white pawn empty
                         if (CheckKingSafety(newBoard, false)) {  // if our king will still be safe
-                            currMoves.at(row + 1).at(col + 1) = 2;      // make that spot a 1 to indicate it is a valid move
+                            currMoves.at(row + 1).at(col + 1) = 1;      // make that spot a 1 to indicate it is a valid move
                         }
                     }
                 }
@@ -133,7 +132,7 @@ vector<vector<int>> Pawn::GetMoves(vector<vector<Piece*>>& board) {
                     currMoves.at(row - 1).at(col) = 1;      // make that spot a 1 to indicate it is a valid move
                 }
                 // if we can go 1 forward, perhaps we can go 2 forward
-                if (board.at(row - 2).at(col)->GetValue() == 0) {       // if next piece value is empty or white
+                if ((board.at(row - 2).at(col)->GetValue() == 0) and (numMoves == 0)) {       // if next piece value is empty or white
                     vector<vector<Piece *>> newerBoard = board;        // make a copy of the board
                     newerBoard.at(row - 2).at(col) = board.at(row).at(col);       // put the piece to be moved in new spot
                     newerBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
@@ -171,27 +170,28 @@ vector<vector<int>> Pawn::GetMoves(vector<vector<Piece*>>& board) {
 
         // en passant
         if (row == 3) {     // if the black pawn is on the fourth row
-            if (board.at(3).at(col - 1)->GetValue() == 1) {     // if the square next to it is a white pawn
+            if (board.at(3).at(col - 1)->GetValue() == -1) {     // if the square next to it is a white pawn
                 if (board.at(3).at(col - 1)->GetNumMoves() == 1) {      // if that pawn has only made one move
-                    if (board.at(3).at(col - 1)->lastToMove) {
+                    cout << lastMove << endl;
+                    if (lastMove == ((3 * 8) + (col - 1))) {      // if that pawn made the last move
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(row - 1).at(col - 1) = board.at(row).at(col);       // put the piece to be moved in new spot
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
                         newBoard.at(row).at(col - 1) = new Empty(row, col - 1);     // make the white pawn empty
                         if (CheckKingSafety(newBoard, true)) {  // if our king will still be safe
-                            currMoves.at(row - 1).at(col - 1) = 2;      // make that spot a 1 to indicate it is a valid move
+                            currMoves.at(row - 1).at(col - 1) = 1;      // make that spot a 1 to indicate it is a valid move
                         }
                     }
                 }
-            } else if (board.at(3).at(col + 1)->GetValue() == 1) {
+            } else if (board.at(3).at(col + 1)->GetValue() == -1) {
                 if (board.at(3).at(col + 1)->GetNumMoves() == 1) {      // if that pawn has only made one move
-                    if (board.at(3).at(col + 1)->lastToMove) {
+                    if (lastMove == ((3 * 8) + (col + 1))) {
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(row - 1).at(col + 1) = board.at(row).at(col);       // put the piece to be moved in new spot
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
                         newBoard.at(row).at(col + 1) = new Empty(row, col - 1);     // make the white pawn empty
                         if (CheckKingSafety(newBoard, true)) {  // if our king will still be safe
-                            currMoves.at(row - 1).at(col + 1) = 2;      // make that spot a 1 to indicate it is a valid move
+                            currMoves.at(row - 1).at(col + 1) = 1;      // make that spot a 1 to indicate it is a valid move
                         }
                     }
                 }
@@ -202,4 +202,19 @@ vector<vector<int>> Pawn::GetMoves(vector<vector<Piece*>>& board) {
 
 int Pawn::GetValue() {
     return value;
+}
+
+sf::Sprite Pawn::DrawPiece(sf::RenderWindow& window, Images& textures) {
+    sf::Sprite sprite;
+    if (value == -1) {
+        sprite.setTexture(textures.bPawn);
+    } else if (value == 1) {
+        sprite.setTexture(textures.wPawn);
+    }
+    sf::Vector2f newSize(66.0f, 66.0f);
+    sprite.setScale(newSize.x / sprite.getLocalBounds().width, newSize.y / sprite.getLocalBounds().height);
+    sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
+    sprite.setPosition(200.0f + (static_cast<float>(col) * 88.0f) + 44, 75.0f + (static_cast<float>(row) * 88.0f) + 44);
+    return sprite;
+    //window.draw(sprite);
 }

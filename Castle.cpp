@@ -1,7 +1,10 @@
 #include <iostream>
 #include "Castle.h"
 #include "Empty.h"
+#include "Images.h"
 #include <stdexcept>
+#include <SFML/Graphics.hpp>
+
 using namespace std;
 
 Castle::Castle(bool isWhite, int row, int col) {
@@ -12,16 +15,18 @@ Castle::Castle(bool isWhite, int row, int col) {
     }
     this->row = row;
     this->col = col;
+    numMoves = 0;
 }
 
 void Castle::MovePiece(vector<vector<Piece*>>& board, int toRow, int toCol) {
+    numMoves++;
     board.at(toRow).at(toCol) = board.at(row).at(col);          // make the to-spot the castle
     board.at(row).at(col) = new Empty(row, col);                        // make castle's curr spot empty
     row = toRow;    // update row
     col = toCol;    // update col
 }
 
-vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board) {
+vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board, int lastMove) {
     vector<vector<int>> currMoves;      // vector of moves to return
     currMoves.resize(8);            // make it 2d
     for (int i = 0; i < 8; i++) {
@@ -50,8 +55,12 @@ vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board) {
                             break;
                         }
                     } else {            // if it does put our king in check we don't add the move
-                        tempRow1--;         // increment the row
-                        continue;               // and continue
+                        if (nextPiece == 0) {
+                            tempRow1--;         // increment the row
+                            continue;               // and continue
+                        } else {
+                            break;
+                        }
                     }
                 } else {            // else would be if it is a negative number, in which case we exit while loop as well
                     break;
@@ -77,8 +86,12 @@ vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board) {
                             break;
                         }
                     } else {        // break if
-                        tempRow2++;     // go another row up
-                        continue;       // continue
+                        if (nextPiece == 0) {
+                            tempRow2++;         // increment the row
+                            continue;               // and continue
+                        } else {
+                            break;
+                        }
                     }
                 } else {            // else would be if it is a negative number, in which case we exit while loop as well
                     break;
@@ -104,8 +117,12 @@ vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board) {
                             break;
                         }
                     } else {            // if it does put our king in check we don't add the move
-                        tempCol1--;         // increment the col
-                        continue;               // and continue
+                        if (nextPiece == 0) {
+                            tempCol1--;         // increment the row
+                            continue;               // and continue
+                        } else {
+                            break;
+                        }
                     }
                 } else {            // else would be if it is a negative number, in which case we exit while loop as well
                     break;
@@ -132,8 +149,12 @@ vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board) {
                             break;
                         }
                     } else {            // if it does put our king in check we don't add the move
-                        tempCol2++;         // increment the col
-                        continue;               // and continue
+                        if (nextPiece == 0) {
+                            tempCol2++;         // increment the row
+                            continue;               // and continue
+                        } else {
+                            break;
+                        }
                     }
                 } else {            // else would be if it is a negative number, in which case we exit while loop as well
                     break;
@@ -259,4 +280,19 @@ vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board) {
 
 int Castle::GetValue() {
     return value;
+}
+
+sf::Sprite Castle::DrawPiece(sf::RenderWindow& window, Images& textures) {
+    sf::Sprite sprite;
+    if (value == -4) {
+        sprite.setTexture(textures.bCastle);
+    } else if (value == 4) {
+        sprite.setTexture(textures.wCastle);
+    }
+    sf::Vector2f newSize(66.0f, 66.0f);
+    sprite.setScale(newSize.x / sprite.getLocalBounds().width, newSize.y / sprite.getLocalBounds().height);
+    sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
+    sprite.setPosition(200.0f + (static_cast<float>(col) * 88.0f) + 44, 75.0f + (static_cast<float>(row) * 88.0f) + 44);
+    return sprite;
+    //window.draw(sprite);
 }

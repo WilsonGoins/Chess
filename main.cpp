@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <cmath>
 #include "Board.h"
 #include "Piece.h"
 #include "Images.h"
@@ -8,13 +9,13 @@ using namespace std;
 
 void WelcomeScreen(sf::RenderWindow& window, Board& board);
 int GameScreen(sf::RenderWindow& window, Board& board);
+void HandleClick(sf::RenderWindow& window, Board& board);
 
 int main() {
     Board board = Board();          // board object to hold the majority of our data
     sf::RenderWindow window(sf::VideoMode(1100, 850), "Chess");     // window where everything happens
     WelcomeScreen(window, board);           // run the welcome screen
     int gameScreenResult = GameScreen(window, board);
-
 
 
     return 0;
@@ -76,18 +77,14 @@ void WelcomeScreen(sf::RenderWindow& window, Board& board) {
     credit2.setFillColor(sf::Color::Black);
     credit2.setPosition(sf::Vector2f(25, 800));       // right after player2 name
     // white pawn
-    sf::Vector2f topCoords(675, 90);
-    sf::Texture whitePawn;
-    whitePawn.loadFromFile("Images/whitePawn.PNG");
-    sf::Sprite wPawn(whitePawn);
-    wPawn.scale(.05, .05);
+    sf::Vector2f topCoords(665, 95);
+    sf::Sprite wPawn(board.textures.wPawn);
+    wPawn.scale(.5, .5);
     wPawn.setPosition(topCoords);
     // black pawn
-    sf::Vector2f bottomCoords(675, 165);
-    sf::Texture blackPawn;
-    blackPawn.loadFromFile("Images/blackPawn.PNG");
-    sf::Sprite bPawn(blackPawn);
-    bPawn.scale(.05, .05);
+    sf::Vector2f bottomCoords(665, 170);
+    sf::Sprite bPawn(board.textures.bPawn);
+    bPawn.scale(.5, .5);
     bPawn.setPosition(bottomCoords);
     // flip button
     sf::Texture flipButton;
@@ -154,7 +151,7 @@ void WelcomeScreen(sf::RenderWindow& window, Board& board) {
             visible = !visible;                     // then the cursor should be visible
             clock.restart();                        // restart the clock
         }
-        if ((P1Selected) and (visible)) {           // if player1 name is selected and it has been >0.5 seconds
+        if ((P1Selected) and (visible)) {           // if player1 name is selected, and it has been >0.5 seconds
             window.draw(player1Cursor);                                                 // draw it
         } else if ((not P1Selected) and (visible)){     // if player2 is selected, and it has been >0.5 seconds
             window.draw(player2Cursor);
@@ -274,18 +271,46 @@ void WelcomeScreen(sf::RenderWindow& window, Board& board) {
         window.display();
     }
 }
+
 int GameScreen(sf::RenderWindow& window, Board& board) {
-    while (window.isOpen()) {
-//        window.clear(sf::Color::White);
-        board.DrawBoard(window, true);
+    while (window.isOpen()) {       // while window is open
+        board.DrawBoard(window, true);          // draw everything on the screen
+
+        window.display();           // update window
         sf::Event event;
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed) {      // if they close the window
                 window.close();
                 return 1;
+            } else if (event.type == sf::Event::MouseButtonPressed) {
+                HandleClick(window, board);
             }
         }
-        window.display();
-    } return 0;
+    }
+    return 0;
 }
 
+void HandleClick(sf::RenderWindow& window, Board& board) {
+    sf::Mouse mouse;
+    sf::Vector2i click = mouse.getPosition(window);        // mouse position
+    int clickRow = floor((click.y - 75) / 88);        // click height divided by the height of one tile, starting at the top of the board (75 pixels down)
+    int clickCol = floor((click.x - 200) / 88);       // click width divided by the length of one tile, starting at left of the board (200 pixels in)
+
+    if (board.textures.globalBounds.at("chessBoard").contains(click.x, click.y)) {          // if the click is on the board
+        if (board.pieceSelected) {      // if there is a piece selected already
+            // the click they just made will be there desired location
+            if (board.CheckValidMove(clickRow, clickCol)) {       // so check if that location is a valid move
+                board.board.at(board.selectedRow).at(board.selectedCol)->MovePiece(board.board, clickRow, clickCol);      // make the move
+                board.lastMove = (clickRow * 8) + clickCol;     // update last move to wherever the piece just moved
+                board.whiteTurn = !board.whiteTurn;     // flip whose turn it is
+            } else {        // if it isn't valid
+                board.UpdateSelection(clickRow, clickCol);      // update their selection (they may have clicked on a different one of their own pieces)
+            }
+        } else {            // if a piece isn't already selected, update it because now it is
+            board.UpdateSelection(clickRow, clickCol);
+        }
+    } else {        // if the click was not on the board
+        ;
+    }
+
+}

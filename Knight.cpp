@@ -1,4 +1,5 @@
 #include <stdexcept>
+#include <SFML/Graphics.hpp>
 #include "Knight.h"
 #include "Empty.h"
 
@@ -21,7 +22,7 @@ void Knight::MovePiece(vector<vector<Piece*>>& board, int toRow, int toCol) {
     col = toCol;    // update col
 }
 
-vector<vector<int>> Knight::GetMoves(vector<vector<Piece*>>& board) {
+vector<vector<int>> Knight::GetMoves(vector<vector<Piece*>>& board, int lastMove) {
     vector<vector<int>> currMoves;      // vector of moves to return
     currMoves.resize(8);            // make it 2d
     for (int i = 0; i < 8; i++) {
@@ -231,4 +232,19 @@ vector<vector<int>> Knight::GetMoves(vector<vector<Piece*>>& board) {
 
 int Knight::GetValue() {
     return value;
+}
+
+sf::Sprite Knight::DrawPiece(sf::RenderWindow& window, Images& textures) {
+    sf::Sprite sprite;
+    if (value == -2) {
+        sprite.setTexture(textures.bKnight);
+    } else if (value == 2) {
+        sprite.setTexture(textures.wKnight);
+    }
+    sf::Vector2f newSize(66.0f, 66.0f);
+    sprite.setScale(newSize.x / sprite.getLocalBounds().width, newSize.y / sprite.getLocalBounds().height);
+    sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
+    sprite.setPosition(200.0f + (static_cast<float>(col) * 88.0f) + 44, 75.0f + (static_cast<float>(row) * 88.0f) + 44);
+    return sprite;
+    //window.draw(sprite);
 }

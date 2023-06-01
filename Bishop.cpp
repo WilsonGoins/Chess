@@ -1,6 +1,9 @@
 #include "Bishop.h"
 #include "Empty.h"
 #include <stdexcept>
+#include <SFML/Graphics.hpp>
+#include "Images.h"
+
 using namespace std;
 
 Bishop::Bishop(bool isWhite, int row, int col) {        // constructor
@@ -20,7 +23,7 @@ void Bishop::MovePiece(vector<vector<Piece *>> &board, int toRow, int toCol) {
     col = toCol;    // update col
 }
 
-vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board) {
+vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board, int lastMove) {
     vector<vector<int>> currMoves;      // vector of moves to return
     currMoves.resize(8);            // make it 2d
     for (int i = 0; i < 8; i++) {
@@ -51,9 +54,13 @@ vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board) {
                             break;
                         }
                     } else {            // if it does put our king in check we don't add the move
-                        tempRow1--;         // increment the row
-                        tempCol1++;           // increment the col
-                        continue;               // and continue
+                        if (nextPiece == 0) {
+                            tempRow1--;         // increment the row
+                            tempCol1++;           // increment the col
+                            continue;               // and continue
+                        } else {
+                            break;
+                        }
                     }
                 } else {            // else would be if it is a negative number, in which case we exit while loop as well
                     break;
@@ -81,9 +88,13 @@ vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board) {
                             break;
                         }
                     } else {            // if it does put our king in check we don't add the move
-                        tempRow2--;         // increment the row
-                        tempCol2--;           // increment the col
-                        continue;               // and continue
+                        if (nextPiece == 0) {
+                            tempRow2--;         // increment the row
+                            tempCol2--;           // increment the col
+                            continue;               // and continue
+                        } else {
+                            break;
+                        }
                     }
                 } else {            // else would be if it is a negative number, in which case we exit while loop as well
                     break;
@@ -111,9 +122,13 @@ vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board) {
                             break;
                         }
                     } else {            // if it does put our king in check we don't add the move
-                        tempRow3++;         // increment the row
-                        tempCol3++;           // increment the col
-                        continue;               // and continue
+                        if (nextPiece == 0) {
+                            tempRow3++;         // increment the row
+                            tempCol3++;           // increment the col
+                            continue;               // and continue
+                        } else {
+                            break;
+                        }
                     }
                 } else {            // else would be if it is a negative number, in which case we exit while loop as well
                     break;
@@ -141,9 +156,13 @@ vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board) {
                             break;
                         }
                     } else {            // if it does put our king in check we don't add the move
-                        tempRow4++;         // increment the row
-                        tempCol4--;           // increment the col
-                        continue;               // and continue
+                        if (nextPiece == 0) {
+                            tempRow4++;         // increment the row
+                            tempCol4--;           // increment the col
+                            continue;               // and continue
+                        } else {
+                            break;
+                        }
                     }
                 } else {            // else would be if it is a negative number, in which case we exit while loop as well
                     break;
@@ -175,9 +194,13 @@ vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board) {
                             break;
                         }
                     } else {            // if it does put our king in check we don't add the move
-                        tempRow1--;         // increment the row
-                        tempCol1++;           // increment the col
-                        continue;               // and continue
+                        if (nextPiece == 0) {
+                            tempRow1--;         // increment the row
+                            tempCol1++;           // increment the col
+                            continue;               // and continue
+                        } else {
+                            break;
+                        }
                     }
                 } else {            // else would be if it is a negative number, in which case we exit while loop as well
                     break;
@@ -205,9 +228,13 @@ vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board) {
                             break;
                         }
                     } else {            // if it does put our king in check we don't add the move
-                        tempRow2--;         // increment the row
-                        tempCol2--;           // increment the col
-                        continue;               // and continue
+                        if (nextPiece == 0) {
+                            tempRow2--;         // increment the row
+                            tempCol2--;           // increment the col
+                            continue;               // and continue
+                        } else {
+                            break;
+                        }
                     }
                 } else {            // else would be if it is a negative number, in which case we exit while loop as well
                     break;
@@ -235,9 +262,13 @@ vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board) {
                             break;
                         }
                     } else {            // if it does put our king in check we don't add the move
-                        tempRow3++;         // increment the row
-                        tempCol3++;           // increment the col
-                        continue;               // and continue
+                        if (nextPiece == 0) {
+                            tempRow3++;         // increment the row
+                            tempCol3++;           // increment the col
+                            continue;               // and continue
+                        } else {
+                            break;
+                        }
                     }
                 } else {            // else would be if it is a negative number, in which case we exit while loop as well
                     break;
@@ -265,9 +296,13 @@ vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board) {
                             break;
                         }
                     } else {            // if it does put our king in check we don't add the move
-                        tempRow4++;         // increment the row
-                        tempCol4--;           // increment the col
-                        continue;               // and continue
+                        if (nextPiece == 0) {
+                            tempRow4++;         // increment the row
+                            tempCol4--;           // increment the col
+                            continue;               // and continue
+                        } else {
+                            break;
+                        }
                     }
                 } else {            // else would be if it is a negative number, in which case we exit while loop as well
                     break;
@@ -280,4 +315,18 @@ vector<vector<int>> Bishop::GetMoves(vector<vector<Piece*>>& board) {
 
 int Bishop::GetValue() {
     return value;
+}
+
+sf::Sprite Bishop::DrawPiece(sf::RenderWindow& window, Images& textures) {
+    sf::Sprite sprite;
+    if (value == -3) {
+        sprite.setTexture(textures.bBishop);
+    } else if (value == 3) {
+        sprite.setTexture(textures.wBishop);
+    }
+    sf::Vector2f newSize(66.0f, 66.0f);
+    sprite.setScale(newSize.x / sprite.getLocalBounds().width, newSize.y / sprite.getLocalBounds().height);
+    sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
+    sprite.setPosition(200.0f + (static_cast<float>(col) * 88.0f) + 44, 75.0f + (static_cast<float>(row) * 88.0f) + 44);
+    return sprite;
 }
