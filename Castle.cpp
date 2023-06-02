@@ -27,6 +27,7 @@ void Castle::MovePiece(vector<vector<Piece*>>& board, int toRow, int toCol) {
 }
 
 vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board, int lastMove) {
+    cout << "looking for castle moves..." << endl;
     vector<vector<int>> currMoves;      // vector of moves to return
     currMoves.resize(8);            // make it 2d
     for (int i = 0; i < 8; i++) {
@@ -78,7 +79,7 @@ vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board, int lastMove
                     newBoard.at(tempRow2 + 1).at(col) = board.at(row).at(col);       // put the piece to be moved in new spot
                     newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
                     if (CheckKingSafety(newBoard, false)) {  // if out king will still be safe
-                        currMoves.at(tempRow1 + 1).at(col) = 1;      // make that spot a 1 to indicate it is a valid move
+                        currMoves.at(tempRow2 + 1).at(col) = 1;      // make that spot a 1 to indicate it is a valid move
                         if (nextPiece == 0) {       // if the spot is empty, continue
                             tempRow2++;     // go another row up
                             continue;       // restart while loop
@@ -100,7 +101,7 @@ vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board, int lastMove
         } catch (const out_of_range &e) {}       // catch out of range exceptions if we try to access a square that is off the board
 
         // get moves left
-        int tempCol1 = row;     // temporary row to find moves
+        int tempCol1 = col;     // temporary row to find moves
         try {
             while (true) {
                 int nextPiece = board.at(row).at(tempCol1 - 1)->GetValue();
@@ -131,7 +132,7 @@ vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board, int lastMove
         } catch (const out_of_range &e) {}       // catch out of range exceptions if we try to access a square that is off the board
 
         // get moves right
-        int tempCol2 = row;     // temporary row to find moves
+        int tempCol2 = col;     // temporary row to find moves
         try {
             while (true) {
                 int nextPiece = board.at(row).at(tempCol2 + 1)->GetValue();
@@ -140,8 +141,7 @@ vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board, int lastMove
                     newBoard.at(row).at(tempCol2 + 1) = board.at(row).at(col);       // put the piece to be moved in new spot
                     newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
                     if (CheckKingSafety(newBoard, false)) {  // if out king will still be safe
-                        currMoves.at(row).at(
-                                tempCol2 + 1) = 1;      // make that spot a 1 to indicate it is a valid move
+                        currMoves.at(row).at(tempCol2 + 1) = 1;      // make that spot a 1 to indicate it is a valid move
                         if (nextPiece == 0) {       // if the spot is empty, continue
                             tempCol2++;     // go another row up
                             continue;       // restart while loop
@@ -175,8 +175,7 @@ vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board, int lastMove
                     newBoard.at(tempRow1 - 1).at(col) = board.at(row).at(col);       // put the piece to be moved in new spot
                     newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
                     if (CheckKingSafety(newBoard, true)) {  // if out king will still be safe
-                        currMoves.at(tempRow1 - 1).at(
-                                col) = 1;      // make that spot a 1 to indicate it is a valid move
+                        currMoves.at(tempRow1 - 1).at(col) = 1;      // make that spot a 1 to indicate it is a valid move
                         if (nextPiece == 0) {       // if the spot is empty, continue
                             tempRow1--;     // go another row up
                             continue;       // restart while loop

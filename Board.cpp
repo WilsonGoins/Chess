@@ -12,6 +12,12 @@ Board::Board() {
     gameOver = false;
     lastMove = -1;
     board.resize(8);        // resize the outer vector of board to a size of 8
+    selectedMoves.resize(8);        // resize selected moves
+    for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {
+            selectedMoves.at(i).push_back(0);       // fill it with 0s
+        }
+    }
 
     // make pawns
     for (int i = 0; i < 8; i++) {       // make black pawns in the 2nd row
@@ -126,8 +132,8 @@ void Board::DrawBoard(sf::RenderWindow& window, bool whiteTurn) {
 
     // if there is a piece selected
     if (pieceSelected) {
-        HighlightPiece(window, selectedRow, selectedCol);     // draw the highlight over that piece
-        HighlightMoves(window, selectedRow, selectedCol);     // draw highlights over that piece's moves
+        HighlightPiece(window);     // draw the highlight over that piece
+        HighlightMoves(window);     // draw highlights over that piece's moves
     }
 
 
@@ -139,19 +145,19 @@ void Board::DrawBoard(sf::RenderWindow& window, bool whiteTurn) {
     }
 }
 
-void Board::HighlightPiece(sf::RenderWindow& window, int row, int col) {
-    if (board.at(row).at(col)->GetValue() == 0) {       // if the piece is an empty square just return
+void Board::HighlightPiece(sf::RenderWindow& window) {
+    if (board.at(selectedRow).at(selectedCol)->GetValue() == 0) {       // if the piece is an empty square just return
         return;
-    } else if ((board.at(row).at(col)->GetValue() < 0) and (whiteTurn)) {           // if it's a black piece, and it's white's turn
+    } else if ((board.at(selectedRow).at(selectedCol)->GetValue() < 0) and (whiteTurn)) {           // if it's a black piece, and it's white's turn
         return;
-    } else if ((board.at(row).at(col)->GetValue() > 0) and (not whiteTurn)) {         // if it's a white piece, and it's black's turn
+    } else if ((board.at(selectedRow).at(selectedCol)->GetValue() > 0) and (not whiteTurn)) {         // if it's a white piece, and it's black's turn
         return;
     }
 
     sf::Color highlightColor(255, 255, 0);        // color
     sf::RectangleShape highlightRect;
     highlightRect.setSize(sf::Vector2f(88, 88));        // each tile is 88x88 big
-    highlightRect.setPosition(200.0f + (col) * 88.0f, 75.0f + (row * 88.0f));       // set position to whatever square in the top left
+    highlightRect.setPosition(200.0f + (selectedCol) * 88.0f, 75.0f + (selectedRow * 88.0f));       // set position to whatever square in the top left
     highlightRect.setFillColor(highlightColor);
     window.draw(highlightRect);
 }
@@ -166,16 +172,15 @@ bool Board::CheckValidMove(int toRow, int toCol) {
     }
 }
 
-void Board::HighlightMoves(sf::RenderWindow &window, int row, int col) {
+void Board::HighlightMoves(sf::RenderWindow &window) {
     // we want this function to highlight all the possible moves for a piece at row, col
-    vector<vector<int>> moves = board.at(row).at(col)->GetMoves(board, lastMove);   // get the current moves
     sf::Color blankColor(255, 255, 0);        // color to be drawn on blank spot
     sf::Color captureColor(255, 0, 0);        // color to be drawn on capturing spot
 
     // loop through every move in the piece's move set
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
-            if (moves.at(i).at(j) == 1) {        // if the move is a 1
+            if (selectedMoves.at(i).at(j) == 1) {        // if the move is a 1
                 sf::RectangleShape highlightRect;               // make a new square
                 highlightRect.setSize(sf::Vector2f(88, 88));        // each tile is 88x88 big
                 highlightRect.setPosition(200.0f + (j) * 88.0f, 75.0f + (i * 88.0f));       // set position
@@ -195,10 +200,12 @@ void Board::UpdateSelection(int toRow, int toCol) {
         pieceSelected = true;     // there is a click on the board so pieceSelected is now true (empties are still pieces)
         selectedRow = toRow;       // update the row
         selectedCol = toCol;       // update the column
+        selectedMoves = board.at(toRow).at(toCol)->GetMoves(board, lastMove);
     } else if ((board.at(toRow).at(toCol)->GetValue() < 0) and (not whiteTurn)) {       // if it's blacks turn and a black piece was clicked on
         pieceSelected = true;     // there is a click on the board so pieceSelected is now true (empties are still pieces)
         selectedRow = toRow;       // update the row
         selectedCol = toCol;       // update the column
+        selectedMoves = board.at(toRow).at(toCol)->GetMoves(board, lastMove);
     } else if (board.at(toRow).at(toCol)->GetValue() == 0) {
         pieceSelected = false;
     }

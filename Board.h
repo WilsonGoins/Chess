@@ -14,6 +14,7 @@ public:
     bool pieceSelected = false;             // if a piece is currently selected (would be false, if turns have just changed)
     int selectedRow = -1;         // initialized to -1 for no reason
     int selectedCol = -1;           // these are for drawing highlights and general tracking
+    vector<vector<int>> selectedMoves;
     int lastMove;                   // a coordinate of the last move that will help us track en passant
     float initTime = 600.0f;        // initial time of game (can be changed) is 600 seconds which is 10 minutes
 
@@ -33,8 +34,8 @@ public:
 
     // functions
     void DrawBoard(sf::RenderWindow& window, bool whiteTurn);
-    void HighlightPiece(sf::RenderWindow& window, int row, int col);
-    void HighlightMoves(sf::RenderWindow& window, int row, int col);
+    void HighlightPiece(sf::RenderWindow& window);
+    void HighlightMoves(sf::RenderWindow& window);
     void UpdateSelection(int toRow, int toCol);
     bool CheckValidMove(int row, int col);
     int CheckForEnd(bool isWhite);            // checks for mate or stalemate. returns -1 if mate, 0, if stalemated, 1 if play continues

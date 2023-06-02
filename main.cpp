@@ -303,6 +303,7 @@ void HandleClick(sf::RenderWindow& window, Board& board) {
                 board.board.at(board.selectedRow).at(board.selectedCol)->MovePiece(board.board, clickRow, clickCol);      // make the move
                 board.lastMove = (clickRow * 8) + clickCol;     // update last move to wherever the piece just moved
                 board.whiteTurn = !board.whiteTurn;     // flip whose turn it is
+                board.pieceSelected = false;        // deselect any pieces
             } else {        // if it isn't valid
                 board.UpdateSelection(clickRow, clickCol);      // update their selection (they may have clicked on a different one of their own pieces)
             }
