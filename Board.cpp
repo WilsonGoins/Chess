@@ -1,3 +1,4 @@
+#include <iostream>
 #include "Board.h"
 #include "Piece.h"
 #include "Pawn.h"
@@ -90,29 +91,122 @@ int Board::CheckForEnd(bool isWhite) {
 }
 
 void Board::CheckForPromote(sf::RenderWindow& window, bool isWhite) {
+    // sprites to be loaded in
+    sf::Sprite knight;
+    sf::Sprite bishop;
+    sf::Sprite castle;
+    sf::Sprite queen;
+    
     int rowToCheck;
+    int colOfPromotion = -1;
+    float displayHeight;
+    int promotionChoice = -1;
+
     if (isWhite) {
         rowToCheck = 0;     // if we are looking for a white pawn, the row to check is the 1st row (0)
+        displayHeight = 37.5;
+        knight.setTexture(textures.wKnight);
+        bishop.setTexture(textures.wBishop);
+        castle.setTexture(textures.wCastle);
+        queen.setTexture(textures.wQueen);
     } else {
         rowToCheck = 7;     // if it's black, we need to check in row 7
+        displayHeight = 813.0;
+        knight.setTexture(textures.bKnight);
+        bishop.setTexture(textures.bBishop);
+        castle.setTexture(textures.bCastle);
+        queen.setTexture(textures.bQueen);
     }
-
-    int promotionChoice;
+    // check if we actually need to promote
     for (int i = 0; i < 8; i++) {       // iterator for columns
         if (abs(board.at(rowToCheck).at(i)->GetValue()) == 1) {     // if the piece in the desired row is a pawn
-            sf::Mouse mouse;
-            while (window.isOpen()) {
-                sf::Event event;
-                while (window.pollEvent(event)) {
-                    if (event.type == sf::Event::Closed) {      // if they close the window, close it
-                        window.close();
-                        return;
-                    } else if (event.type == sf::Event::MouseButtonPressed) {
-                        // if the click is on one of the images to promote, return that number or something
-                    }
+            colOfPromotion = i;
+        }
+    }
+    if (colOfPromotion == -1) {     // if the column of promotion was not updated from -1 (we didn't find a pawn to promote) exit this foo
+        return;
+    }
+    // format the sprites to the correct spots
+    sf::Vector2f newSize(44.0f, 44.0f);     // new size for all pieces
+    sf::Color rectColor(255, 255, 0);     // color for all pieces
+    // knight
+    knight.setScale(newSize.x / knight.getLocalBounds().width, newSize.y / knight.getLocalBounds().height);
+    knight.setOrigin(knight.getLocalBounds().width / 2, knight.getLocalBounds().height / 2);
+    knight.setPosition(165 + (colOfPromotion * 88.0f), displayHeight);
+    sf::RectangleShape knightRect;
+    knightRect.setSize(sf::Vector2f(50, 50));
+    knightRect.setPosition(140 + (colOfPromotion) * 88.0f, displayHeight - 25);
+    knightRect.setFillColor(rectColor);
+
+    // bishop
+    bishop.setScale(newSize.x / bishop.getLocalBounds().width, newSize.y / bishop.getLocalBounds().height);
+    bishop.setOrigin(bishop.getLocalBounds().width / 2, bishop.getLocalBounds().height / 2);
+    bishop.setPosition(165 + (colOfPromotion * 88.0f) + 55, displayHeight);
+    sf::RectangleShape bishopRect;
+    bishopRect.setSize(sf::Vector2f(50, 50));
+    bishopRect.setPosition(140 + (colOfPromotion) * 88.0f + 55, displayHeight - 25);
+    bishopRect.setFillColor(rectColor);
+    // castle
+    castle.setScale(newSize.x / castle.getLocalBounds().width, newSize.y / castle.getLocalBounds().height);
+    castle.setOrigin(castle.getLocalBounds().width / 2, castle.getLocalBounds().height / 2);
+    castle.setPosition(165 + (colOfPromotion * 88.0f) + 110, displayHeight);
+    sf::RectangleShape castleRect;
+    castleRect.setSize(sf::Vector2f(50, 50));
+    castleRect.setPosition(140 + (colOfPromotion) * 88.0f + 110, displayHeight - 25);
+    castleRect.setFillColor(rectColor);
+    // queen
+    queen.setScale(newSize.x / queen.getLocalBounds().width, newSize.y / queen.getLocalBounds().height);
+    queen.setOrigin(queen.getLocalBounds().width / 2, queen.getLocalBounds().height / 2);
+    queen.setPosition(165 + (colOfPromotion * 88.0f) + 165, displayHeight);
+    sf::RectangleShape queenRect;
+    queenRect.setSize(sf::Vector2f(50, 50));
+    queenRect.setPosition(140 + (colOfPromotion) * 88.0f + 165, displayHeight - 25);
+    queenRect.setFillColor(rectColor);
+
+    sf::Mouse mouse;
+    bool toLeave = false;
+    while (window.isOpen()) {
+        window.draw(knightRect);
+        window.draw(bishopRect);
+        window.draw(castleRect);
+        window.draw(queenRect);
+        window.draw(knight);
+        window.draw(bishop);
+        window.draw(castle);
+        window.draw(queen);
+        window.display();
+        
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed) {      // if they close the window, close it
+                window.close();
+                return;
+            } else if (event.type == sf::Event::MouseButtonPressed) {
+                sf::Vector2i click = mouse.getPosition(window);        // mouse position
+                if (knightRect.getGlobalBounds().contains(click.x, click.y)) {
+                    promotionChoice = 2;
+                } else if (bishopRect.getGlobalBounds().contains(click.x, click.y)) {
+                    promotionChoice = 3;
+                } else if (castleRect.getGlobalBounds().contains(click.x, click.y)) {
+                    promotionChoice = 4;
+                } else if (queenRect.getGlobalBounds().contains(click.x, click.y)) {
+                    promotionChoice = 5;
                 }
             }
         }
+        if (promotionChoice != -1) {      // if we selected a promotion, break and leave this while loop
+            break;
+        }
+    }
+    // now that we are out of the while loop and we now the piece we want to change, we should make that change
+    if (promotionChoice == 2) {
+        board.at(rowToCheck).at(colOfPromotion) = new Knight(isWhite, rowToCheck, colOfPromotion);
+    } else if (promotionChoice == 3) {
+        board.at(rowToCheck).at(colOfPromotion) = new Bishop(isWhite, rowToCheck, colOfPromotion);
+    } else if (promotionChoice == 4) {
+        board.at(rowToCheck).at(colOfPromotion) = new Castle(isWhite, rowToCheck, colOfPromotion);
+    } else if (promotionChoice == 5) {
+        board.at(rowToCheck).at(colOfPromotion) = new Queen(isWhite, rowToCheck, colOfPromotion);
     }
 }
 
@@ -209,4 +303,12 @@ void Board::UpdateSelection(int toRow, int toCol) {
     } else if (board.at(toRow).at(toCol)->GetValue() == 0) {
         pieceSelected = false;
     }
+}
+
+void Board::EndTurn(sf::RenderWindow& window, int clickRow, int clickCol) {       // this moves the piece, and also adjusts certain class attributes that need to be updated
+    board.at(selectedRow).at(selectedCol)->MovePiece(board, clickRow, clickCol);      // make the move
+    lastMove = (clickRow * 8) + clickCol;     // update last move to wherever the piece just moved
+    whiteTurn = !whiteTurn;     // flip whose turn it is
+    pieceSelected = false;        // deselect any pieces
+    CheckForPromote(window, !whiteTurn);        // this will check for pawn promotes, we do !whiteTurn, because we already switched it
 }

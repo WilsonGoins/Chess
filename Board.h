@@ -37,9 +37,10 @@ public:
     void HighlightPiece(sf::RenderWindow& window);
     void HighlightMoves(sf::RenderWindow& window);
     void UpdateSelection(int toRow, int toCol);
+    void EndTurn(sf::RenderWindow& window, int clickRow, int clickCol);
     bool CheckValidMove(int row, int col);
     int CheckForEnd(bool isWhite);            // checks for mate or stalemate. returns -1 if mate, 0, if stalemated, 1 if play continues
-    void CheckForPromote(sf::RenderWindow& window, bool isWhite);        // check if a pawn is at the end of the board, if so returns the column of that pawn, if not returns -1
+    void CheckForPromote(sf::RenderWindow& window, bool isWhite);        // check if a pawn is at the end of the board, if so, it promotes it
     Board();        // board constructor
     ~Board() = default;
 };

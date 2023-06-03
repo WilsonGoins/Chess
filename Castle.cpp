@@ -27,7 +27,6 @@ void Castle::MovePiece(vector<vector<Piece*>>& board, int toRow, int toCol) {
 }
 
 vector<vector<int>> Castle::GetMoves(vector<vector<Piece*>>& board, int lastMove) {
-    cout << "looking for castle moves..." << endl;
     vector<vector<int>> currMoves;      // vector of moves to return
     currMoves.resize(8);            // make it 2d
     for (int i = 0; i < 8; i++) {

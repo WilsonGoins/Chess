@@ -300,10 +300,7 @@ void HandleClick(sf::RenderWindow& window, Board& board) {
         if (board.pieceSelected) {      // if there is a piece selected already
             // the click they just made will be there desired location
             if (board.CheckValidMove(clickRow, clickCol)) {       // so check if that location is a valid move
-                board.board.at(board.selectedRow).at(board.selectedCol)->MovePiece(board.board, clickRow, clickCol);      // make the move
-                board.lastMove = (clickRow * 8) + clickCol;     // update last move to wherever the piece just moved
-                board.whiteTurn = !board.whiteTurn;     // flip whose turn it is
-                board.pieceSelected = false;        // deselect any pieces
+                board.EndTurn(window, clickRow, clickCol);      // if so, this function will move the piece and update necessary class attributes
             } else {        // if it isn't valid
                 board.UpdateSelection(clickRow, clickCol);      // update their selection (they may have clicked on a different one of their own pieces)
             }
@@ -313,5 +310,4 @@ void HandleClick(sf::RenderWindow& window, Board& board) {
     } else {        // if the click was not on the board
         ;
     }
-
 }
