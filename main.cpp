@@ -291,7 +291,6 @@ int GameScreen(sf::RenderWindow& window, Board& board) {
 }
 
 void HandleClick(sf::RenderWindow& window, Board& board) {
-    cout << "happy" << endl;l
     sf::Mouse mouse;
     sf::Vector2i click = mouse.getPosition(window);        // mouse position
     int clickRow = floor((click.y - 75) / 88);        // click height divided by the height of one tile, starting at the top of the board (75 pixels down)
