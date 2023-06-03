@@ -7,6 +7,7 @@ public:
     string directory = "Images/Classic/";
     map<string, sf::FloatRect> globalBounds;
     sf::Texture welcomeImage;
+    sf::Texture endBorder;
     sf::Texture chessBoard;
     sf::Texture wPawn;
     sf::Texture bPawn;
@@ -23,7 +24,10 @@ public:
 
     Images() {
         // background image texture
-        welcomeImage.loadFromFile("Images/chessImage4.jpg");
+        welcomeImage.loadFromFile("Images/Classic/chessImage5.jpg");
+
+        // end border screen base
+        endBorder.loadFromFile("Images/Classic/endBorder.PNG");
 
         // chess board texture
         chessBoard.loadFromFile(directory + "chessBoard.PNG");

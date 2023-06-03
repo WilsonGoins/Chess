@@ -33,7 +33,7 @@ void WelcomeScreen(sf::RenderWindow& window, Board& board) {
     sf::Text chessText("Chess", font, 175);
     chessText.setFillColor(sf::Color::White);
     chessText.setOrigin(chessText.getLocalBounds().width / 2.0f - 150, chessText.getLocalBounds().height / 2.0f + 50);
-    chessText.setPosition(sf::Vector2f(125, 150));        // put it in the top left
+    chessText.setPosition(sf::Vector2f(100, 150));        // put it in the top left
     // draw player 1 prompt
     sf::Text p1Prompt("Player 1:                            ", font, 40);      // lots of extra space so the clickable area is bigger
     p1Prompt.setFillColor(sf::Color::White);
@@ -88,7 +88,7 @@ void WelcomeScreen(sf::RenderWindow& window, Board& board) {
     bPawn.setPosition(bottomCoords);
     // flip button
     sf::Texture flipButton;
-    flipButton.loadFromFile("Images/flipButt.jpg");
+    flipButton.loadFromFile("Images/Classic/flipButt.jpg");
     sf::Sprite flipButt(flipButton);
     flipButt.scale(.04, .04);
     flipButt.setPosition(sf::Vector2f(600, 115));
@@ -275,8 +275,13 @@ void WelcomeScreen(sf::RenderWindow& window, Board& board) {
 int GameScreen(sf::RenderWindow& window, Board& board) {
     while (window.isOpen()) {       // while window is open
         board.DrawBoard(window, true);          // draw everything on the screen
-
-        window.display();           // update window
+        // when we reach this point it will have been after the game has ended (if it did) so here we will put up a screen to show that
+        if ((board.gameOver) and (board.lastMove != -69)) {      // last move is set to -69 after we go through the end screen, so that it only happens once
+            window.display();
+            board.DrawEndScreen(window);
+        } else {
+            window.display();
+        }
         sf::Event event;
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed) {      // if they close the window
@@ -296,7 +301,7 @@ void HandleClick(sf::RenderWindow& window, Board& board) {
     int clickRow = floor((click.y - 75) / 88);        // click height divided by the height of one tile, starting at the top of the board (75 pixels down)
     int clickCol = floor((click.x - 200) / 88);       // click width divided by the length of one tile, starting at left of the board (200 pixels in)
 
-    if (board.textures.globalBounds.at("chessBoard").contains(click.x, click.y)) {          // if the click is on the board
+    if ((board.textures.globalBounds.at("chessBoard").contains(click.x, click.y)) and (not board.gameOver)) {    // if the click is on the board and the game isn't over
         if (board.pieceSelected) {      // if there is a piece selected already
             // the click they just made will be there desired location
             if (board.CheckValidMove(clickRow, clickCol)) {       // so check if that location is a valid move

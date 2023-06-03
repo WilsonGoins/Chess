@@ -1,4 +1,5 @@
 #include <iostream>
+#include <ctime>
 #include "Board.h"
 #include "Piece.h"
 #include "Pawn.h"
@@ -10,8 +11,6 @@
 #include "Empty.h"
 
 Board::Board() {
-    gameOver = false;
-    lastMove = -1;
     board.resize(8);        // resize the outer vector of board to a size of 8
     selectedMoves.resize(8);        // resize selected moves
     for (int i = 0; i < 8; i++) {
@@ -22,11 +21,15 @@ Board::Board() {
 
     // make pawns
     for (int i = 0; i < 8; i++) {       // make black pawns in the 2nd row
-        board.at(1).push_back(new Pawn(false, 1, i));
+        Piece* currPiece = new Pawn(false, 1, i);
+        board.at(1).push_back(currPiece);
+        blackPieces.push_back(currPiece);
     }
 
     for (int i = 0; i < 8; i++) {       // make white pawns in the 7th row
-        board.at(6).push_back(new Pawn(true, 6, i));
+        Piece* currPiece = new Pawn(true, 6, i);
+        board.at(6).push_back(currPiece);
+        whitePieces.push_back(currPiece);
     }
 
     // make 1st row (black pieces)
@@ -38,6 +41,10 @@ Board::Board() {
     board.at(0).push_back(new Bishop(false, 0, 5));
     board.at(0).push_back(new Knight(false, 0, 6));
     board.at(0).push_back(new Castle(false, 0, 7));
+    // add these pieces to black pieces
+    for (int i = 0; i < 8; i++) {
+        blackPieces.push_back(board.at(0).at(i));
+    }
 
     // make 8th row (white pieces)
     board.at(7).push_back(new Castle(true, 7, 0));
@@ -48,6 +55,11 @@ Board::Board() {
     board.at(7).push_back(new Bishop(true, 7, 5));
     board.at(7).push_back(new Knight(true, 7, 6));
     board.at(7).push_back(new Castle(true, 7, 7));
+    // add these pieces to black pieces
+    for (int i = 0; i < 8; i++) {
+        whitePieces.push_back(board.at(7).at(i));
+    }
+
 
     for (int i = 2; i < 6; i++) {     // make rows 3 - 6 (empty squares)
         for (int j = 0; j < 8; j++) {
@@ -56,37 +68,53 @@ Board::Board() {
     }
 }
 
-int Board::CheckForEnd(bool isWhite) {
+void Board::CheckForEnd(bool isWhite) {
+    // first lets make sure that neither of our players are out of time
+//    if ((isWhite) and (whiteTime <= 0.0f)) {
+//        gameOver = true;        // game is over, whiteWin was false at the start and will stay false, stalemate is also false
+//        return;
+//    } else if ((not isWhite) and (blackTime <= 0.0f)) {
+//        gameOver = true;        // game is over
+//        whiteWin = true;        // and white has won
+//        return;
+//    }
+    // then we will go through each piece of whoever turn it is and check if those pieces can make a move. If they cannot make a move it is either checkmate or stalemate
+    vector<Piece*> currPieces;
+    if (isWhite) {
+        currPieces = whitePieces;
+    } else {
+        currPieces = blackPieces;
+    }
     Piece* currPiece;
-    for (const vector<Piece*>& row : board) {
-        for (Piece* piece : row) {
-            if ((piece->GetValue() > 0) and (isWhite)) {        // if the piece is white, and we are checking for mate against white
-                currPiece = piece;      // update current piece
-            } else if ((piece->GetValue() < 0) and (not isWhite)) {     // if the piece is black, and we are checking for mate against black
-                currPiece = piece;
-            } else {
-                continue;
-            }
-            vector<vector<int>> possibleMoves = currPiece->GetMoves(board, lastMove);     // get moves for the current piece
-            for (const vector<int>& rows: possibleMoves) {
-                for (int move : rows) {
-                    if (move == 1) {        // if there is a 1, it represents a possible move
-                        return 1;       // there is a possible move, so it is not mate or stalemate
-                    }
+    for (Piece* piece : currPieces) {
+        if ((piece->GetValue() > 0) and (isWhite)) {        // if the piece is white, and we are checking for mate against white
+            currPiece = piece;      // update current piece
+        } else if ((piece->GetValue() < 0) and (not isWhite)) {     // if the piece is black, and we are checking for mate against black
+            currPiece = piece;
+        } else {
+            continue;
+        }
+        vector<vector<int>> possibleMoves = currPiece->GetMoves(board, lastMove);     // get moves for the current piece
+        for (const vector<int>& rows: possibleMoves) {
+            for (int move : rows) {
+                if (move == 1) {        // if there is a 1, it represents a possible move
+                    return;       // there is a possible move, so it is not mate or stalemate, so don't change any class attributes
                 }
             }
         }
     }
-    if ((isWhite) and (whiteTime <= 0.0f)) {
-        return 2;
-    } else if ((not isWhite) and (blackTime <= 0.0f)) {
-        return 2;
-    }
     // if we have reached this point we have gone through all pieces of our color and found no possible moves
     if (Piece::CheckKingSafety(board, isWhite)) {       // so if we are not in check...
-        return 0;                                               // return 0 because it must be stalemate
-    } else {            // if we are in  check, then it is mate
-        return -1;          // so return -1
+        gameOver = true;        // game is over
+        stalemate = true;       // stalemate is true
+        return;
+    } else if (isWhite) {            // if we reached here it means the king is not safe. So if we are white, then black wins
+        gameOver = true;        // game is over, whiteWin is false because black has won, and stalemate is still false
+        return;          // so return
+    } else if (!isWhite) {
+        gameOver = true;        // the game is over
+        whiteWin = true;        // white has won, stalemate is still false
+        return;
     }
 }
 
@@ -164,7 +192,6 @@ void Board::CheckForPromote(sf::RenderWindow& window, bool isWhite) {
     queenRect.setFillColor(rectColor);
 
     sf::Mouse mouse;
-    bool toLeave = false;
     while (window.isOpen()) {
         window.draw(knightRect);
         window.draw(bishopRect);
@@ -224,12 +251,11 @@ void Board::DrawBoard(sf::RenderWindow& window, bool whiteTurn) {
     textures.globalBounds.emplace("chessBoard", chessBoard.getGlobalBounds());
     window.draw(chessBoard);        // draw the board
 
-    // if there is a piece selected
-    if (pieceSelected) {
+    // if there is a piece selected and the game isn't over yet
+    if ((pieceSelected) and (not gameOver)) {
         HighlightPiece(window);     // draw the highlight over that piece
         HighlightMoves(window);     // draw highlights over that piece's moves
     }
-
 
     // draw pieces on top of the board
     for (auto row : board) {
@@ -275,15 +301,20 @@ void Board::HighlightMoves(sf::RenderWindow &window) {
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
             if (selectedMoves.at(i).at(j) == 1) {        // if the move is a 1
-                sf::RectangleShape highlightRect;               // make a new square
-                highlightRect.setSize(sf::Vector2f(88, 88));        // each tile is 88x88 big
-                highlightRect.setPosition(200.0f + (j) * 88.0f, 75.0f + (i * 88.0f));       // set position
                 if (board.at(i).at(j)->GetValue() == 0) {       // if the spot is a blank space
-                    highlightRect.setFillColor(blankColor);         // make the square yellow
-                } else if (board.at(i).at(j)->GetValue() != 0) {        // if it is a opposing piece
+                    sf::CircleShape highlightCircle;
+                    highlightCircle.setRadius(32.0f);
+                    highlightCircle.setOrigin(highlightCircle.getLocalBounds().width / 2, highlightCircle.getLocalBounds().height / 2);
+                    highlightCircle.setPosition(200.0f + (j * 88.0f) + 44.0f, 75.0f + (i * 88.0f) + 44.0f);
+                    highlightCircle.setFillColor(blankColor);
+                    window.draw(highlightCircle);
+                } else if (board.at(i).at(j)->GetValue() != 0) {        // if it is an opposing piece
+                    sf::RectangleShape highlightRect;               // make a new square
+                    highlightRect.setSize(sf::Vector2f(88, 88));        // each tile is 88x88 big
+                    highlightRect.setPosition(200.0f + (j) * 88.0f, 75.0f + (i * 88.0f));       // set position
                     highlightRect.setFillColor(captureColor);               // make it red
+                    window.draw(highlightRect);
                 }
-                window.draw(highlightRect);     // draw it
             }
         }
     }
@@ -311,4 +342,84 @@ void Board::EndTurn(sf::RenderWindow& window, int clickRow, int clickCol) {     
     whiteTurn = !whiteTurn;     // flip whose turn it is
     pieceSelected = false;        // deselect any pieces
     CheckForPromote(window, !whiteTurn);        // this will check for pawn promotes, we do !whiteTurn, because we already switched it
+    UpdateMaterialCount();          // update the material count for black and white
+    CheckForEnd(whiteTurn);      // this function assumes the turn has already ended and checks if the new player has possible moves
+}
+
+void Board::UpdateMaterialCount() {
+    vector<Piece*> wPieces;
+    vector<Piece*> bPieces;
+    int whiteVal = 0;
+    int blackVal = 0;
+    for (vector<Piece*> row : board) {
+        for (Piece* piece : row) {
+            int tempVal = piece->GetValue();
+            if (tempVal == 1) {
+                whiteVal += 1;
+                wPieces.push_back(piece);
+            } else if (tempVal == -1) {
+                blackVal += 1;
+                bPieces.push_back(piece);
+            } else if (tempVal == 2) {
+                whiteVal += 3;
+                wPieces.push_back(piece);
+            } else if (tempVal == -2) {
+                blackVal += 3;
+                bPieces.push_back(piece);
+            } else if (tempVal == 3) {
+                whiteVal += 3;
+                wPieces.push_back(piece);
+            } else if (tempVal == -3) {
+                blackVal += 3;
+                bPieces.push_back(piece);
+            } else if (tempVal == 4) {
+                whiteVal += 5;
+                wPieces.push_back(piece);
+            } else if (tempVal == -4) {
+                blackVal += 5;
+                bPieces.push_back(piece);
+            } else if (tempVal == 5) {
+                whiteVal += 9;
+                wPieces.push_back(piece);
+            } else if (tempVal == -5) {
+                blackVal += 9;
+                bPieces.push_back(piece);
+            } else if (tempVal == 6) {          // we don't add to value because the king is invaluable
+                wPieces.push_back(piece);
+            } else if (tempVal == -6) {
+                bPieces.push_back(piece);
+            }
+        }
+    }
+    whiteValue = whiteVal;
+    blackValue = blackVal;
+    whitePieces = wPieces;
+    blackPieces = bPieces;
+}
+
+void Board::DrawEndScreen(sf::RenderWindow &window) {
+    sf::sleep(sf::seconds(2));      // let the board sleep for 2 seconds
+
+    // end border
+    sf::Sprite background(textures.endBorder);      // load in the sprite
+    sf::Vector2f bgSize(400.0f, 400.0f);        // set the size to 300x300
+    background.setScale(bgSize.x / background.getLocalBounds().width,bgSize.y / background.getLocalBounds().height);
+
+    sf::Mouse mouse;
+    while (window.isOpen()) {
+        window.draw(background);
+        window.display();
+
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed) {      // if they close the window, close it
+                window.close();
+                return;
+            } else if (event.type == sf::Event::MouseButtonPressed) {
+                lastMove = -69;
+                return;
+                sf::Vector2i click = mouse.getPosition(window);        // mouse position
+            }
+        }
+    }
 }
