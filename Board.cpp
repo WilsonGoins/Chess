@@ -107,13 +107,16 @@ void Board::CheckForEnd(bool isWhite) {
     if (Piece::CheckKingSafety(board, isWhite)) {       // so if we are not in check...
         gameOver = true;        // game is over
         stalemate = true;       // stalemate is true
+        cout << "Stalemate. Tie game!" << endl;
         return;
     } else if (isWhite) {            // if we reached here it means the king is not safe. So if we are white, then black wins
         gameOver = true;        // game is over, whiteWin is false because black has won, and stalemate is still false
+        cout << "Black Wins!" << endl << "Congratulations " << blackName << endl;
         return;          // so return
     } else if (!isWhite) {
         gameOver = true;        // the game is over
         whiteWin = true;        // white has won, stalemate is still false
+        cout << "White Wins!" << endl << "Congratulations " << whiteName << endl;
         return;
     }
 }
@@ -402,8 +405,9 @@ void Board::DrawEndScreen(sf::RenderWindow &window) {
 
     // end border
     sf::Sprite background(textures.endBorder);      // load in the sprite
-    sf::Vector2f bgSize(400.0f, 400.0f);        // set the size to 300x300
+    sf::Vector2f bgSize(500.0f, 500.0f);        // set the size to 300x300
     background.setScale(bgSize.x / background.getLocalBounds().width,bgSize.y / background.getLocalBounds().height);
+    background.setPosition((704 / 2) - 50, 75 + (704 / 2) - 250);       // set it to the middle of the screen
 
     sf::Mouse mouse;
     while (window.isOpen()) {
