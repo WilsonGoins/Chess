@@ -68,6 +68,70 @@ Board::Board() {
     }
 }
 
+Board::Board(string whiteName, string blackName, float time) {
+    // things to carry over
+    this->whiteName = whiteName;
+    this->blackName = blackName;
+    initTime = time;
+
+    // from here on, everything else is the same
+    board.resize(8);        // resize the outer vector of board to a size of 8
+    selectedMoves.resize(8);        // resize selected moves
+    for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {
+            selectedMoves.at(i).push_back(0);       // fill it with 0s
+        }
+    }
+
+    // make pawns
+    for (int i = 0; i < 8; i++) {       // make black pawns in the 2nd row
+        Piece* currPiece = new Pawn(false, 1, i);
+        board.at(1).push_back(currPiece);
+        blackPieces.push_back(currPiece);
+    }
+
+    for (int i = 0; i < 8; i++) {       // make white pawns in the 7th row
+        Piece* currPiece = new Pawn(true, 6, i);
+        board.at(6).push_back(currPiece);
+        whitePieces.push_back(currPiece);
+    }
+
+    // make 1st row (black pieces)
+    board.at(0).push_back(new Castle(false, 0, 0));
+    board.at(0).push_back(new Knight(false, 0, 1));
+    board.at(0).push_back(new Bishop(false, 0, 2));
+    board.at(0).push_back(new Queen(false, 0,3));
+    board.at(0).push_back(new King(false, 0, 4));
+    board.at(0).push_back(new Bishop(false, 0, 5));
+    board.at(0).push_back(new Knight(false, 0, 6));
+    board.at(0).push_back(new Castle(false, 0, 7));
+    // add these pieces to black pieces
+    for (int i = 0; i < 8; i++) {
+        blackPieces.push_back(board.at(0).at(i));
+    }
+
+    // make 8th row (white pieces)
+    board.at(7).push_back(new Castle(true, 7, 0));
+    board.at(7).push_back(new Knight(true, 7, 1));
+    board.at(7).push_back(new Bishop(true, 7, 2));
+    board.at(7).push_back(new Queen(true, 7, 3));
+    board.at(7).push_back(new King(true, 7, 4));
+    board.at(7).push_back(new Bishop(true, 7, 5));
+    board.at(7).push_back(new Knight(true, 7, 6));
+    board.at(7).push_back(new Castle(true, 7, 7));
+    // add these pieces to black pieces
+    for (int i = 0; i < 8; i++) {
+        whitePieces.push_back(board.at(7).at(i));
+    }
+
+
+    for (int i = 2; i < 6; i++) {     // make rows 3 - 6 (empty squares)
+        for (int j = 0; j < 8; j++) {
+            board.at(i).push_back(new Empty(i, j));
+        }
+    }
+}
+
 void Board::CheckForEnd(bool isWhite) {
     // first lets make sure that neither of our players are out of time
 //    if ((isWhite) and (whiteTime <= 0.0f)) {
@@ -124,7 +188,7 @@ void Board::CheckForPromote(sf::RenderWindow& window, bool isWhite) {
     sf::Sprite bishop;
     sf::Sprite castle;
     sf::Sprite queen;
-    
+
     int rowToCheck;
     int colOfPromotion = -1;
     float displayHeight;
@@ -202,12 +266,11 @@ void Board::CheckForPromote(sf::RenderWindow& window, bool isWhite) {
         window.draw(castle);
         window.draw(queen);
         window.display();
-        
+
         sf::Event event;
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed) {      // if they close the window, close it
-                window.close();
-                return;
+                exit(0);
             } else if (event.type == sf::Event::MouseButtonPressed) {
                 sf::Vector2i click = mouse.getPosition(window);        // mouse position
                 if (knightRect.getGlobalBounds().contains(click.x, click.y)) {
@@ -483,6 +546,19 @@ void Board::DrawEndScreen(sf::RenderWindow &window) {
 
     sf::Mouse mouse;
     while (window.isOpen()) {
+        sf::Vector2i hoverLocal = mouse.getPosition(window);        // get the mouse position
+        if (newRect.getGlobalBounds().contains(hoverLocal.x, hoverLocal.y)) {
+            newOption.setFillColor(sf::Color::Yellow);
+        } else if (returnRect.getGlobalBounds().contains(hoverLocal.x, hoverLocal.y)) {
+            returnOption.setFillColor(sf::Color::Yellow);
+        } else if (menuRect.getGlobalBounds().contains(hoverLocal.x, hoverLocal.y)) {
+            menuOption.setFillColor(sf::Color::Yellow);
+        } else {
+            newOption.setFillColor(sf::Color::White);
+            returnOption.setFillColor(sf::Color::White);
+            menuOption.setFillColor(sf::Color::White);
+        }
+
         DrawBoard(window, whiteTurn);       // draw the board
         window.draw(background);        // draw the new border over it
         window.draw(outcome);
@@ -493,14 +569,14 @@ void Board::DrawEndScreen(sf::RenderWindow &window) {
         window.draw(menuRect);
         window.draw(menuOption);
         // draw text based on outcome
-        if (stalemate) {window.draw(tieText);} else {window.draw(congrats); window.draw(congratsName);}
+        if (stalemate) {window.draw(tieText);}
+        else {window.draw(congrats); window.draw(congratsName);}
         window.display();
 
         sf::Event event;
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed) {      // if they close the window, close it
-                window.close();
-                return;
+                exit(0);
             } else if (event.type == sf::Event::MouseButtonPressed) {
                 sf::Vector2i click = mouse.getPosition(window);        // mouse position
                 if (returnRect.getGlobalBounds().contains(click.x, click.y)) {
@@ -521,7 +597,7 @@ void Board::DrawFireworks(sf::RenderWindow &window, bool whiteWin) {
     if (stalemate) {return;}        // if it was a stalemate, return
 
     sf::sleep(sf::seconds(0.5));
-    
+
     int kingRow;
     int kingCol;
     for (int i = 0; i < 8; i++) {

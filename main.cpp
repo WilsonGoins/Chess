@@ -12,12 +12,20 @@ int GameScreen(sf::RenderWindow& window, Board& board);
 void HandleClick(sf::RenderWindow& window, Board& board);
 
 int main() {
-    Board board = Board();          // board object to hold the majority of our data
-    sf::RenderWindow window(sf::VideoMode(1100, 850), "Chess");     // window where everything happens
-    WelcomeScreen(window, board);           // run the welcome screen
-    int gameScreenResult = GameScreen(window, board);
-
-
+    int gameScreenResult;
+    while (true) {      // outer loop to go back to real beginning
+        Board board = Board();          // board object to hold the majority of our data
+        sf::RenderWindow window(sf::VideoMode(1100, 850), "Chess");     // window where everything happens
+        WelcomeScreen(window, board);           // run the welcome screen
+        while (true) {      // inner loop to go back to start of current game
+            gameScreenResult = GameScreen(window, board);
+            if (gameScreenResult == 0) {        // 0 means we need to go back to menu, so break out of here
+                break;
+            } else if (gameScreenResult == 1) {     // 1 means we need to reset the board
+                board = Board(board.whiteName, board.blackName, board.initTime);        // make a new board and carry over unique attributes
+            }
+        }
+    }
     return 0;
 }
 
@@ -208,8 +216,7 @@ void WelcomeScreen(sf::RenderWindow& window, Board& board) {
         sf::Event event;
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed) {      // if they close the window
-                window.close();
-                return;
+                exit(0);
             } else if (event.type == sf::Event::MouseButtonPressed) {       // if they click
                 sf::Vector2i click = mouse.getPosition(window);        // get the mouse position
                 if (p1Prompt.getGlobalBounds().contains(click.x, click.y)) {     // if they click player1's name
@@ -276,6 +283,7 @@ int GameScreen(sf::RenderWindow& window, Board& board) {
     while (window.isOpen()) {       // while window is open
         if (board.toExit) {return 0;}         // if we need to go back to menu return 0
         else if (board.needsReset) {return 1;}         // if we need to reset the board return 1
+
         board.DrawBoard(window, true);          // draw everything on the screen
         // when we reach this point it will have been after the game has ended (if it did) so here we will put up a screen to show that
         if ((board.gameOver) and (board.lastMove != -69)) {      // last move is set to -69 after we go through the end screen, so that it only happens once
@@ -286,8 +294,7 @@ int GameScreen(sf::RenderWindow& window, Board& board) {
         sf::Event event;
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed) {      // if they close the window
-                window.close();
-                return 1;
+                exit(0);  // return -1 to indicate game over
             } else if (event.type == sf::Event::MouseButtonPressed) {
                 HandleClick(window, board);
             }

@@ -54,5 +54,6 @@ public:
     void CheckForPromote(sf::RenderWindow& window, bool isWhite);        // check if a pawn is at the end of the board, if so, it promotes it
     bool CheckValidMove(int row, int col);
     Board();        // board constructor
+    Board(string whiteName, string blackName, float time);      // parameterized constructor for resetting games
     ~Board() = default;
 };
