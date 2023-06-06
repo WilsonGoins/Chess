@@ -274,14 +274,15 @@ void WelcomeScreen(sf::RenderWindow& window, Board& board) {
 
 int GameScreen(sf::RenderWindow& window, Board& board) {
     while (window.isOpen()) {       // while window is open
+        if (board.toExit) {return 0;}         // if we need to go back to menu return 0
+        else if (board.needsReset) {return 1;}         // if we need to reset the board return 1
         board.DrawBoard(window, true);          // draw everything on the screen
         // when we reach this point it will have been after the game has ended (if it did) so here we will put up a screen to show that
         if ((board.gameOver) and (board.lastMove != -69)) {      // last move is set to -69 after we go through the end screen, so that it only happens once
-            window.display();
-            board.DrawEndScreen(window);
-        } else {
-            window.display();
+            window.display();                   // update previous move
+            board.DrawEndScreen(window);        // do end screen
         }
+        window.display();
         sf::Event event;
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed) {      // if they close the window

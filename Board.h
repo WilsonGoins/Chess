@@ -19,6 +19,9 @@ public:
     int selectedCol = -1;           // these are for drawing highlights and general tracking
     vector<vector<int>> selectedMoves;
     float initTime = 600.0f;        // initial time of game (can be changed) is 600 seconds which is 10 minutes
+    bool showExitOptions = false;       // if true, we will show options to start a new game or return to start at bottom of the screen
+    bool needsReset = false;
+    bool toExit = false;
 
 
     // all the sprites to be used
@@ -40,6 +43,7 @@ public:
 
     // functions
     void DrawBoard(sf::RenderWindow& window, bool whiteTurn);
+    void DrawFireworks(sf::RenderWindow& window, bool whiteWin);
     void DrawEndScreen(sf::RenderWindow& window);
     void HighlightPiece(sf::RenderWindow& window);
     void HighlightMoves(sf::RenderWindow& window);

@@ -21,6 +21,7 @@ public:
     sf::Texture bCastle;
     sf::Texture wKing;
     sf::Texture bKing;
+    sf::Texture fireworks;
 
     Images() {
         // background image texture
@@ -67,6 +68,9 @@ public:
 
         // black king
         bKing.loadFromFile(directory + "bKing.PNG");
+
+        // all fireworks
+        fireworks.loadFromFile("Images/Classic/fireworks.png");
     }
 
     void ChangeDirectory() {

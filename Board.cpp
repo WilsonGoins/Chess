@@ -107,16 +107,13 @@ void Board::CheckForEnd(bool isWhite) {
     if (Piece::CheckKingSafety(board, isWhite)) {       // so if we are not in check...
         gameOver = true;        // game is over
         stalemate = true;       // stalemate is true
-        cout << "Stalemate. Tie game!" << endl;
         return;
     } else if (isWhite) {            // if we reached here it means the king is not safe. So if we are white, then black wins
         gameOver = true;        // game is over, whiteWin is false because black has won, and stalemate is still false
-        cout << "Black Wins!" << endl << "Congratulations " << blackName << endl;
         return;          // so return
     } else if (!isWhite) {
         gameOver = true;        // the game is over
         whiteWin = true;        // white has won, stalemate is still false
-        cout << "White Wins!" << endl << "Congratulations " << whiteName << endl;
         return;
     }
 }
@@ -401,17 +398,102 @@ void Board::UpdateMaterialCount() {
 }
 
 void Board::DrawEndScreen(sf::RenderWindow &window) {
-    sf::sleep(sf::seconds(2));      // let the board sleep for 2 seconds
-
+    DrawFireworks(window, whiteWin);        // draw fireworks to show winner, if any
     // end border
     sf::Sprite background(textures.endBorder);      // load in the sprite
     sf::Vector2f bgSize(500.0f, 500.0f);        // set the size to 300x300
     background.setScale(bgSize.x / background.getLocalBounds().width,bgSize.y / background.getLocalBounds().height);
     background.setPosition((704 / 2) - 50, 75 + (704 / 2) - 250);       // set it to the middle of the screen
+    float bgXMiddle = background.getPosition().x + 250;
+    float bgYMiddle = background.getPosition().y + 250;
+
+    // font
+    sf::Font font;
+    font.loadFromFile("Fonts/BodoniModa-VariableFont_opsz,wght.ttf");
+    // outcome and congrats text
+    string outcomeText;
+    if (stalemate) {
+        outcomeText = "Stalemate!";
+    } else if (whiteWin) {
+        outcomeText = "White wins!";
+    } else if (not whiteWin) {
+        outcomeText = "Black wins!";
+    }
+    // outcome
+    sf::Text outcome(outcomeText, font, 55);
+    outcome.setFillColor(sf::Color::Yellow);
+    outcome.setOrigin(outcome.getLocalBounds().width / 2.0f, outcome.getLocalBounds().height / 2.0f);
+    outcome.setPosition(sf::Vector2f(bgXMiddle, bgYMiddle - 175));        // put it in the top middle of the background
+
+    sf::Text congrats("Congratulations:", font, 40);
+    sf::Text congratsName;
+    sf::Text tieText("It's a tie!", font, 40);
+    if (not stalemate) {
+        // congratulations
+        congrats.setFillColor(sf::Color::White);
+        congrats.setOrigin(congrats.getLocalBounds().width / 2.0f, congrats.getLocalBounds().height / 2.0f);
+        congrats.setPosition(sf::Vector2f(bgXMiddle, bgYMiddle - 100));        // put it in the top middle of the background
+        // congrats name
+        string tempName;
+        if (whiteWin) {tempName = whiteName;} else {tempName = blackName;}
+        congratsName.setString(tempName);
+        congratsName.setFont(font);
+        congratsName.setCharacterSize(40);
+        congratsName.setFillColor(sf::Color::White);
+        congratsName.setOrigin(congratsName.getLocalBounds().width / 2.0f, congratsName.getLocalBounds().height / 2.0f);
+        congratsName.setPosition(sf::Vector2f(bgXMiddle, bgYMiddle - 50));        // put it in the top middle of the background
+    } else {
+        // tie text
+        tieText.setFillColor(sf::Color::White);
+        tieText.setOrigin(tieText.getLocalBounds().width / 2.0f, tieText.getLocalBounds().height / 2.0f);
+        tieText.setPosition(sf::Vector2f(bgXMiddle, bgYMiddle - 100));        // put it in the top middle of the background
+    }
+    sf::Color rectColor(0, 0, 0, 75);
+    // return to board button
+    sf::RectangleShape returnRect;
+    returnRect.setSize(sf::Vector2f(330, 60));
+    returnRect.setOrigin(returnRect.getLocalBounds().width / 2, returnRect.getLocalBounds().height / 2);
+    returnRect.setPosition(bgXMiddle, bgYMiddle + 100);
+    returnRect.setFillColor(rectColor);
+    sf::Text returnOption(" Return To Board ", font, 40);
+    returnOption.setFillColor(sf::Color::White);
+    returnOption.setOrigin(returnRect.getLocalBounds().width / 2, returnRect.getLocalBounds().height / 2);
+    returnOption.setPosition(sf::Vector2f(bgXMiddle, bgYMiddle + 102));
+    // new game button
+    sf::RectangleShape newRect;
+    newRect.setSize(sf::Vector2f(197, 60));
+    newRect.setOrigin(newRect.getLocalBounds().width / 2, newRect.getLocalBounds().height / 2);
+    newRect.setPosition(bgXMiddle - 100, bgYMiddle + 25);
+    newRect.setFillColor(rectColor);
+    sf::Text newOption(" New Game ", font, 35);
+    newOption.setFillColor(sf::Color::White);
+    newOption.setOrigin(newRect.getLocalBounds().width / 2, newRect.getLocalBounds().height / 2);
+    newOption.setPosition(sf::Vector2f(bgXMiddle - 100, bgYMiddle + 30));
+    // change settings button that takes them back to the start screen
+    sf::RectangleShape menuRect;
+    menuRect.setSize(sf::Vector2f(162, 60));
+    menuRect.setOrigin(menuRect.getLocalBounds().width / 2, menuRect.getLocalBounds().height / 2);
+    menuRect.setPosition(bgXMiddle + 105, bgYMiddle + 25);
+    menuRect.setFillColor(rectColor);
+    sf::Text menuOption(" Settings ", font, 35);
+    menuOption.setFillColor(sf::Color::White);
+    menuOption.setOrigin(menuRect.getLocalBounds().width / 2, menuRect.getLocalBounds().height / 2);
+    menuOption.setPosition(sf::Vector2f(bgXMiddle + 110, bgYMiddle + 30));
+
 
     sf::Mouse mouse;
     while (window.isOpen()) {
-        window.draw(background);
+        DrawBoard(window, whiteTurn);       // draw the board
+        window.draw(background);        // draw the new border over it
+        window.draw(outcome);
+        window.draw(returnRect);
+        window.draw(returnOption);
+        window.draw(newRect);
+        window.draw(newOption);
+        window.draw(menuRect);
+        window.draw(menuOption);
+        // draw text based on outcome
+        if (stalemate) {window.draw(tieText);} else {window.draw(congrats); window.draw(congratsName);}
         window.display();
 
         sf::Event event;
@@ -420,10 +502,59 @@ void Board::DrawEndScreen(sf::RenderWindow &window) {
                 window.close();
                 return;
             } else if (event.type == sf::Event::MouseButtonPressed) {
+                sf::Vector2i click = mouse.getPosition(window);        // mouse position
+                if (returnRect.getGlobalBounds().contains(click.x, click.y)) {
+                    showExitOptions = true;
+                } else if (newRect.getGlobalBounds().contains(click.x, click.y)) {
+                    needsReset = true;
+                } else if (menuRect.getGlobalBounds().contains(click.x, click.y)) {
+                    toExit = true;
+                }
                 lastMove = -69;
                 return;
-                sf::Vector2i click = mouse.getPosition(window);        // mouse position
             }
         }
     }
+}
+
+void Board::DrawFireworks(sf::RenderWindow &window, bool whiteWin) {
+    if (stalemate) {return;}        // if it was a stalemate, return
+
+    sf::sleep(sf::seconds(0.5));
+    
+    int kingRow;
+    int kingCol;
+    for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {
+            if ((board.at(i).at(j)->GetValue() == 6) and (whiteWin)) {      // if white king and white won
+                kingRow = i;
+                kingCol = j;
+            } else if ((board.at(i).at(j)->GetValue() == -6) and (not whiteWin)) {      // if black king and black won
+                kingRow = i;
+                kingCol = j;
+            }
+        }
+    }
+
+    sf::Vector2f newSize(66.0f, 66.0f);
+    sf::Sprite firework1(textures.fireworks);
+    firework1.setScale(newSize.x / firework1.getLocalBounds().width, newSize.y / firework1.getLocalBounds().height);
+    firework1.setPosition(200 + (kingCol * 88), 75 + (kingRow * 88) + 15);
+
+    DrawBoard(window, whiteTurn);
+    window.draw(firework1);
+    window.display();
+    sf::sleep(sf::seconds(0.6));      // let the board sleep for 0.3 seconds
+
+    DrawBoard(window, whiteTurn);
+    firework1.setPosition(200 + (kingCol * 88) + 38, 75 + (kingRow * 88) + 15);
+    window.draw(firework1);
+    window.display();
+    sf::sleep(sf::seconds(0.6));      // let the board sleep for 0.3 seconds
+
+    DrawBoard(window, whiteTurn);
+    firework1.setPosition(200 + (kingCol * 88) + 10, 75 + (kingRow * 88) + 15);
+    window.draw(firework1);
+    window.display();
+    sf::sleep(sf::seconds(1.6));      // let the board sleep for 1 second before returning
 }
