@@ -60,7 +60,6 @@ Board::Board() {
         whitePieces.push_back(board.at(7).at(i));
     }
 
-
     for (int i = 2; i < 6; i++) {     // make rows 3 - 6 (empty squares)
         for (int j = 0; j < 8; j++) {
             board.at(i).push_back(new Empty(i, j));
@@ -133,22 +132,52 @@ Board::Board(string whiteName, string blackName, float time) {
 }
 
 void Board::CheckForEnd(bool isWhite) {
-    // first lets make sure that neither of our players are out of time
-//    if ((isWhite) and (whiteTime <= 0.0f)) {
-//        gameOver = true;        // game is over, whiteWin was false at the start and will stay false, stalemate is also false
-//        return;
-//    } else if ((not isWhite) and (blackTime <= 0.0f)) {
-//        gameOver = true;        // game is over
-//        whiteWin = true;        // and white has won
-//        return;
-//    }
-    // then we will go through each piece of whoever turn it is and check if those pieces can make a move. If they cannot make a move it is either checkmate or stalemate
-    vector<Piece*> currPieces;
-    if (isWhite) {
-        currPieces = whitePieces;
-    } else {
-        currPieces = blackPieces;
+    // first, we should check for insufficient material
+    // here we gather data on what kind of pieces each of us have
+    bool wLoneKing = false;
+    bool bLoneKing = false;
+    bool wKingKnight = false;
+    bool bKingKnight = false;
+    bool wKingBishop = false;
+    bool bKingBishop = false;
+    bool w2Knights = false;
+    bool b2Knights = false;
+    if (whitePieces.size() == 1) { wLoneKing = true;}            // if white side has one piece, lone king is true for white
+    if (blackPieces.size() == 1) {bLoneKing = true;}      // if black has one piece, lone king for black is true
+    if ((whitePieces.size() == 2) or (blackPieces.size() == 2)) {
+        if (whiteValue == 8) {wKingKnight = true;}              // if the value is 8, that is a king and a knight
+        else if (whiteValue == 9) {wKingBishop = true;}       // if the value is a 9, that is a king and a bishop
+        if (blackValue == 8) {bKingKnight = true;}          // if black value is an 8, that is king and a knight
+        else if (blackValue == 9) {bKingBishop = true;}         // if black value is a 9 that is king and a bishop
     }
+    if (whitePieces.size() == 3) {      // if white has 3 pieces
+        for (Piece* piece : whitePieces) {          // for every piece in white pieces
+            if ((piece->GetValue() != 6) or (piece->GetValue() != 2)) {w2Knights = false; break;}       // if it isn't a king or a knight, set to false and break
+            w2Knights = true;       // if it is one of those, set to true and keep going
+        }
+    } else if (blackPieces.size() == 3) {
+        for (Piece* piece : blackPieces) {
+            if ((piece->GetValue() != -6) or (piece->GetValue() != -2)) {b2Knights = false; break;}
+            b2Knights = true;
+        }
+    }
+    // checks for insufficient material
+    // lone kings
+    if ((wLoneKing) and (bLoneKing)) {insuffMat = true; gameOver = true; return;}
+    // king vs king/bishop
+    else if (((wLoneKing) and (bKingBishop)) or ((bLoneKing) and (wKingBishop))) {insuffMat = true; gameOver = true; return;}
+    // king vs king/knight
+    else if (((wLoneKing) and (bKingKnight)) or ((bLoneKing) and (wKingKnight))) {insuffMat = true; gameOver = true; return;}
+    // king/bishop vs king/bishop
+    else if ((wKingBishop) and (bKingBishop)) {insuffMat = true; gameOver = true; return;}
+    // king/knight vs king/knight
+    else if ((wKingKnight) and (bKingKnight)) {insuffMat = true; gameOver = true; return;}
+    // lastly check if we have lone king vs king/knight/knight
+    if (((wLoneKing) and (b2Knights)) or ((bLoneKing) and (w2Knights))) {insuffMat = true; gameOver = true; return;}
+
+    // now we will see if our players can make a move, if they can, play continues, if not we have stalemate or checkmate
+    vector<Piece*> currPieces;
+    if (isWhite) {currPieces = whitePieces;} else {currPieces = blackPieces;}       // assign currPieces to white or black pieces
     Piece* currPiece;
     for (Piece* piece : currPieces) {
         if ((piece->GetValue() > 0) and (isWhite)) {        // if the piece is white, and we are checking for mate against white
@@ -167,6 +196,7 @@ void Board::CheckForEnd(bool isWhite) {
             }
         }
     }
+
     // if we have reached this point we have gone through all pieces of our color and found no possible moves
     if (Piece::CheckKingSafety(board, isWhite)) {       // so if we are not in check...
         gameOver = true;        // game is over
@@ -301,6 +331,10 @@ void Board::CheckForPromote(sf::RenderWindow& window, bool isWhite) {
 }
 
 void Board::DrawBoard(sf::RenderWindow& window, bool whiteTurn) {
+    // font
+    sf::Font font;
+    font.loadFromFile("Fonts/BodoniModa-VariableFont_opsz,wght.ttf");
+
     window.clear(sf::Color::Blue);   // clear the window to have a blue background
 
     // sprite for the board
@@ -325,6 +359,57 @@ void Board::DrawBoard(sf::RenderWindow& window, bool whiteTurn) {
         for (auto piece : row) {
             window.draw(piece->DrawPiece(window, textures));
         }
+    }
+
+    // if the game is over we need to display their exit options
+    if (showExitOptions) {
+        sf::Color rectColor(255, 255, 255);
+        // new game button
+        sf::RectangleShape newRect;         // rectangle to go behind text
+        newRect.setSize(sf::Vector2f(195, 60));         // set size for this specific size (is relevant to size of text)
+        newRect.setOrigin(0, newRect.getLocalBounds().height / 2);      // left / middle aligned
+        newRect.setPosition(200, window.getSize().y - 35);      // set it to start of chess board
+        newRect.setFillColor(sf::Color::Blue);                      // make it the same color as the background
+        sf::Text newOption(" New Game ", font, 35);     // text
+        newOption.setFillColor(sf::Color::White);                       // make it white
+        newOption.setOrigin(0, 60 / 2);                             // left / middle aligned
+        newOption.setPosition(sf::Vector2f(205, window.getSize().y - 30));      // set it to 5 pixels past the start of board
+        // change settings button that takes them back to the start screen
+        sf::RectangleShape menuRect;
+        menuRect.setSize(sf::Vector2f(158, 60));
+        menuRect.setOrigin(158, menuRect.getLocalBounds().height / 2);      // right aligned
+        menuRect.setPosition(904, window.getSize().y - 35);         // right side of chess board
+        menuRect.setFillColor(sf::Color::Blue);
+        sf::Text menuOption(" Settings ", font, 35);
+        menuOption.setFillColor(sf::Color::White);
+        menuOption.setOrigin(menuOption.getLocalBounds().width, 60.0 / 2);
+        menuOption.setPosition(sf::Vector2f(899, window.getSize().y - 30));
+        // draw line
+        sf::VertexArray line(sf::Lines, 2);
+        line[0].position = sf::Vector2f(5, window.getSize().y - 35);
+        line[0].color = sf::Color::White;
+        line[1].position = sf::Vector2f(window.getSize().x - 5, window.getSize().y - 35);
+        line[1].color = sf::Color::White;
+        // check if the mouse is currently on one of these options
+        sf::Mouse mouse;
+        sf::Vector2i hoverLocal = mouse.getPosition(window);        // get the mouse position
+        if (newRect.getGlobalBounds().contains(hoverLocal.x, hoverLocal.y)) {
+            newOption.setFillColor(sf::Color::Yellow);
+        } else if (menuRect.getGlobalBounds().contains(hoverLocal.x, hoverLocal.y)) {
+            menuOption.setFillColor(sf::Color::Yellow);
+        } else {
+            newOption.setFillColor(sf::Color::White);
+            menuOption.setFillColor(sf::Color::White);
+        }
+        // draw them
+        window.draw(line);
+        window.draw(newRect);
+        window.draw(menuRect);
+        window.draw(newOption);
+        window.draw(menuOption);
+        //  add these buttons to our map of global bounds
+        textures.globalBounds.emplace("newOption", newOption.getGlobalBounds());
+        textures.globalBounds.emplace("menuOption", menuOption.getGlobalBounds());
     }
 }
 
@@ -477,6 +562,8 @@ void Board::DrawEndScreen(sf::RenderWindow &window) {
     string outcomeText;
     if (stalemate) {
         outcomeText = "Stalemate!";
+    } else if (insuffMat) {
+        outcomeText = "Insufficient\n   Material";      // 2 spaces
     } else if (whiteWin) {
         outcomeText = "White wins!";
     } else if (not whiteWin) {
@@ -491,7 +578,7 @@ void Board::DrawEndScreen(sf::RenderWindow &window) {
     sf::Text congrats("Congratulations:", font, 40);
     sf::Text congratsName;
     sf::Text tieText("It's a tie!", font, 40);
-    if (not stalemate) {
+    if ((not stalemate) and (not insuffMat)) {
         // congratulations
         congrats.setFillColor(sf::Color::White);
         congrats.setOrigin(congrats.getLocalBounds().width / 2.0f, congrats.getLocalBounds().height / 2.0f);
@@ -506,42 +593,49 @@ void Board::DrawEndScreen(sf::RenderWindow &window) {
         congratsName.setOrigin(congratsName.getLocalBounds().width / 2.0f, congratsName.getLocalBounds().height / 2.0f);
         congratsName.setPosition(sf::Vector2f(bgXMiddle, bgYMiddle - 50));        // put it in the top middle of the background
     } else {
-        // tie text
-        tieText.setFillColor(sf::Color::White);
-        tieText.setOrigin(tieText.getLocalBounds().width / 2.0f, tieText.getLocalBounds().height / 2.0f);
-        tieText.setPosition(sf::Vector2f(bgXMiddle, bgYMiddle - 100));        // put it in the top middle of the background
+        if (stalemate) {
+            // tie text
+            tieText.setFillColor(sf::Color::White);
+            tieText.setOrigin(tieText.getLocalBounds().width / 2.0f, tieText.getLocalBounds().height / 2.0f);
+            tieText.setPosition(sf::Vector2f(bgXMiddle, bgYMiddle - 100));        // put it in the top middle of the background
+        } else if (insuffMat) {
+            tieText.setFillColor(sf::Color::White);
+            tieText.setOrigin(tieText.getLocalBounds().width / 2.0f, tieText.getLocalBounds().height / 2.0f);
+            tieText.setPosition(sf::Vector2f(bgXMiddle, bgYMiddle - 40));        // tie text goes a little lower
+            outcome.setPosition(sf::Vector2f(bgXMiddle, bgYMiddle - 140));       // outcome text goes a little lower
+        }
     }
     sf::Color rectColor(0, 0, 0, 75);
     // return to board button
     sf::RectangleShape returnRect;
     returnRect.setSize(sf::Vector2f(330, 60));
     returnRect.setOrigin(returnRect.getLocalBounds().width / 2, returnRect.getLocalBounds().height / 2);
-    returnRect.setPosition(bgXMiddle, bgYMiddle + 100);
+    returnRect.setPosition(bgXMiddle, bgYMiddle + 110);
     returnRect.setFillColor(rectColor);
     sf::Text returnOption(" Return To Board ", font, 40);
     returnOption.setFillColor(sf::Color::White);
     returnOption.setOrigin(returnRect.getLocalBounds().width / 2, returnRect.getLocalBounds().height / 2);
-    returnOption.setPosition(sf::Vector2f(bgXMiddle, bgYMiddle + 102));
+    returnOption.setPosition(sf::Vector2f(bgXMiddle, bgYMiddle + 112));
     // new game button
     sf::RectangleShape newRect;
     newRect.setSize(sf::Vector2f(197, 60));
     newRect.setOrigin(newRect.getLocalBounds().width / 2, newRect.getLocalBounds().height / 2);
-    newRect.setPosition(bgXMiddle - 100, bgYMiddle + 25);
+    newRect.setPosition(bgXMiddle - 100, bgYMiddle + 35);
     newRect.setFillColor(rectColor);
     sf::Text newOption(" New Game ", font, 35);
     newOption.setFillColor(sf::Color::White);
     newOption.setOrigin(newRect.getLocalBounds().width / 2, newRect.getLocalBounds().height / 2);
-    newOption.setPosition(sf::Vector2f(bgXMiddle - 100, bgYMiddle + 30));
+    newOption.setPosition(sf::Vector2f(bgXMiddle - 100, bgYMiddle + 40));
     // change settings button that takes them back to the start screen
     sf::RectangleShape menuRect;
-    menuRect.setSize(sf::Vector2f(162, 60));
+    menuRect.setSize(sf::Vector2f(160, 60));
     menuRect.setOrigin(menuRect.getLocalBounds().width / 2, menuRect.getLocalBounds().height / 2);
-    menuRect.setPosition(bgXMiddle + 105, bgYMiddle + 25);
+    menuRect.setPosition(bgXMiddle + 105, bgYMiddle + 35);
     menuRect.setFillColor(rectColor);
     sf::Text menuOption(" Settings ", font, 35);
     menuOption.setFillColor(sf::Color::White);
     menuOption.setOrigin(menuRect.getLocalBounds().width / 2, menuRect.getLocalBounds().height / 2);
-    menuOption.setPosition(sf::Vector2f(bgXMiddle + 110, bgYMiddle + 30));
+    menuOption.setPosition(sf::Vector2f(bgXMiddle + 110, bgYMiddle + 40));
 
 
     sf::Mouse mouse;
@@ -569,7 +663,7 @@ void Board::DrawEndScreen(sf::RenderWindow &window) {
         window.draw(menuRect);
         window.draw(menuOption);
         // draw text based on outcome
-        if (stalemate) {window.draw(tieText);}
+        if ((stalemate) or (insuffMat)) {window.draw(tieText);}
         else {window.draw(congrats); window.draw(congratsName);}
         window.display();
 
@@ -594,43 +688,104 @@ void Board::DrawEndScreen(sf::RenderWindow &window) {
 }
 
 void Board::DrawFireworks(sf::RenderWindow &window, bool whiteWin) {
-    if (stalemate) {return;}        // if it was a stalemate, return
+    if ((stalemate) or (insuffMat)) {return;}        // if it was a stalemate, return
 
-    sf::sleep(sf::seconds(0.5));
-
+    // get king location
     int kingRow;
     int kingCol;
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
-            if ((board.at(i).at(j)->GetValue() == 6) and (whiteWin)) {      // if white king and white won
+            if ((board.at(i).at(j)->GetValue() == -6) and (whiteWin)) {      // if black king and white won
                 kingRow = i;
                 kingCol = j;
-            } else if ((board.at(i).at(j)->GetValue() == -6) and (not whiteWin)) {      // if black king and black won
+            } else if ((board.at(i).at(j)->GetValue() == 6) and (not whiteWin)) {      // if white king and black won
                 kingRow = i;
                 kingCol = j;
             }
         }
     }
 
+//    sf::Sprite firework1(textures.fireworks);
+//    firework1.setScale(newSize.x / firework1.getLocalBounds().width, newSize.y / firework1.getLocalBounds().height);
+//    firework1.setPosition(200 + (kingCol * 88), 75 + (kingRow * 88) + 15);
+
     sf::Vector2f newSize(66.0f, 66.0f);
-    sf::Sprite firework1(textures.fireworks);
-    firework1.setScale(newSize.x / firework1.getLocalBounds().width, newSize.y / firework1.getLocalBounds().height);
-    firework1.setPosition(200 + (kingCol * 88), 75 + (kingRow * 88) + 15);
+    sf::Sprite cautionSprite(textures.caution);
+    cautionSprite.setScale(newSize.x / cautionSprite.getLocalBounds().width, newSize.y / cautionSprite.getLocalBounds().height);
+    cautionSprite.setOrigin(cautionSprite.getLocalBounds().width / 2, cautionSprite.getLocalBounds().height);
+    cautionSprite.setPosition(200 + (kingCol * 88) + 44, 75 + (kingRow * 88) + 5);
 
-    DrawBoard(window, whiteTurn);
-    window.draw(firework1);
-    window.display();
-    sf::sleep(sf::seconds(0.6));      // let the board sleep for 0.3 seconds
+    try {
+        window.draw(cautionSprite);
+        window.display();
+        sf::sleep(sf::seconds(0.3));
+        DrawBoard(window, whiteTurn);
+        window.display();
+        window.draw(cautionSprite);
+        window.display();
+        sf::sleep(sf::seconds(0.3));
+        DrawBoard(window, whiteTurn);
+        window.display();
+        window.draw(cautionSprite);
+        window.display();
+        sf::sleep(sf::seconds(0.3));
+        DrawBoard(window, whiteTurn);
+        window.display();
+        return;
+    } catch (const out_of_range &e) {return;}
+    return;
 
-    DrawBoard(window, whiteTurn);
-    firework1.setPosition(200 + (kingCol * 88) + 38, 75 + (kingRow * 88) + 15);
-    window.draw(firework1);
-    window.display();
-    sf::sleep(sf::seconds(0.6));      // let the board sleep for 0.3 seconds
+//    int count = 0;
+//    sf::Clock clock;
+//    sf::Time elapsed;
+//    sf::Time cautionInterval = sf::seconds(0.5f);
+//    sf::Time lastCaution = clock.getElapsedTime();
+//
+//    while (window.isOpen()) {
+//        if (count == 3) {return;}       // if we have done this 3 times return
+//        elapsed = clock.getElapsedTime();
+//        if (elapsed - lastCaution >= cautionInterval) {
+//            window.draw(cautionSprite);
+//            sf::sleep(sf::seconds(0.5));
+//            lastCaution = elapsed;
+//            count++;
+//        }
+////        DrawBoard(window, whiteTurn);
+//        window.display();
+//        sf::Event event;
+//        while (window.pollEvent(event)) {
+//            if (event.type == sf::Event::Closed) {      // if they close the window
+//                exit(0);
+//
+//            }
+//        }
+//    }
 
-    DrawBoard(window, whiteTurn);
-    firework1.setPosition(200 + (kingCol * 88) + 10, 75 + (kingRow * 88) + 15);
-    window.draw(firework1);
-    window.display();
-    sf::sleep(sf::seconds(1.6));      // let the board sleep for 1 second before returning
+//    DrawBoard(window, whiteTurn);
+//    window.draw(firework1);
+//    window.display();
+//    sf::sleep(sf::seconds(0.6));      // let the board sleep for 0.3 seconds
+//
+//    DrawBoard(window, whiteTurn);
+//    firework1.setPosition(200 + (kingCol * 88) + 38, 75 + (kingRow * 88) + 15);
+//    window.draw(firework1);
+//    window.display();
+//    sf::sleep(sf::seconds(0.6));      // let the board sleep for 0.3 seconds
+//
+//    DrawBoard(window, whiteTurn);
+//    firework1.setPosition(200 + (kingCol * 88) + 10, 75 + (kingRow * 88) + 15);
+//    window.draw(firework1);
+//    window.display();
+//    sf::sleep(sf::seconds(1.6));      // let the board sleep for 1 second before returning
 }
+
+
+// first lets make sure that neither of our players are out of time
+//    if ((isWhite) and (whiteTime <= 0.0f)) {
+//        gameOver = true;        // game is over, whiteWin was false at the start and will stay false, stalemate is also false
+//        return;
+//    } else if ((not isWhite) and (blackTime <= 0.0f)) {
+//        gameOver = true;        // game is over
+//        whiteWin = true;        // and white has won
+//        return;
+//    }

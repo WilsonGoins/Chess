@@ -193,8 +193,7 @@ vector<vector<int>> Pawn::GetMoves(vector<vector<Piece*>>& board, int lastMove) 
                     if (board.at(3).at(col + 1)->GetNumMoves() == 1) {      // if that pawn has only made one move
                         if (lastMove == ((3 * 8) + (col + 1))) {
                             vector<vector<Piece *>> newBoard = board;        // make a copy of the board
-                            newBoard.at(row - 1).at(col + 1) = board.at(row).at(
-                                    col);       // put the piece to be moved in new spot
+                            newBoard.at(row - 1).at(col + 1) = board.at(row).at(col);       // put the piece to be moved in new spot
                             newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
                             newBoard.at(row).at(col + 1) = new Empty(row, col - 1);     // make the white pawn empty
                             if (CheckKingSafety(newBoard, true)) {  // if our king will still be safe

@@ -22,6 +22,7 @@ public:
     sf::Texture wKing;
     sf::Texture bKing;
     sf::Texture fireworks;
+    sf::Texture caution;
 
     Images() {
         // background image texture
@@ -71,6 +72,9 @@ public:
 
         // all fireworks
         fireworks.loadFromFile("Images/Classic/fireworks.png");
+
+        // caution symbol
+        caution.loadFromFile("Images/Classic/caution.png");
     }
 
     void ChangeDirectory() {

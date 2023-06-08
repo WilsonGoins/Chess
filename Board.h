@@ -13,6 +13,7 @@ public:
     bool gameOver = false;                 // if the game is over or not
     bool whiteWin = false;                  // if the game ended with a win for white
     bool stalemate = false;                 // if the game ended in a stalemate
+    bool insuffMat = false;                 // true if there is insufficient material and game ends in a tie
     bool pieceSelected = false;             // if a piece is currently selected (would be false, if turns have just changed)
     int lastMove = -1;                   // a coordinate of the last move that will help us track en passant
     int selectedRow = -1;         // initialized to -1 for no reason

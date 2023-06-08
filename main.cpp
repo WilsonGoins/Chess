@@ -321,6 +321,10 @@ void HandleClick(sf::RenderWindow& window, Board& board) {
             board.UpdateSelection(clickRow, clickCol);
         }
     } else {        // if the click was not on the board
-        ;
+        if ((board.gameOver) and (board.textures.globalBounds.at("newOption").contains(click.x, click.y))) {        // if clicked on new game
+            board.needsReset = true;
+        } else if ((board.gameOver) and (board.textures.globalBounds.at("menuOption").contains(click.x, click.y))) {
+            board.toExit = true;
+        }
     }
 }

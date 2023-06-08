@@ -9,8 +9,10 @@ using namespace std;
 Bishop::Bishop(bool isWhite, int row, int col) {        // constructor
     if (isWhite) {      // if the piece is white
         value = 3;          // set the value to 3
+        if (col == 5) {isLight = true;}
     } else {            // if the piece is black
         value = -3;         // set the value to -3
+        if (col == 2) {isLight = true;}
     }
     this->row = row;    // set the row to row
     this->col = col;    // set the column to column

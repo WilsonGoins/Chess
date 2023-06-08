@@ -8,6 +8,9 @@ using namespace std;
 
 class Piece {
 public:
+    int row;
+    int col;
+    bool isLight = false;
     virtual void MovePiece(vector<vector<Piece*>>& board, int toRow, int toCol) = 0;
     virtual vector<vector<int>> GetMoves(vector<vector<Piece*>>& board, int lastMove) = 0;
     virtual sf::Sprite DrawPiece(sf::RenderWindow& window, Images& textures) = 0;
