@@ -1,5 +1,6 @@
 #include <iostream>
 #include <ctime>
+#include <cmath>
 #include "Board.h"
 #include "Piece.h"
 #include "Pawn.h"
@@ -132,7 +133,7 @@ Board::Board(string whiteName, string blackName, float time) {
 }
 
 void Board::CheckForEnd(bool isWhite) {
-    // first, we should check for insufficient material
+    // then, we should check for insufficient material
     // here we gather data on what kind of pieces each of us have
     bool wLoneKing = false;
     bool bLoneKing = false;
@@ -331,6 +332,14 @@ void Board::CheckForPromote(sf::RenderWindow& window, bool isWhite) {
 }
 
 void Board::DrawBoard(sf::RenderWindow& window, bool whiteTurn) {
+    // first lets make sure that neither of our players are out of time
+    if ((whiteTurn) and (whiteTime >= initTime)) {
+        gameOver = true;        // game is over, whiteWin was false at the start and will stay false, stalemate is also false
+    } else if ((not whiteTurn) and (blackTime >= initTime)) {
+        gameOver = true;        // game is over
+        whiteWin = true;        // and white has won
+    }
+
     // font
     sf::Font font;
     font.loadFromFile("Fonts/BodoniModa-VariableFont_opsz,wght.ttf");
@@ -360,6 +369,8 @@ void Board::DrawBoard(sf::RenderWindow& window, bool whiteTurn) {
             window.draw(piece->DrawPiece(window, textures));
         }
     }
+    UpdateTime(window);       // draw clocks
+
 
     // if the game is over we need to display their exit options
     if (showExitOptions) {
@@ -546,12 +557,12 @@ void Board::UpdateMaterialCount() {
 }
 
 void Board::DrawEndScreen(sf::RenderWindow &window) {
-    DrawFireworks(window, whiteWin);        // draw fireworks to show winner, if any
+    // DrawFireworks(window, whiteWin);        // draw fireworks to show winner, if any
     // end border
     sf::Sprite background(textures.endBorder);      // load in the sprite
     sf::Vector2f bgSize(500.0f, 500.0f);        // set the size to 300x300
     background.setScale(bgSize.x / background.getLocalBounds().width,bgSize.y / background.getLocalBounds().height);
-    background.setPosition((704 / 2) - 50, 75 + (704 / 2) - 250);       // set it to the middle of the screen
+    background.setPosition((704.0 / 2) - 50, 75 + (704.0 / 2) - 250);       // set it to the middle of the screen
     float bgXMiddle = background.getPosition().x + 250;
     float bgYMiddle = background.getPosition().y + 250;
 
@@ -779,13 +790,54 @@ void Board::DrawFireworks(sf::RenderWindow &window, bool whiteWin) {
 //    sf::sleep(sf::seconds(1.6));      // let the board sleep for 1 second before returning
 }
 
+void Board::UpdateTime(sf::RenderWindow& window) {
+    if (lastMove == -1) {
+        whiteClock.restart();     // restart the white clock, so we don't count the time on start screen
+        blackClock.restart();
+    }
+    if ((whiteTurn) and (lastMove != -1)) {        // if it's whites turn
+        sf::Time tempTime = whiteClock.restart();       // get the time since we were last here
+        if (not gameOver) {whiteTime += tempTime.asSeconds();}      // add it to white's total time taken
+        sf::Time altTime = blackClock.restart();        // restart the black clock so that the time does not keep going when we don't want it to
+    } else if ((not whiteTurn) and (lastMove != -1)) {    // if it's black's turn
+        sf::Time tempTime = blackClock.restart();       // get the time since we were last here
+        if (not gameOver) {blackTime += tempTime.asSeconds();}      // add it to black's total time taken
+        sf::Time altTime = whiteClock.restart();        // restart the white clock so that the time does not keep going when we don't want it to
+    }
+    // now we have to floats, blackTime and whiteTime that have the updated total amounts of time each has taken
+    float blackRemaining = initTime - blackTime;                // so, now we should calculate the time they have left
+    float whiteRemaining = initTime - whiteTime;
+    string blackMins = to_string(static_cast<int>(floor(blackRemaining / 60)));         // get the minutes taken
+    if ((stoi(blackMins) < 10) and (blackMins.size() == 1)) {blackMins = "0" + blackMins;}     // if black minutes is only one digit add a 0 in front
+    string blackSecs = to_string(static_cast<int>(blackRemaining) % 60);              // and the seconds taken
+    if ((stoi(blackSecs) < 10) and (blackSecs.size() == 1)) {blackSecs = "0" + blackSecs;}     // if black minutes is only one digit add a 0 in front
+    string whiteMins = to_string(static_cast<int>(floor(whiteRemaining / 60)));
+    if ((stoi(whiteMins) < 10) and (whiteMins.size() == 1)) {whiteMins = "0" + whiteMins;}     // if black minutes is only one digit add a 0 in front
+    string whiteSecs = to_string(static_cast<int>(whiteRemaining) % 60);
+    if ((stoi(whiteSecs) < 10) and (whiteSecs.size() == 1)) {whiteSecs = "0" + whiteSecs;}     // if black minutes is only one digit add a 0 in front
+    // now we draw the black time
+    sf::Font font;      // font
+    font.loadFromFile("Fonts/BodoniModa-VariableFont_opsz,wght.ttf");
+    sf::RectangleShape blackRect;         // rectangle for white clock
+    blackRect.setSize(sf::Vector2f(120, 50));
+    blackRect.setPosition(30, 450);
+    blackRect.setFillColor(sf::Color::Black);
+    sf::Text blackTime((blackMins + ":" + blackSecs), font, 40);
+    blackTime.setFillColor(sf::Color::White);
+    blackTime.setPosition(sf::Vector2f(37.5, 450));
+    window.draw(blackRect);
+    window.draw(blackTime);
+    // now we draw the white time
+    sf::RectangleShape whiteRect;         // rectangle for white clock
+    whiteRect.setSize(sf::Vector2f(120, 50));
+    whiteRect.setPosition(934, 450);
+    whiteRect.setFillColor(sf::Color::White);
+    sf::Text whiteTime((whiteMins + ":" + whiteSecs), font, 40);
+    whiteTime.setFillColor(sf::Color::Black);
+    whiteTime.setPosition(sf::Vector2f(941.5, 450));
+    window.draw(whiteRect);
+    window.draw(whiteTime);
 
-// first lets make sure that neither of our players are out of time
-//    if ((isWhite) and (whiteTime <= 0.0f)) {
-//        gameOver = true;        // game is over, whiteWin was false at the start and will stay false, stalemate is also false
-//        return;
-//    } else if ((not isWhite) and (blackTime <= 0.0f)) {
-//        gameOver = true;        // game is over
-//        whiteWin = true;        // and white has won
-//        return;
-//    }
+}
+
+

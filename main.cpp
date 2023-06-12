@@ -101,7 +101,7 @@ void WelcomeScreen(sf::RenderWindow& window, Board& board) {
     flipButt.scale(.04, .04);
     flipButt.setPosition(sf::Vector2f(600, 115));
     // time choice 1 (3 minutes)
-    int timeChoice;
+    int timeChoice = 600.0f;
     sf::Color rectColor(255, 255, 255, 75);
     sf::RectangleShape time1Rect;
     time1Rect.setSize(sf::Vector2f(100, 60));
@@ -191,7 +191,7 @@ void WelcomeScreen(sf::RenderWindow& window, Board& board) {
             time2.setFillColor(sf::Color::Yellow);
         } else if (timeChoice == 600) {
             time3.setFillColor(sf::Color::Yellow);
-        } else if (timeChoice == 6000) {
+        } else if (timeChoice == 3600) {
             time4.setFillColor(sf::Color::Yellow);
         }
         window.draw(time1Rect);
@@ -226,13 +226,13 @@ void WelcomeScreen(sf::RenderWindow& window, Board& board) {
                     P1Selected = false;         // player2 is selected
                     userName = p2Text;          // set username equal to player2 name
                 } else if (time1Rect.getGlobalBounds().contains(click.x, click.y)) {
-                    timeChoice = 180;
+                    timeChoice = 10;
                 } else if (time2Rect.getGlobalBounds().contains(click.x, click.y)) {
                     timeChoice = 300;
                 } else if (time3Rect.getGlobalBounds().contains(click.x, click.y)) {
                     timeChoice = 600;
                 } else if (time4Rect.getGlobalBounds().contains(click.x, click.y)) {
-                    timeChoice = 6000;
+                    timeChoice = 3600;
                 } else if (playButton.getGlobalBounds().contains(click.x, click.y)) {
                     window.clear(sf::Color::White);
                     window.display();

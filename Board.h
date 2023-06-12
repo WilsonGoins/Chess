@@ -30,7 +30,7 @@ public:
 
     // information for white
     string whiteName = "none";          // whites user nam
-    sf::Clock whiteClock;        // Clock object to keep track of time
+    sf::Clock whiteClock;        // Clock object to keep track of white's time
     float whiteTime = 0.0f;      // whiteTime which will hold the temporary time for white constantly
     vector<Piece*> whitePieces;
     int whiteValue = 39;
@@ -50,6 +50,7 @@ public:
     void HighlightMoves(sf::RenderWindow& window);
     void UpdateSelection(int toRow, int toCol);
     void UpdateMaterialCount();
+    void UpdateTime(sf::RenderWindow& window);
     void EndTurn(sf::RenderWindow& window, int clickRow, int clickCol);
     void CheckForEnd(bool isWhite);            // checks for mate or stalemate. returns -1 if mate, 0, if stalemated, 1 if play continues
     void CheckForPromote(sf::RenderWindow& window, bool isWhite);        // check if a pawn is at the end of the board, if so, it promotes it
