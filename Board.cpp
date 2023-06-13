@@ -331,11 +331,11 @@ void Board::CheckForPromote(sf::RenderWindow& window, bool isWhite) {
     }
 }
 
-void Board::DrawBoard(sf::RenderWindow& window, bool whiteTurn) {
+void Board::DrawBoard(sf::RenderWindow& window) {
     // first lets make sure that neither of our players are out of time
-    if ((whiteTurn) and (whiteTime >= initTime)) {
+    if ((whiteTurn) and (whiteTime >= initTime)) {          // check if white is out of time
         gameOver = true;        // game is over, whiteWin was false at the start and will stay false, stalemate is also false
-    } else if ((not whiteTurn) and (blackTime >= initTime)) {
+    } else if ((not whiteTurn) and (blackTime >= initTime)) {       // check if black is out of time
         gameOver = true;        // game is over
         whiteWin = true;        // and white has won
     }
@@ -370,7 +370,6 @@ void Board::DrawBoard(sf::RenderWindow& window, bool whiteTurn) {
         }
     }
     UpdateTime(window);       // draw clocks
-
 
     // if the game is over we need to display their exit options
     if (showExitOptions) {
@@ -664,7 +663,7 @@ void Board::DrawEndScreen(sf::RenderWindow &window) {
             menuOption.setFillColor(sf::Color::White);
         }
 
-        DrawBoard(window, whiteTurn);       // draw the board
+        DrawBoard(window);       // draw the board
         window.draw(background);        // draw the new border over it
         window.draw(outcome);
         window.draw(returnRect);
@@ -730,17 +729,17 @@ void Board::DrawFireworks(sf::RenderWindow &window, bool whiteWin) {
         window.draw(cautionSprite);
         window.display();
         sf::sleep(sf::seconds(0.3));
-        DrawBoard(window, whiteTurn);
+        DrawBoard(window);
         window.display();
         window.draw(cautionSprite);
         window.display();
         sf::sleep(sf::seconds(0.3));
-        DrawBoard(window, whiteTurn);
+        DrawBoard(window);
         window.display();
         window.draw(cautionSprite);
         window.display();
         sf::sleep(sf::seconds(0.3));
-        DrawBoard(window, whiteTurn);
+        DrawBoard(window);
         window.display();
         return;
     } catch (const out_of_range &e) {return;}
@@ -761,7 +760,7 @@ void Board::DrawFireworks(sf::RenderWindow &window, bool whiteWin) {
 //            lastCaution = elapsed;
 //            count++;
 //        }
-////        DrawBoard(window, whiteTurn);
+//       DrawBoard(window);
 //        window.display();
 //        sf::Event event;
 //        while (window.pollEvent(event)) {
@@ -791,22 +790,24 @@ void Board::DrawFireworks(sf::RenderWindow &window, bool whiteWin) {
 }
 
 void Board::UpdateTime(sf::RenderWindow& window) {
-    if (lastMove == -1) {
+    if (lastMove == -1) {           // if a move has not been made yet
         whiteClock.restart();     // restart the white clock, so we don't count the time on start screen
         blackClock.restart();
     }
-    if ((whiteTurn) and (lastMove != -1)) {        // if it's whites turn
+    if ((whiteTurn) and (lastMove != -1) and (not gameOver)) {        // if it's whites turn and the game isn't over
         sf::Time tempTime = whiteClock.restart();       // get the time since we were last here
-        if (not gameOver) {whiteTime += tempTime.asSeconds();}      // add it to white's total time taken
-        sf::Time altTime = blackClock.restart();        // restart the black clock so that the time does not keep going when we don't want it to
-    } else if ((not whiteTurn) and (lastMove != -1)) {    // if it's black's turn
+        whiteTime += tempTime.asSeconds();      // add it to white's total time taken
+        blackClock.restart();        // restart the black clock so that the time does not keep going when we don't want it to
+    } else if ((not whiteTurn) and (lastMove != -1) and (not gameOver)) {    // if it's black's turn and the game isn't over
         sf::Time tempTime = blackClock.restart();       // get the time since we were last here
-        if (not gameOver) {blackTime += tempTime.asSeconds();}      // add it to black's total time taken
-        sf::Time altTime = whiteClock.restart();        // restart the white clock so that the time does not keep going when we don't want it to
+        blackTime += tempTime.asSeconds();      // add it to black's total time taken
+        whiteClock.restart();        // restart the white clock so that the time does not keep going when we don't want it to
     }
     // now we have to floats, blackTime and whiteTime that have the updated total amounts of time each has taken
     float blackRemaining = initTime - blackTime;                // so, now we should calculate the time they have left
+    if (blackRemaining < 0.0f) {blackRemaining = 0.0f;}             // set time equal to 0 if it is less than 0 so we don't go into negatives
     float whiteRemaining = initTime - whiteTime;
+    if (whiteRemaining < 0.0f) {whiteRemaining = 0.0f;}
     string blackMins = to_string(static_cast<int>(floor(blackRemaining / 60)));         // get the minutes taken
     if ((stoi(blackMins) < 10) and (blackMins.size() == 1)) {blackMins = "0" + blackMins;}     // if black minutes is only one digit add a 0 in front
     string blackSecs = to_string(static_cast<int>(blackRemaining) % 60);              // and the seconds taken
@@ -837,7 +838,6 @@ void Board::UpdateTime(sf::RenderWindow& window) {
     whiteTime.setPosition(sf::Vector2f(941.5, 450));
     window.draw(whiteRect);
     window.draw(whiteTime);
-
 }
 
 

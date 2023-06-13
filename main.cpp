@@ -101,7 +101,7 @@ void WelcomeScreen(sf::RenderWindow& window, Board& board) {
     flipButt.scale(.04, .04);
     flipButt.setPosition(sf::Vector2f(600, 115));
     // time choice 1 (3 minutes)
-    int timeChoice = 600.0f;
+    int timeChoice;
     sf::Color rectColor(255, 255, 255, 75);
     sf::RectangleShape time1Rect;
     time1Rect.setSize(sf::Vector2f(100, 60));
@@ -226,7 +226,7 @@ void WelcomeScreen(sf::RenderWindow& window, Board& board) {
                     P1Selected = false;         // player2 is selected
                     userName = p2Text;          // set username equal to player2 name
                 } else if (time1Rect.getGlobalBounds().contains(click.x, click.y)) {
-                    timeChoice = 10;
+                    timeChoice = 180;
                 } else if (time2Rect.getGlobalBounds().contains(click.x, click.y)) {
                     timeChoice = 300;
                 } else if (time3Rect.getGlobalBounds().contains(click.x, click.y)) {
@@ -284,7 +284,7 @@ int GameScreen(sf::RenderWindow& window, Board& board) {
         if (board.toExit) {return 0;}         // if we need to go back to menu return 0
         else if (board.needsReset) {return 1;}         // if we need to reset the board return 1
 
-        board.DrawBoard(window, true);          // draw everything on the screen
+        board.DrawBoard(window);          // draw everything on the screen
         // when we reach this point it will have been after the game has ended (if it did) so here we will put up a screen to show that
         if ((board.gameOver) and (board.lastMove != -69)) {      // last move is set to -69 after we go through the end screen, so that it only happens once
             window.display();                   // update previous move

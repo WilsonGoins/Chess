@@ -43,7 +43,7 @@ public:
     int blackValue = 39;
 
     // functions
-    void DrawBoard(sf::RenderWindow& window, bool whiteTurn);
+    void DrawBoard(sf::RenderWindow& window);
     void DrawFireworks(sf::RenderWindow& window, bool whiteWin);
     void DrawEndScreen(sf::RenderWindow& window);
     void HighlightPiece(sf::RenderWindow& window);
