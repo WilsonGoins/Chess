@@ -96,12 +96,12 @@ void WelcomeScreen(sf::RenderWindow& window, Board& board) {
     bPawn.setPosition(bottomCoords);
     // flip button
     sf::Texture flipButton;
-    flipButton.loadFromFile("Images/Classic/flipButt.jpg");
+    flipButton.loadFromFile("Images/Classic/switchButton.png", sf::IntRect());
     sf::Sprite flipButt(flipButton);
-    flipButt.scale(.04, .04);
-    flipButt.setPosition(sf::Vector2f(600, 115));
+    flipButt.scale(.35, .35);
+    flipButt.setPosition(sf::Vector2f(580, 125));
     // time choice 1 (3 minutes)
-    int timeChoice;
+    int timeChoice = -1;        // set time choice to -1, so we can tell if a time has been chosen yet
     sf::Color rectColor(255, 255, 255, 75);
     sf::RectangleShape time1Rect;
     time1Rect.setSize(sf::Vector2f(100, 60));
@@ -233,7 +233,7 @@ void WelcomeScreen(sf::RenderWindow& window, Board& board) {
                     timeChoice = 600;
                 } else if (time4Rect.getGlobalBounds().contains(click.x, click.y)) {
                     timeChoice = 3600;
-                } else if (playButton.getGlobalBounds().contains(click.x, click.y)) {
+                } else if ((playButton.getGlobalBounds().contains(click.x, click.y)) and (timeChoice != -1)) {
                     window.clear(sf::Color::White);
                     window.display();
                     if (player1White) {     // if player 1 is chosen to be white

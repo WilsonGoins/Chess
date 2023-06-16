@@ -344,7 +344,10 @@ void Board::DrawBoard(sf::RenderWindow& window) {
     sf::Font font;
     font.loadFromFile("Fonts/BodoniModa-VariableFont_opsz,wght.ttf");
 
-    window.clear(sf::Color::Blue);   // clear the window to have a blue background
+    // sprite for background image
+    sf::Sprite welcomeImage(textures.welcomeImage);     // now we must resize it
+    welcomeImage.setScale(static_cast<float>(window.getSize().x) / welcomeImage.getTexture()->getSize().x, static_cast<float>(window.getSize().y) / welcomeImage.getTexture()->getSize().y);
+    window.draw(welcomeImage);
 
     // sprite for the board
     sf::Sprite chessBoard(textures.chessBoard);
@@ -371,6 +374,49 @@ void Board::DrawBoard(sf::RenderWindow& window) {
     }
     UpdateTime(window);       // draw clocks
 
+    // draw the ranks and files lines over the clocks
+    sf::RectangleShape bottomLine;      // bottom line
+    bottomLine.setSize(sf::Vector2f(784.0f, 40.0f)); // Set the length to be 20 more than the board on each side, and thickness of the line to be 40 pixels
+    bottomLine.setFillColor(sf::Color::Blue); // Set the color of the line
+    bottomLine.setPosition(160.0f, 779.0f);
+    window.draw(bottomLine);        // top line
+    sf::RectangleShape topLine;
+    topLine.setSize(sf::Vector2f(784.0f, 40.0f)); // Set the length to be 20 more than the board on each side, and thickness of the line to be 40 pixels
+    topLine.setFillColor(sf::Color::Blue); // Set the color of the line
+    topLine.setPosition(160.0f, 35.0f);
+    window.draw(topLine);
+    sf::RectangleShape leftLine;      // left line
+    leftLine.setSize(sf::Vector2f(784.0f, 40.0f)); // Set the length to be 20 more than the board on each side, and thickness of the line to be 40 pixels
+    leftLine.setFillColor(sf::Color::Blue); // Set the color of the line
+    leftLine.setPosition(200.0f, 35.0f);        // set position to be in line with start of board, since rotation will move it to the left
+    leftLine.setRotation(90);       // rotate the line 90 degrees
+    window.draw(leftLine);
+    sf::RectangleShape rightLine;      // right line
+    rightLine.setSize(sf::Vector2f(784.0f, 40.0f)); // Set the length to be 20 more than the board on each side, and thickness of the line to be 40 pixels
+    rightLine.setFillColor(sf::Color::Blue); // Set the color of the line
+    rightLine.setPosition(944.0f, 35.0f);        // set position to be +40 from end of board, since rotation will move it to the left
+    rightLine.setRotation(90);       // rotate the line 90 degrees
+    window.draw(rightLine);
+    // now draw the ranks and file letters
+    sf::Text bottomText("    A       B       C       D       E       F       G       H", font, 35);
+    bottomText.setFillColor(sf::Color::Yellow);
+    bottomText.setPosition(sf::Vector2f(200, 779));
+    window.draw(bottomText);
+    sf::Text topText("    A       B       C       D       E       F       G       H", font, 35);
+    topText.setFillColor(sf::Color::Yellow);
+    topText.setPosition(sf::Vector2f(200, 35));
+    window.draw(topText);
+    sf::Text leftText("    1        2        3       4        5        6        7       8", font, 35);
+    leftText.setFillColor(sf::Color::Yellow);
+    leftText.setPosition(sf::Vector2f(200, 75));
+    leftText.setRotation(90);
+    window.draw(leftText);
+    sf::Text rightText("    1        2        3       4        5        6        7       8", font, 35);
+    rightText.setFillColor(sf::Color::Yellow);
+    rightText.setPosition(sf::Vector2f(944, 75));
+    rightText.setRotation(90);
+    window.draw(rightText);
+
     // if the game is over we need to display their exit options
     if (showExitOptions) {
         sf::Color rectColor(255, 255, 255);
@@ -379,7 +425,7 @@ void Board::DrawBoard(sf::RenderWindow& window) {
         newRect.setSize(sf::Vector2f(195, 60));         // set size for this specific size (is relevant to size of text)
         newRect.setOrigin(0, newRect.getLocalBounds().height / 2);      // left / middle aligned
         newRect.setPosition(200, window.getSize().y - 35);      // set it to start of chess board
-        newRect.setFillColor(sf::Color::Blue);                      // make it the same color as the background
+        newRect.setFillColor(sf::Color::Black);                      // make it the same color as the background
         sf::Text newOption(" New Game ", font, 35);     // text
         newOption.setFillColor(sf::Color::White);                       // make it white
         newOption.setOrigin(0, 60 / 2);                             // left / middle aligned
@@ -389,17 +435,11 @@ void Board::DrawBoard(sf::RenderWindow& window) {
         menuRect.setSize(sf::Vector2f(158, 60));
         menuRect.setOrigin(158, menuRect.getLocalBounds().height / 2);      // right aligned
         menuRect.setPosition(904, window.getSize().y - 35);         // right side of chess board
-        menuRect.setFillColor(sf::Color::Blue);
+        menuRect.setFillColor(sf::Color::Black);
         sf::Text menuOption(" Settings ", font, 35);
         menuOption.setFillColor(sf::Color::White);
         menuOption.setOrigin(menuOption.getLocalBounds().width, 60.0 / 2);
         menuOption.setPosition(sf::Vector2f(899, window.getSize().y - 30));
-        // draw line
-        sf::VertexArray line(sf::Lines, 2);
-        line[0].position = sf::Vector2f(5, window.getSize().y - 35);
-        line[0].color = sf::Color::White;
-        line[1].position = sf::Vector2f(window.getSize().x - 5, window.getSize().y - 35);
-        line[1].color = sf::Color::White;
         // check if the mouse is currently on one of these options
         sf::Mouse mouse;
         sf::Vector2i hoverLocal = mouse.getPosition(window);        // get the mouse position
@@ -412,7 +452,6 @@ void Board::DrawBoard(sf::RenderWindow& window) {
             menuOption.setFillColor(sf::Color::White);
         }
         // draw them
-        window.draw(line);
         window.draw(newRect);
         window.draw(menuRect);
         window.draw(newOption);
@@ -820,22 +859,23 @@ void Board::UpdateTime(sf::RenderWindow& window) {
     sf::Font font;      // font
     font.loadFromFile("Fonts/BodoniModa-VariableFont_opsz,wght.ttf");
     sf::RectangleShape blackRect;         // rectangle for white clock
-    blackRect.setSize(sf::Vector2f(120, 50));
-    blackRect.setPosition(30, 450);
+    blackRect.setSize(sf::Vector2f(200, 50));       // we want it to cover the whole left side
+    blackRect.setPosition(0, 450);
     blackRect.setFillColor(sf::Color::Black);
     sf::Text blackTime((blackMins + ":" + blackSecs), font, 40);
     blackTime.setFillColor(sf::Color::White);
-    blackTime.setPosition(sf::Vector2f(37.5, 450));
+    blackTime.setPosition(sf::Vector2f(15, 450));       // position it 15 from the start of screen
     window.draw(blackRect);
     window.draw(blackTime);
     // now we draw the white time
     sf::RectangleShape whiteRect;         // rectangle for white clock
-    whiteRect.setSize(sf::Vector2f(120, 50));
-    whiteRect.setPosition(934, 450);
+    whiteRect.setSize(sf::Vector2f(200, 50));
+    whiteRect.setPosition(904, 450);
     whiteRect.setFillColor(sf::Color::White);
     sf::Text whiteTime((whiteMins + ":" + whiteSecs), font, 40);
     whiteTime.setFillColor(sf::Color::Black);
-    whiteTime.setPosition(sf::Vector2f(941.5, 450));
+    whiteTime.setOrigin(whiteTime.getLocalBounds().width, 0);
+    whiteTime.setPosition(sf::Vector2f(1100 - 15, 450));
     window.draw(whiteRect);
     window.draw(whiteTime);
 }
