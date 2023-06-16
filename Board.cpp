@@ -344,7 +344,7 @@ void Board::DrawBoard(sf::RenderWindow& window) {
     sf::Font font;
     font.loadFromFile("Fonts/BodoniModa-VariableFont_opsz,wght.ttf");
 
-    // sprite for background image
+    // draw the background image
     sf::Sprite welcomeImage(textures.welcomeImage);     // now we must resize it
     welcomeImage.setScale(static_cast<float>(window.getSize().x) / welcomeImage.getTexture()->getSize().x, static_cast<float>(window.getSize().y) / welcomeImage.getTexture()->getSize().y);
     window.draw(welcomeImage);
@@ -372,7 +372,64 @@ void Board::DrawBoard(sf::RenderWindow& window) {
             window.draw(piece->DrawPiece(window, textures));
         }
     }
-    UpdateTime(window);       // draw clocks
+
+    // black pawn
+    sf::RectangleShape blackRect;
+    blackRect.setSize(sf::Vector2f(130, 130));      // set the size to be slightly bigger than the pawn itself
+    blackRect.setFillColor(sf::Color(255, 255, 255));
+    blackRect.setPosition(15, 315);
+    sf::Sprite blackPawn(textures.bPawn);
+    sf::Vector2f iconSize(125, 125);            // set new size
+    blackPawn.setScale(iconSize.x / blackPawn.getLocalBounds().width, iconSize.y / blackPawn.getLocalBounds().height);      // resize it
+    blackPawn.setPosition(15, 315);
+    window.draw(blackRect);
+    window.draw(blackPawn);
+    // white pawn
+    sf::RectangleShape whiteRect;
+    whiteRect.setSize(sf::Vector2f(130, 130));      // set the size to be slightly bigger than the pawn itself
+    whiteRect.setFillColor(sf::Color(0, 0, 0));
+    whiteRect.setPosition(959, 315);
+    sf::Sprite whitePawn(textures.wPawn);
+    whitePawn.setScale(iconSize.x / whitePawn.getLocalBounds().width, iconSize.y / whitePawn.getLocalBounds().height);      // resize it
+    whitePawn.setPosition(959, 315);
+    window.draw(whiteRect);
+    window.draw(whitePawn);
+    // black name
+    sf::RectangleShape blackNameRect;    
+    blackNameRect.setSize(sf::Vector2f(160.0f, 40.0f)); 
+    blackNameRect.setFillColor(sf::Color::Black); // Set the color of the line
+    blackNameRect.setPosition(0.0f, 265.0f);
+    sf::Text blackNameText(blackName, font, 25);
+    blackNameText.setFillColor(sf::Color::White);
+    blackNameText.setOrigin(blackNameText.getLocalBounds().width / 2, blackNameText.getLocalBounds().height / 2);
+    blackNameText.setPosition(80, 280);
+    window.draw(blackNameRect);        
+    window.draw(blackNameText);
+    // white name
+    sf::RectangleShape whiteNameRect;
+    whiteNameRect.setSize(sf::Vector2f(160.0f, 40.0f));
+    whiteNameRect.setFillColor(sf::Color::White); // Set the color of the line
+    whiteNameRect.setPosition(944.0f, 265.0f);
+    sf::Text whiteNameText(whiteName, font, 25);
+    whiteNameText.setFillColor(sf::Color::Black);
+    whiteNameText.setOrigin(whiteNameText.getLocalBounds().width / 2, whiteNameText.getLocalBounds().height / 2);
+    whiteNameText.setPosition(1024, 280);
+    window.draw(whiteNameRect);
+    window.draw(whiteNameText);
+
+    // triangle to indicate whose turn it is
+    sf::CircleShape turnIndicator;
+    turnIndicator.setPointCount(3);
+    turnIndicator.setRadius(45);
+    turnIndicator.setFillColor(sf::Color::Yellow);
+    turnIndicator.setRotation(180);
+    turnIndicator.setOrigin(turnIndicator.getLocalBounds().width / 2, turnIndicator.getLocalBounds().height / 2);
+    if (whiteTurn) {turnIndicator.setPosition(1030, 200);}      // set position
+    else {turnIndicator.setPosition(85, 180);}
+    if (not gameOver) {window.draw(turnIndicator);}     // if the game isn't over draw it
+
+    // draw the clocks
+    UpdateTime(window);
 
     // draw the ranks and files lines over the clocks
     sf::RectangleShape bottomLine;      // bottom line
@@ -406,16 +463,78 @@ void Board::DrawBoard(sf::RenderWindow& window) {
     topText.setFillColor(sf::Color::Yellow);
     topText.setPosition(sf::Vector2f(200, 35));
     window.draw(topText);
-    sf::Text leftText("    1        2        3       4        5        6        7       8", font, 35);
+    sf::Text leftText("    8        7        6       5        4        3        2       1", font, 35);
     leftText.setFillColor(sf::Color::Yellow);
     leftText.setPosition(sf::Vector2f(200, 75));
     leftText.setRotation(90);
     window.draw(leftText);
-    sf::Text rightText("    1        2        3       4        5        6        7       8", font, 35);
+    sf::Text rightText("    8        7        6       5        4        3        2       1", font, 35);
     rightText.setFillColor(sf::Color::Yellow);
     rightText.setPosition(sf::Vector2f(944, 75));
     rightText.setRotation(90);
     window.draw(rightText);
+    
+    // write the black material count
+    sf::Font materialFont;
+    materialFont.loadFromFile("Fonts/CormorantGaramond-Regular.ttf");
+    sf::RectangleShape bMatRect;      // black material count rectangle
+    bMatRect.setSize(sf::Vector2f(160, 65.0f)); // Set the length to be 20 more than the board on each side, and thickness of the line to be 40 pixels
+    bMatRect.setFillColor(sf::Color::Black); // Set the color of the line
+    bMatRect.setPosition(0.0f, 515.0f);        // set position to be +40 from end of board, since rotation will move it to the left
+    window.draw(bMatRect);
+    string bMaterial = " Material Count\n\t\t" + to_string(blackValue) + " (";
+    if (blackValue - whiteValue < 0) {bMaterial += to_string(blackValue - whiteValue) + ")";}       // it's a negative number, so the - will already be there
+    else {bMaterial += "+" + to_string(blackValue - whiteValue) + ")";}
+    sf::Text blackMaterial(bMaterial, materialFont, 25);
+    blackMaterial.setFillColor(sf::Color::White);
+    blackMaterial.setPosition(sf::Vector2f(0, 515));
+    window.draw(blackMaterial);
+
+    // write the white material count
+    sf::RectangleShape wMatRect;      // right line
+    wMatRect.setSize(sf::Vector2f(160.0f, 65.0f)); // Set the length to be 20 more than the board on each side, and thickness of the line to be 40 pixels
+    wMatRect.setFillColor(sf::Color::White); // Set the color of the line
+    wMatRect.setPosition(944.0f, 515.0f);        // set position to be +40 from end of board, since rotation will move it to the left
+    window.draw(wMatRect);
+    string wMaterial = " Material Count\n\t\t" + to_string(whiteValue) + " (";
+    if (whiteValue - blackValue < 0) {wMaterial += to_string(whiteValue - blackValue) + ")";}       // it's a negative number, so the - will already be there
+    else {wMaterial += "+" + to_string(whiteValue - blackValue) + ")";}
+    sf::Text whiteMaterial(wMaterial, materialFont, 25);
+    whiteMaterial.setFillColor(sf::Color::Black);
+    whiteMaterial.setPosition(sf::Vector2f(944, 515));
+    window.draw(whiteMaterial);
+
+    if ((gameOver) and (not stalemate) and (not insuffMat)) {       // if there was a winner, draw a crown
+        sf::Sprite crownSprite(textures.crownTexture);
+        crownSprite.setScale(130 / crownSprite.getLocalBounds().width, 150 / crownSprite.getLocalBounds().height);
+        crownSprite.setOrigin(crownSprite.getLocalBounds().width / 2, crownSprite.getLocalBounds().height);       // set the origin to the bottom middle
+        if (whiteWin) {crownSprite.setPosition(1022, 290);} else {crownSprite.setPosition(80, 290);}        // set the position based on who won
+        window.draw(crownSprite);
+    }
+
+    // restart button for black
+    sf::Sprite bRestart(textures.restartButton);
+    bRestart.setScale(50 / bRestart.getLocalBounds().width, 50 / bRestart.getLocalBounds().height);         // resize to 50x50
+    bRestart.setPosition(20, 585);            // top to icons have 160 pixels of space. each are 50 pixels wide. so 20 pixel separation on either side of each icon
+    window.draw(bRestart);
+    // restart button for white
+    sf::Sprite wRestart(textures.restartButton);
+    wRestart.setScale(50 / wRestart.getLocalBounds().width, 50 / wRestart.getLocalBounds().height);         // resize to 50x50
+    wRestart.setPosition(964, 585);            // top to icons have 160 pixels of space. each are 50 pixels wide. so 20 pixel separation on either side of each icon
+    window.draw(wRestart);
+    // exit game for black
+    sf::Sprite bExit(textures.exitGame);
+    bExit.setScale(50 / bExit.getLocalBounds().width, 50 / bExit.getLocalBounds().height);         // resize to 50x50
+    bExit.setPosition(90, 585);            // top to icons have 160 pixels of space. each are 50 pixels wide. so 20 pixel separation on either side of each icon
+    window.draw(bExit);
+    // exit game for white
+    sf::Sprite wExit(textures.exitGame);
+    wExit.setScale(50 / wExit.getLocalBounds().width, 50 / wExit.getLocalBounds().height);         // resize to 50x50
+    wExit.setPosition(1034, 585);            // top to icons have 160 pixels of space. each are 50 pixels wide. so 20 pixel separation on either side of each icon
+    window.draw(wExit);
+
+
+
 
     // if the game is over we need to display their exit options
     if (showExitOptions) {
@@ -595,7 +714,6 @@ void Board::UpdateMaterialCount() {
 }
 
 void Board::DrawEndScreen(sf::RenderWindow &window) {
-    // DrawFireworks(window, whiteWin);        // draw fireworks to show winner, if any
     // end border
     sf::Sprite background(textures.endBorder);      // load in the sprite
     sf::Vector2f bgSize(500.0f, 500.0f);        // set the size to 300x300
@@ -736,98 +854,6 @@ void Board::DrawEndScreen(sf::RenderWindow &window) {
     }
 }
 
-void Board::DrawFireworks(sf::RenderWindow &window, bool whiteWin) {
-    if ((stalemate) or (insuffMat)) {return;}        // if it was a stalemate, return
-
-    // get king location
-    int kingRow;
-    int kingCol;
-    for (int i = 0; i < 8; i++) {
-        for (int j = 0; j < 8; j++) {
-            if ((board.at(i).at(j)->GetValue() == -6) and (whiteWin)) {      // if black king and white won
-                kingRow = i;
-                kingCol = j;
-            } else if ((board.at(i).at(j)->GetValue() == 6) and (not whiteWin)) {      // if white king and black won
-                kingRow = i;
-                kingCol = j;
-            }
-        }
-    }
-
-//    sf::Sprite firework1(textures.fireworks);
-//    firework1.setScale(newSize.x / firework1.getLocalBounds().width, newSize.y / firework1.getLocalBounds().height);
-//    firework1.setPosition(200 + (kingCol * 88), 75 + (kingRow * 88) + 15);
-
-    sf::Vector2f newSize(66.0f, 66.0f);
-    sf::Sprite cautionSprite(textures.caution);
-    cautionSprite.setScale(newSize.x / cautionSprite.getLocalBounds().width, newSize.y / cautionSprite.getLocalBounds().height);
-    cautionSprite.setOrigin(cautionSprite.getLocalBounds().width / 2, cautionSprite.getLocalBounds().height);
-    cautionSprite.setPosition(200 + (kingCol * 88) + 44, 75 + (kingRow * 88) + 5);
-
-    try {
-        window.draw(cautionSprite);
-        window.display();
-        sf::sleep(sf::seconds(0.3));
-        DrawBoard(window);
-        window.display();
-        window.draw(cautionSprite);
-        window.display();
-        sf::sleep(sf::seconds(0.3));
-        DrawBoard(window);
-        window.display();
-        window.draw(cautionSprite);
-        window.display();
-        sf::sleep(sf::seconds(0.3));
-        DrawBoard(window);
-        window.display();
-        return;
-    } catch (const out_of_range &e) {return;}
-    return;
-
-//    int count = 0;
-//    sf::Clock clock;
-//    sf::Time elapsed;
-//    sf::Time cautionInterval = sf::seconds(0.5f);
-//    sf::Time lastCaution = clock.getElapsedTime();
-//
-//    while (window.isOpen()) {
-//        if (count == 3) {return;}       // if we have done this 3 times return
-//        elapsed = clock.getElapsedTime();
-//        if (elapsed - lastCaution >= cautionInterval) {
-//            window.draw(cautionSprite);
-//            sf::sleep(sf::seconds(0.5));
-//            lastCaution = elapsed;
-//            count++;
-//        }
-//       DrawBoard(window);
-//        window.display();
-//        sf::Event event;
-//        while (window.pollEvent(event)) {
-//            if (event.type == sf::Event::Closed) {      // if they close the window
-//                exit(0);
-//
-//            }
-//        }
-//    }
-
-//    DrawBoard(window, whiteTurn);
-//    window.draw(firework1);
-//    window.display();
-//    sf::sleep(sf::seconds(0.6));      // let the board sleep for 0.3 seconds
-//
-//    DrawBoard(window, whiteTurn);
-//    firework1.setPosition(200 + (kingCol * 88) + 38, 75 + (kingRow * 88) + 15);
-//    window.draw(firework1);
-//    window.display();
-//    sf::sleep(sf::seconds(0.6));      // let the board sleep for 0.3 seconds
-//
-//    DrawBoard(window, whiteTurn);
-//    firework1.setPosition(200 + (kingCol * 88) + 10, 75 + (kingRow * 88) + 15);
-//    window.draw(firework1);
-//    window.display();
-//    sf::sleep(sf::seconds(1.6));      // let the board sleep for 1 second before returning
-}
-
 void Board::UpdateTime(sf::RenderWindow& window) {
     if (lastMove == -1) {           // if a move has not been made yet
         whiteClock.restart();     // restart the white clock, so we don't count the time on start screen
@@ -864,7 +890,8 @@ void Board::UpdateTime(sf::RenderWindow& window) {
     blackRect.setFillColor(sf::Color::Black);
     sf::Text blackTime((blackMins + ":" + blackSecs), font, 40);
     blackTime.setFillColor(sf::Color::White);
-    blackTime.setPosition(sf::Vector2f(15, 450));       // position it 15 from the start of screen
+    blackTime.setOrigin(blackTime.getLocalBounds().width / 2, blackTime.getLocalBounds().height / 2);
+    blackTime.setPosition(sf::Vector2f(80, 465));       // position it 15 from the start of screen
     window.draw(blackRect);
     window.draw(blackTime);
     // now we draw the white time
@@ -874,8 +901,8 @@ void Board::UpdateTime(sf::RenderWindow& window) {
     whiteRect.setFillColor(sf::Color::White);
     sf::Text whiteTime((whiteMins + ":" + whiteSecs), font, 40);
     whiteTime.setFillColor(sf::Color::Black);
-    whiteTime.setOrigin(whiteTime.getLocalBounds().width, 0);
-    whiteTime.setPosition(sf::Vector2f(1100 - 15, 450));
+    whiteTime.setOrigin(whiteTime.getLocalBounds().width / 2, whiteTime.getLocalBounds().height / 2);
+    whiteTime.setPosition(sf::Vector2f(1022, 465));
     window.draw(whiteRect);
     window.draw(whiteTime);
 }

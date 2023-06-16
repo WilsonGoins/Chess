@@ -21,8 +21,10 @@ public:
     sf::Texture bCastle;
     sf::Texture wKing;
     sf::Texture bKing;
-    sf::Texture fireworks;
-    sf::Texture caution;
+    sf::Texture crownTexture;
+    sf::Texture surrenderFlag;
+    sf::Texture restartButton;
+    sf::Texture exitGame;
 
     Images() {
         // background image texture
@@ -70,11 +72,17 @@ public:
         // black king
         bKing.loadFromFile(directory + "bKing.PNG");
 
-        // all fireworks
-        fireworks.loadFromFile("Images/Classic/fireworks.png");
+        // crown
+        crownTexture.loadFromFile("Images/Classic/crown.PNG");
 
-        // caution symbol
-        caution.loadFromFile("Images/Classic/caution.png");
+        // surrender flag
+        //surrenderFlag.loadFromFile("Images/Classic/surrenderFlag.PNG");
+
+        // restart button
+        restartButton.loadFromFile("Images/Classic/restartButton.PNG");
+
+        // exit button
+        exitGame.loadFromFile("Images/Classic/exitGame.PNG");
     }
 
     void ChangeDirectory() {

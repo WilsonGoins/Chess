@@ -52,24 +52,24 @@ void WelcomeScreen(sf::RenderWindow& window, Board& board) {
     p2Prompt.setPosition(sf::Vector2f(710, 175));
     // player 1 name text
     string p1Text = "P1";
-    sf::Text player1Name(p1Text, font, 40);
+    sf::Text player1Name(p1Text, font, 37);
     player1Name.setFillColor(sf::Color::Black);
-    player1Name.setPosition(sf::Vector2f(880, 100));
+    player1Name.setPosition(sf::Vector2f(872.5, 100));
     // player 1 cursor
     sf::Text player1Cursor("|", font, 45);
     player1Cursor.setStyle(sf::Text::Bold);
     player1Cursor.setFillColor(sf::Color::Yellow);
-    player1Cursor.setPosition(sf::Vector2f(player1Name.getLocalBounds().width + 880, 95));    // should be right after the player1 name
+    player1Cursor.setPosition(sf::Vector2f(player1Name.getLocalBounds().width + 870, 95));    // should be right after the player1 name
     // player 2 name text
     string p2Text = "P2";
-    sf::Text player2Name(p2Text, font, 40);
+    sf::Text player2Name(p2Text, font, 37);
     player2Name.setFillColor(sf::Color::Black);
-    player2Name.setPosition(sf::Vector2f(880, 175));
+    player2Name.setPosition(sf::Vector2f(872.5, 175));
     // player 2 cursor
     sf::Text player2Cursor("|", font, 45);
     player2Cursor.setStyle(sf::Text::Bold);
     player2Cursor.setFillColor(sf::Color::Yellow);
-    player2Cursor.setPosition(sf::Vector2f(player2Name.getLocalBounds().width + 880, 170));       // right after player2 name
+    player2Cursor.setPosition(sf::Vector2f(player2Name.getLocalBounds().width + 870, 170));       // right after player2 name
     // play button
     sf::Text playButton("Play", font, 60);
     playButton.setStyle(sf::Text::Bold);
@@ -267,6 +267,9 @@ void WelcomeScreen(sf::RenderWindow& window, Board& board) {
                     } else {
                         userName = userName.substr(0, userName.size() - 1);
                     }
+                } else if (event.key.code == sf::Keyboard::Tab) {
+                    if (P1Selected) {userName = p2Text;} else {userName = p1Text;}      // switch the selected name
+                    P1Selected = !P1Selected;       // invert the current selection
                 }
             }
         }
