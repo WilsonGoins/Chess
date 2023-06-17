@@ -76,7 +76,7 @@ public:
         crownTexture.loadFromFile("Images/Classic/crown.PNG");
 
         // surrender flag
-        //surrenderFlag.loadFromFile("Images/Classic/surrenderFlag.PNG");
+        surrenderFlag.loadFromFile("Images/Classic/surrenderFlag.PNG");
 
         // restart button
         restartButton.loadFromFile("Images/Classic/restartButton.PNG");

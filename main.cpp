@@ -324,10 +324,15 @@ void HandleClick(sf::RenderWindow& window, Board& board) {
             board.UpdateSelection(clickRow, clickCol);
         }
     } else {        // if the click was not on the board
-        if ((board.gameOver) and (board.textures.globalBounds.at("newOption").contains(click.x, click.y))) {        // if clicked on new game
-            board.needsReset = true;
-        } else if ((board.gameOver) and (board.textures.globalBounds.at("menuOption").contains(click.x, click.y))) {
+        if ((board.textures.globalBounds.at("bRestartGame").contains(click.x, click.y)) or (board.textures.globalBounds.at("wRestartGame").contains(click.x, click.y))) {        // if clicked on new game
+            board.needsReset = true;            // set this to true if either of the reset buttons were clicked
+        } else if ((board.textures.globalBounds.at("bExitGame").contains(click.x, click.y)) or (board.textures.globalBounds.at("wExitGame").contains(click.x, click.y))) {
             board.toExit = true;
+        } else if ((board.textures.globalBounds.at("wSurrenderGame").contains(click.x, click.y)) and (board.whiteTurn)) {       // if white surrender button and it's white's turn
+            board.gameOver = true;
+        } else if ((board.textures.globalBounds.at("bSurrenderGame").contains(click.x, click.y)) and (not board.whiteTurn)) {       // if black surrender and black's turn
+            board.gameOver = true;
+            board.whiteWin = true;      // white win is now true
         }
     }
 }

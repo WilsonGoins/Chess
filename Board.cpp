@@ -516,68 +516,39 @@ void Board::DrawBoard(sf::RenderWindow& window) {
     sf::Sprite bRestart(textures.restartButton);
     bRestart.setScale(50 / bRestart.getLocalBounds().width, 50 / bRestart.getLocalBounds().height);         // resize to 50x50
     bRestart.setPosition(20, 585);            // top to icons have 160 pixels of space. each are 50 pixels wide. so 20 pixel separation on either side of each icon
+    textures.globalBounds.emplace("bRestartGame", bRestart.getGlobalBounds());      // add the black restart button to global bounds
     window.draw(bRestart);
     // restart button for white
     sf::Sprite wRestart(textures.restartButton);
     wRestart.setScale(50 / wRestart.getLocalBounds().width, 50 / wRestart.getLocalBounds().height);         // resize to 50x50
     wRestart.setPosition(964, 585);            // top to icons have 160 pixels of space. each are 50 pixels wide. so 20 pixel separation on either side of each icon
+    textures.globalBounds.emplace("wRestartGame", wRestart.getGlobalBounds());      // add the white restart button to global bounds
     window.draw(wRestart);
     // exit game for black
     sf::Sprite bExit(textures.exitGame);
     bExit.setScale(50 / bExit.getLocalBounds().width, 50 / bExit.getLocalBounds().height);         // resize to 50x50
     bExit.setPosition(90, 585);            // top to icons have 160 pixels of space. each are 50 pixels wide. so 20 pixel separation on either side of each icon
+    textures.globalBounds.emplace("bExitGame", bExit.getGlobalBounds());      // add the black exit button to global bounds
     window.draw(bExit);
     // exit game for white
     sf::Sprite wExit(textures.exitGame);
     wExit.setScale(50 / wExit.getLocalBounds().width, 50 / wExit.getLocalBounds().height);         // resize to 50x50
     wExit.setPosition(1034, 585);            // top to icons have 160 pixels of space. each are 50 pixels wide. so 20 pixel separation on either side of each icon
+    textures.globalBounds.emplace("wExitGame", wExit.getGlobalBounds());      // add the white exit button to global bounds
     window.draw(wExit);
-
-
-
-
-    // if the game is over we need to display their exit options
-    if (showExitOptions) {
-        sf::Color rectColor(255, 255, 255);
-        // new game button
-        sf::RectangleShape newRect;         // rectangle to go behind text
-        newRect.setSize(sf::Vector2f(195, 60));         // set size for this specific size (is relevant to size of text)
-        newRect.setOrigin(0, newRect.getLocalBounds().height / 2);      // left / middle aligned
-        newRect.setPosition(200, window.getSize().y - 35);      // set it to start of chess board
-        newRect.setFillColor(sf::Color::Black);                      // make it the same color as the background
-        sf::Text newOption(" New Game ", font, 35);     // text
-        newOption.setFillColor(sf::Color::White);                       // make it white
-        newOption.setOrigin(0, 60 / 2);                             // left / middle aligned
-        newOption.setPosition(sf::Vector2f(205, window.getSize().y - 30));      // set it to 5 pixels past the start of board
-        // change settings button that takes them back to the start screen
-        sf::RectangleShape menuRect;
-        menuRect.setSize(sf::Vector2f(158, 60));
-        menuRect.setOrigin(158, menuRect.getLocalBounds().height / 2);      // right aligned
-        menuRect.setPosition(904, window.getSize().y - 35);         // right side of chess board
-        menuRect.setFillColor(sf::Color::Black);
-        sf::Text menuOption(" Settings ", font, 35);
-        menuOption.setFillColor(sf::Color::White);
-        menuOption.setOrigin(menuOption.getLocalBounds().width, 60.0 / 2);
-        menuOption.setPosition(sf::Vector2f(899, window.getSize().y - 30));
-        // check if the mouse is currently on one of these options
-        sf::Mouse mouse;
-        sf::Vector2i hoverLocal = mouse.getPosition(window);        // get the mouse position
-        if (newRect.getGlobalBounds().contains(hoverLocal.x, hoverLocal.y)) {
-            newOption.setFillColor(sf::Color::Yellow);
-        } else if (menuRect.getGlobalBounds().contains(hoverLocal.x, hoverLocal.y)) {
-            menuOption.setFillColor(sf::Color::Yellow);
-        } else {
-            newOption.setFillColor(sf::Color::White);
-            menuOption.setFillColor(sf::Color::White);
-        }
-        // draw them
-        window.draw(newRect);
-        window.draw(menuRect);
-        window.draw(newOption);
-        window.draw(menuOption);
-        //  add these buttons to our map of global bounds
-        textures.globalBounds.emplace("newOption", newOption.getGlobalBounds());
-        textures.globalBounds.emplace("menuOption", menuOption.getGlobalBounds());
+    if (not gameOver) {     // if the game isn't over
+        // make the surrender button for black
+        sf::Sprite bSurrender(textures.surrenderFlag);
+        bSurrender.setScale(100 / bSurrender.getLocalBounds().width, 75 / bSurrender.getLocalBounds().height);         // resize to 50x50
+        bSurrender.setPosition(30, 625);            // top to icons have 160 pixels of space. each are 50 pixels wide. so 20 pixel separation on either side of each icon
+        // make the surrender button for white
+        sf::Sprite wSurrender(textures.surrenderFlag);
+        wSurrender.setScale(100 / wSurrender.getLocalBounds().width, 75 / wSurrender.getLocalBounds().height);         // resize to 50x50
+        wSurrender.setPosition(974, 625);            // top to icons have 160 pixels of space. each are 50 pixels wide. so 20 pixel separation on either side of each icon
+        textures.globalBounds.emplace("bSurrenderGame", bSurrender.getGlobalBounds());      // add the black surrender button to global bounds
+        textures.globalBounds.emplace("wSurrenderGame", wSurrender.getGlobalBounds());      // add the white surrender button to global bounds
+        window.draw(wSurrender);        // draw the buttons
+        window.draw(bSurrender);
     }
 }
 
