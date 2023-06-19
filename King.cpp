@@ -154,7 +154,7 @@ vector<vector<int>> King::GetMoves(vector<vector<Piece*>>& board, int lastMove) 
                 // check if rooks have moved
                 if (board.at(0).at(0)->GetNumMoves() == 0) {        // if the queenside castle hasn't moved yet
                     // if the spaces between the queenside castle and the king are empty
-                    if ((board.at(0).at(1)->GetValue() == 0) and (board.at(0).at(2)->GetValue() == 0) and (board.at(0).at(3)->GetValue() == 0)) {
+                    if ((board.at(0).at(1)->GetValue() == 0) and (board.at(0).at(2)->GetValue() == 0) and (board.at(0).at(3)->GetValue() == 0) and (board.at(0).at(0)->GetValue() == -4)) {
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(0).at(3) = board.at(row).at(col);       // move the king towards queenside castle one space
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
@@ -170,7 +170,7 @@ vector<vector<int>> King::GetMoves(vector<vector<Piece*>>& board, int lastMove) 
                 }
                 if (board.at(0).at(7)->GetNumMoves() == 0) {     // if the kingside castle hasn't moved yet
                     // if the spaces between kingside castle and king are empty
-                    if ((board.at(0).at(5)->GetValue() == 0) and (board.at(0).at(6)->GetValue() == 0)) {
+                    if ((board.at(0).at(5)->GetValue() == 0) and (board.at(0).at(6)->GetValue() == 0) and (board.at(0).at(7)->GetValue() == -4)) {
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(0).at(5) = board.at(row).at(col);       // move the king towards queenside castle one space
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
@@ -292,7 +292,7 @@ vector<vector<int>> King::GetMoves(vector<vector<Piece*>>& board, int lastMove) 
                 // check if rooks have moved
                 if (board.at(7).at(0)->GetNumMoves() == 0) {        // if the queenside castle hasn't moved yet
                     // if the spaces between the queenside castle and the king are empty
-                    if ((board.at(7).at(1)->GetValue() == 0) and (board.at(7).at(2)->GetValue() == 0) and (board.at(7).at(3)->GetValue() == 0)) {
+                    if ((board.at(7).at(1)->GetValue() == 0) and (board.at(7).at(2)->GetValue() == 0) and (board.at(7).at(3)->GetValue() == 0) and (board.at(7).at(0)->GetValue() == 4)) {
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(7).at(3) = board.at(row).at(col);       // move the king towards queenside castle one space
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
@@ -308,7 +308,7 @@ vector<vector<int>> King::GetMoves(vector<vector<Piece*>>& board, int lastMove) 
                 }
                 if (board.at(7).at(7)->GetNumMoves() == 0) {     // if the kingside castle hasn't moved yet
                     // if the spaces between kingside castle and king are empty
-                    if ((board.at(7).at(5)->GetValue() == 0) and (board.at(7).at(6)->GetValue() == 0)) {
+                    if ((board.at(7).at(5)->GetValue() == 0) and (board.at(7).at(6)->GetValue() == 0) and (board.at(7).at(7)->GetValue() == 4)) {
                         vector<vector<Piece *>> newBoard = board;        // make a copy of the board
                         newBoard.at(7).at(5) = board.at(row).at(col);       // move the king towards queenside castle one space
                         newBoard.at(row).at(col) = new Empty(row, col);         // make the old spot empty
