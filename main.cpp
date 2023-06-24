@@ -79,11 +79,7 @@ void WelcomeScreen(sf::RenderWindow& window, Board& board) {
     sf::Text credit1("Program Developer: Wilson Goins", font, 30);
     credit1.setStyle(sf::Text::Bold);
     credit1.setFillColor(sf::Color::Black);
-    credit1.setPosition(sf::Vector2f(25, 745));       // right after player2 name
-    sf::Text credit2("Program Illustrator: Madeleine Schutz", font, 30);
-    credit2.setStyle(sf::Text::Bold);
-    credit2.setFillColor(sf::Color::Black);
-    credit2.setPosition(sf::Vector2f(25, 800));       // right after player2 name
+    credit1.setPosition(sf::Vector2f(25, 800));       // right after player2 name
     // white pawn
     sf::Vector2f topCoords(665, 95);
     sf::Sprite wPawn(board.textures.wPawn);
@@ -184,7 +180,6 @@ void WelcomeScreen(sf::RenderWindow& window, Board& board) {
         }
         window.draw(playButton);
         window.draw(credit1);
-        window.draw(credit2);
         if (timeChoice == 180) {
             time1.setFillColor(sf::Color::Yellow);
         } else if (timeChoice == 300) {
